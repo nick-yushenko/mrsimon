@@ -1,0 +1,78 @@
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+import { useAuthStore } from "@/features/auth/model/authStore";
+import { RegisterForm, RegisterFormValues } from "@/features/auth/ui/registerForm";
+
+import Typography from "@mui/material/Typography";
+import Stack from "@mui/material/Stack";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import Button from "@mui/material/Button";
+
+const FORM_ID = "register-page-form";
+
+export const RegisterPageWidget = () => {
+  const router = useRouter();
+
+  const registerUser = useAuthStore((state) => state.register);
+
+  const isLoading = useAuthStore((state) => state.isLoading);
+  const isInitialized = useAuthStore((state) => state.isInitialized);
+  const user = useAuthStore((state) => state.getCurrentUser());
+
+  const onSubmit = async (values: RegisterFormValues) => {
+    await registerUser(values);
+    router.replace("/profile");
+  };
+
+  useEffect(() => {
+    if (isInitialized && !isLoading && user) {
+      router.replace("/profile");
+    }
+  }, [isInitialized, isLoading, user, router]);
+
+  return (
+    <Card
+      elevation={10}
+      sx={{
+        width: "100%",
+        maxWidth: "400px",
+        p: 3,
+        zIndex: 3,
+      }}
+    >
+      <Stack direction="column" spacing={3}>
+        <Typography
+          component="h1"
+          variant="h4"
+          sx={{
+            textAlign: "center",
+          }}
+        >
+          Регистрация
+        </Typography>
+
+        <RegisterForm formId={FORM_ID} onSubmit={onSubmit} />
+
+        <Box>
+          <Button
+            fullWidth
+            type="submit"
+            form={FORM_ID}
+            variant="contained"
+            size="large"
+            disabled={isLoading}
+          >
+            Зарегистрироваться
+          </Button>
+          <Button fullWidth href="/login" variant="text" size="large">
+            Уже есть аккаунт
+          </Button>
+        </Box>
+      </Stack>
+    </Card>
+  );
+};
