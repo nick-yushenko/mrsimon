@@ -1,0 +1,13 @@
+FROM mcr.microsoft.com/dotnet/sdk:10.0
+
+WORKDIR /app
+
+COPY . .
+
+RUN dotnet restore src/MrSimon.Api/MrSimon.Api.csproj
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="$PATH:/root/.dotnet/tools"
+
+EXPOSE 5000
+
+CMD ["dotnet", "watch", "--project", "src/MrSimon.Api", "run", "--urls", "http://0.0.0.0:5000"]

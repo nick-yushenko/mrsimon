@@ -1,0 +1,47 @@
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    container_name: mrsimon-server
+    ports:
+      - "5001:5000"
+    volumes:
+      - ./server:/app
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: Host=db;Port=5432;Database=mrsimon;Username=mrsimon;Password=mrsimon
+      Jwt__Key: dev-super-secret-key-dev-super-secret-key
+      Jwt__Issuer: MrSimon.Api
+      Jwt__Audience: MrSimon.Client
+    depends_on:
+      - db
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    container_name: mrsimon-client
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - server
+
+  db:
+    image: postgres:16
+    container_name: mrsimon-db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=mrsimon
+      - POSTGRES_USER=mrsimon
+      - POSTGRES_PASSWORD=mrsimon
+    volumes:
+      - mrsimon_pgdata:/var/lib/postgresql/data
+
+volumes:
+  mrsimon_pgdata:
