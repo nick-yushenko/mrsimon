@@ -18,6 +18,8 @@ export type UserListItem = {
   updatedAt: string;
 };
 
-export type UserDetails = UserListItem & {
+export type UserDetails = Omit<UserListItem, "id"> & {
   // TODO добавить новые поля
+  avatar?: string;
+  note?: string;
 };

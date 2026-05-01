@@ -57,14 +57,14 @@ export const LoginPageWidget = () => {
         </Typography>
         <LoginForm formId={FORM_ID} onSubmit={onSubmit} />
 
-        <Box>
+        <Stack direction="column" spacing={1}>
           <Button fullWidth type="submit" form={FORM_ID} variant="contained" size="large">
             Войти
           </Button>
           <Button fullWidth href="/register" variant="text" size="medium">
             Регистрация
           </Button>
-        </Box>
+        </Stack>
       </Stack>
     </Card>
   );

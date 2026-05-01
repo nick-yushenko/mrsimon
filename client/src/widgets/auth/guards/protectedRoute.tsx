@@ -23,6 +23,9 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const activeSession = getActiveSession();
 
   useEffect(() => {
+    console.log("isInitialized", isInitialized);
+    console.log("isLoading", isLoading);
+    console.log("activeSession", activeSession);
     if (!isInitialized || isLoading || activeSession) {
       return;
     }
@@ -30,7 +33,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     const queryString = searchParams.toString();
     const callbackUrl = queryString ? `${pathname}?${queryString}` : pathname;
     router.replace(`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`);
-  }, [isInitialized, isLoading, activeSession, router, pathname]);
+  }, [isInitialized, isLoading, activeSession, router, pathname, searchParams]);
 
   // TODO переделать на скелетон лоадеры
   if (!isInitialized) {

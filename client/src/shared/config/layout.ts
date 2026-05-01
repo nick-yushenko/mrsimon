@@ -1,3 +1,4 @@
+// TODO возможно лучше убрать
 export const layoutConfig = {
   mainDrawerWidth: 300,
   detailsDrawerOffset: 200,

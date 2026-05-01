@@ -28,10 +28,11 @@ const Drawer = styled(MuiDrawer)({
 });
 
 const SideMenu = () => {
-  const user = useAuthStore((state) => state.getCurrentUser());
   return (
     <Drawer
-      variant="permanent"
+      // TODO добавить сжатие бокового меню
+      variant="persistent"
+      open
       sx={{
         display: { xs: "none", md: "block" },
         [`& .${drawerClasses.paper}`]: {

@@ -7,6 +7,7 @@ import { dataGridCustomizations } from "./customizations/dataGrid";
 import { surfacesCustomizations } from "./customizations/surfaces";
 import { createTheme } from "@mui/material/styles";
 import { inputsCustomizations } from "./customizations/inputs";
+import { createContainerQueries } from "./containerQueries";
 
 export const theme = createTheme({
   palette,
@@ -31,3 +32,5 @@ export const theme = createTheme({
     ...surfacesCustomizations,
   },
 });
+
+theme.containerQueries = createContainerQueries(theme.breakpoints.values);

@@ -1,4 +1,4 @@
-import { UserDetails, UserListItem } from "@/entities/user/model/types";
+import { User, UserDetails, UserListItem } from "@/entities/user/model/types";
 import { create } from "zustand";
 import { usersApi } from "../api/usersApi";
 import { GetUsersParams } from "../types";
