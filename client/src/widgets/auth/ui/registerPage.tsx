@@ -57,7 +57,7 @@ export const RegisterPageWidget = () => {
 
         <RegisterForm formId={FORM_ID} onSubmit={onSubmit} />
 
-        <Box>
+        <Stack direction="column" spacing={1}>
           <Button
             fullWidth
             type="submit"
@@ -71,7 +71,7 @@ export const RegisterPageWidget = () => {
           <Button fullWidth href="/login" variant="text" size="large">
             Уже есть аккаунт
           </Button>
-        </Box>
+        </Stack>
       </Stack>
     </Card>
   );

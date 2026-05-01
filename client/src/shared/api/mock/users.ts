@@ -14,5 +14,7 @@ export const mockUsers: UserDetails[] = Array.from({ length: 200 }, (_, index) =
     role: roles[index % roles.length],
     createdAt: `2026-04-${day}T10:00:00.000Z`,
     updatedAt: `2026-04-${day}T10:00:00.000Z`,
+    note:
+      index % 3 === 0 ? "Пользователь требует дополнительного внимания по учебному прогрессу." : "",
   };
 });

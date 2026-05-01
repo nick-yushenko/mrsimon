@@ -51,6 +51,7 @@ export const RegisterForm = ({ formId, onSubmit }: TProps) => {
           fullWidth
           label="Имя"
           autoComplete="given-name"
+          autoFocus
           variant="outlined"
           error={Boolean(errors.name)}
           helperText={errors.name?.message}

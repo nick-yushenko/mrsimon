@@ -48,7 +48,15 @@ export const AppShell = ({ children }: TProps) => {
           >
             <Header />
 
-            <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>{children}</Box>
+            <Box
+              sx={{
+                width: "100%",
+                maxWidth: { sm: "100%", md: "1700px" },
+                containerType: "inline-size",
+              }}
+            >
+              {children}
+            </Box>
           </Stack>
         </Box>
       </Box>

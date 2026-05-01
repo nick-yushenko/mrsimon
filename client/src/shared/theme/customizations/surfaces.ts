@@ -36,28 +36,28 @@ export const surfacesCustomizations: Components<Theme> = {
       },
     ],
   },
-  MuiCardContent: {
-    styleOverrides: {
-      root: {
-        padding: 0,
-        "&:last-child": { paddingBottom: 0 },
-      },
-    },
-  },
-  MuiCardHeader: {
-    styleOverrides: {
-      root: {
-        padding: 0,
-      },
-    },
-  },
-  MuiCardActions: {
-    styleOverrides: {
-      root: {
-        padding: 0,
-      },
-    },
-  },
+  // MuiCardContent: {
+  //   styleOverrides: {
+  //     root: {
+  //       padding: 0,
+  //       "&:last-child": { paddingBottom: 0 },
+  //     },
+  //   },
+  // },
+  // MuiCardHeader: {
+  //   styleOverrides: {
+  //     root: {
+  //       padding: 0,
+  //     },
+  //   },
+  // },
+  // MuiCardActions: {
+  //   styleOverrides: {
+  //     root: {
+  //       padding: 0,
+  //     },
+  //   },
+  // },
   MuiStack: {
     defaultProps: {
       useFlexGap: true,

@@ -3,6 +3,8 @@
 import type { User } from "@/entities/user/model/types";
 import { useAuthStore } from "@/features/auth/model/authStore";
 import { RegisterForm, RegisterFormValues } from "@/features/auth/ui/registerForm";
+import { layoutConfig } from "@/shared/config/layout";
+import { Drawer } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -12,6 +14,7 @@ import Typography from "@mui/material/Typography";
 import { toast } from "react-toastify/unstyled";
 
 const FORM_ID = "add-user-form";
+const detailsDrawerWidth = `calc(100vw - ${layoutConfig.mainDrawerWidth}px - ${layoutConfig.detailsDrawerOffset}px)`;
 
 type AddUserDialogProps = {
   open: boolean;
@@ -39,7 +42,8 @@ export const AddUserDialog = ({ onClose, onSuccess, open }: AddUserDialogProps) 
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
-      <DialogTitle>
+    
+      <DialogTitle component={"div"}>
         <Typography component="h1" variant="h4">
           Добавить пользователя
         </Typography>

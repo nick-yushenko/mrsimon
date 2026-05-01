@@ -40,6 +40,7 @@ export const LoginForm = ({ formId, onSubmit }: TProps) => {
           fullWidth
           label="Логин"
           autoComplete="username"
+          autoFocus
           variant="outlined"
           error={Boolean(errors.email)}
           helperText={errors.email?.message}

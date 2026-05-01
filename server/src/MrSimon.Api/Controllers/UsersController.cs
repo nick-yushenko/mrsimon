@@ -97,6 +97,7 @@ public class UsersController : ControllerBase
                 LastName = u.LastName,
                 Email = u.Email,
                 Role = u.Role,
+                Note = u.Note,
                 CreatedAt = u.CreatedAt,
                 UpdatedAt = u.UpdatedAt,
             })

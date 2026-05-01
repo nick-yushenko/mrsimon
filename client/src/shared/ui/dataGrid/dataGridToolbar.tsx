@@ -161,6 +161,7 @@ export const DataGridToolbarActions = ({ actions = [], sx }: DataGridToolbarActi
           {...action.buttonProps}
           disabled={action.disabled}
           onClick={action.onClick}
+          disableFocusRipple={true}
           startIcon={action.icon}
           sx={{
             height: "50px",

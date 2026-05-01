@@ -1,7 +1,10 @@
 import "@mui/material/styles";
 
+import type { ContainerQueries } from "../containerQueries";
+
 declare module "@mui/material/styles" {
   interface Theme {
+    containerQueries: ContainerQueries;
     radius: {
       sm: number;
       md: number;
@@ -21,6 +24,7 @@ declare module "@mui/material/styles" {
     };
   }
   interface ThemeOptions {
+    containerQueries?: ContainerQueries;
     radius?: {
       sm?: number;
       md?: number;
@@ -41,11 +45,11 @@ declare module "@mui/material/styles" {
   }
 
   // TODO - удалить из проекта использование
-  // interface Palette {
-  //   chart: Color;
-  // }
+  interface Palette {
+    chart: Color;
+  }
 
-  // interface PaletteOptions {
-  //   chart?: Partial<Color>;
-  // }
+  interface PaletteOptions {
+    chart?: Partial<Color>;
+  }
 }

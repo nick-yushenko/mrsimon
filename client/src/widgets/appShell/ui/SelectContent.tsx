@@ -39,6 +39,8 @@ const getUserInfo = (user: User | null) => {
     email: user?.email,
   };
 };
+
+// TODO добавить скелетон, так как сейчас может прыгать интерфейс
 const SelectContent = () => {
   const [addAccountOpen, setAddAccountOpen] = useState<boolean>(false);
 
