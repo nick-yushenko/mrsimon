@@ -114,9 +114,8 @@ public class UsersController : ControllerBase
     [HttpGet("summary")]
     public async Task<ActionResult<SummaryDto>> GetSummary()
     {
-        var userCount = await _db.Users.CountAsync();
-
-        return Ok(userCount);
+        var summary = new SummaryDto { Total = await _db.Users.CountAsync() };
+        return Ok(summary);
     }
 }
 
