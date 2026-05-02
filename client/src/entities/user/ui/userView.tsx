@@ -1,9 +1,8 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import z from "zod";
 
-import { useUsersStore } from "@/features/users/model/usersStore";
 import {
   EntityView,
   type EntityFieldConfig,
@@ -22,9 +21,15 @@ import type { UserDetails } from "../model/types";
 import { ContainerGridItem } from "@/shared/ui/containerGridItem";
 import { OpenInNewLink } from "@/shared/ui/openInNew/openInNew";
 
+export type UserViewActions = Record<string, (values: UserDetails) => Promise<void>>;
+
 type TProps = {
   id: string;
+  user: UserDetails | null;
+  isLoading?: boolean;
+  error?: string | null;
   variant?: "page" | "embedded";
+  actions?: UserViewActions;
 };
 
 const userDetailsSchema = z.object({
@@ -63,19 +68,15 @@ const userDetailsFields: EntityFieldConfig<UserDetails>[] = [
   },
 ];
 
-// TODO ErrorHandler. Закрыть этот компонент ошибкой
-// TODO вынести из entities (либо переписать чтобы не было зависимостей)
-export const UserView = ({ id, variant = "page" }: TProps) => {
-  const fetchUserById = useUsersStore((state) => state.fetchUserById);
-  const user = useUsersStore((state) => state.selectedUser);
-  const isLoading = useUsersStore((state) => state.isDetailsLoading);
-  const detailsError = useUsersStore((state) => state.detailsError);
-
+export const UserView = ({
+  id,
+  user,
+  isLoading = false,
+  error,
+  variant = "page",
+  actions,
+}: TProps) => {
   const isEmbedded = variant === "embedded";
-
-  useEffect(() => {
-    fetchUserById(id);
-  }, [fetchUserById, id]);
 
   const renderUserFields = useCallback((items: EntityViewLayoutItem<UserDetails>[]) => {
     return (
@@ -92,9 +93,12 @@ export const UserView = ({ id, variant = "page" }: TProps) => {
     );
   }, []);
 
-  const handleUserSubmit = useCallback(async (values: UserDetails) => {
-    console.log("User details submitted", values);
-  }, []);
+  const handleUserSubmit = useCallback(
+    async (values: UserDetails) => {
+      await actions?.edit?.(values);
+    },
+    [actions],
+  );
 
   return (
     <Grid container spacing={2}>
@@ -138,9 +142,9 @@ export const UserView = ({ id, variant = "page" }: TProps) => {
             </Box>
           )}
 
-          {!isLoading && detailsError && <Alert severity="error">{detailsError}</Alert>}
+          {!isLoading && error && <Alert severity="error">{error}</Alert>}
 
-          {!isLoading && !detailsError && user && (
+          {!isLoading && !error && user && (
             <EntityView
               entity={user}
               fields={userDetailsFields}
@@ -152,7 +156,7 @@ export const UserView = ({ id, variant = "page" }: TProps) => {
             />
           )}
 
-          {!isLoading && !detailsError && !user && (
+          {!isLoading && !error && !user && (
             <Typography color="text.secondary">Пользователь не найден.</Typography>
           )}
         </Card>
