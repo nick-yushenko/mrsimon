@@ -3,18 +3,18 @@
 import type { User, UserListItem } from "@/entities/user/model/types";
 import { UserCompactCard } from "@/entities/user/ui/userCompactCard";
 import { useUsersStore } from "@/features/users/model/usersStore";
-import { useDebouncedValue } from "@/shared/lib/hooks/useDebounce";
+import { AppDataGrid } from "@/shared/ui/dataGrid/appDataGrid";
+import { useDataGridSearch } from "@/shared/ui/dataGrid/useDataGridSearch";
+import type { DataGridToolbarAction } from "@/shared/ui/dataGrid/dataGridToolbar";
+import type { MenuOptionAction } from "@/shared/ui/menu/menuOptions";
 import { AddUserDialog } from "@/widgets/users/ui/addUserDialog";
-import { UsersTableToolbar } from "@/widgets/users/ui/usersTableToolbar";
+import AddIcon from "@mui/icons-material/Add";
+import UnfoldLessIcon from "@mui/icons-material/UnfoldLess";
+import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 import Alert from "@mui/material/Alert";
-import Card from "@mui/material/Card";
-import { DataGrid } from "@mui/x-data-grid/DataGrid";
-import type {
-  GridColDef,
-  GridPaginationModel,
-  GridRenderCellParams,
-  GridRowParams,
-} from "@mui/x-data-grid/models";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import type { GridColDef, GridRenderCellParams, GridRowParams } from "@mui/x-data-grid/models";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -53,8 +53,10 @@ export const UsersTable = () => {
   const search = useUsersStore((state) => state.search);
   const setSearch = useUsersStore((state) => state.setSearch);
 
-  const [searchInput, setSearchInput] = useState(search);
-  const debouncedSearchInput = useDebouncedValue(searchInput, 400);
+  const { search: searchInput, setSearch: setSearchInput } = useDataGridSearch({
+    value: search,
+    onChange: setSearch,
+  });
 
   const items = useUsersStore((state) => state.items);
   const isLoading = useUsersStore((state) => state.isLoading);
@@ -71,13 +73,9 @@ export const UsersTable = () => {
     },
     [searchParams, pathname, router],
   );
+
   const handleRowClick = (params: GridRowParams<UserListItem>) => {
     openUserDetails(params.row.id);
-  };
-
-  const handlePaginationModelChange = (model: GridPaginationModel) => {
-    setPage(model.page + 1);
-    setPageSize(model.pageSize);
   };
 
   const handleHeightLimitToggle = useCallback(() => {
@@ -106,13 +104,56 @@ export const UsersTable = () => {
       setIsAddUserOpen(false);
       openUserDetails(user.id);
     },
-    [fetchUsers, openUserDetails, page, pageSize, search, setSearch],
+    [fetchUsers, openUserDetails, page, pageSize, search, setSearch, setSearchInput],
   );
 
-  const paginationModel: GridPaginationModel = {
-    page: page - 1,
-    pageSize,
-  };
+  const toolbarActions = useMemo<DataGridToolbarAction[]>(
+    () => [
+      {
+        id: "add-user",
+        label: "Добавить",
+        icon: <AddIcon fontSize="small" />,
+        onClick: handleAddUserOpen,
+      },
+    ],
+    [handleAddUserOpen],
+  );
+
+  const toolbarMenuActions = useMemo<MenuOptionAction[]>(
+    () => [
+      {
+        id: "toggle-table-height",
+        label: isHeightLimited ? "Раскрыть таблицу" : "Ограничить высоту",
+        icon: isHeightLimited ? (
+          <UnfoldMoreIcon fontSize="small" />
+        ) : (
+          <UnfoldLessIcon fontSize="small" />
+        ),
+        onClick: handleHeightLimitToggle,
+      },
+    ],
+    [handleHeightLimitToggle, isHeightLimited],
+  );
+
+  const roleFilter = useMemo(
+    () => (
+      <Select
+        value="teacher"
+        size="small"
+        sx={{
+          height: 50,
+          minWidth: 120,
+          outline: "none !important",
+        }}
+      >
+        <MenuItem value="all">Все</MenuItem>
+        <MenuItem value="teacher">Учитель</MenuItem>
+        <MenuItem value="admin">Админ</MenuItem>
+        <MenuItem value="student">Студент</MenuItem>
+      </Select>
+    ),
+    [],
+  );
 
   const renderUserCell = useCallback(
     (params: GridRenderCellParams<UserListItem>) => (
@@ -144,58 +185,34 @@ export const UsersTable = () => {
     fetchUsers({ page, pageSize, search });
   }, [fetchUsers, page, pageSize, search]);
 
-  useEffect(() => {
-    setSearch(debouncedSearchInput);
-  }, [debouncedSearchInput, setSearch]);
-
   return (
     <>
       {error && <Alert severity="error">{error}</Alert>}
 
-      <Card
-        variant="plain"
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          width: "100%",
-          minHeight: 432,
-          height: isHeightLimited ? 432 : "auto",
-          maxHeight: isHeightLimited ? 432 : "none",
-          p: 0,
+      <AppDataGrid
+        rows={items}
+        columns={columns}
+        loading={isLoading}
+        rowCount={totalCount}
+        serverPagination={{
+          page,
+          pageSize,
+          onPageChange: setPage,
+          onPageSizeChange: setPageSize,
         }}
-      >
-        <DataGrid
-          rows={items}
-          columns={columns}
-          loading={isLoading}
-          rowCount={totalCount}
-          pagination
-          paginationMode="server"
-          paginationModel={paginationModel}
-          onPaginationModelChange={handlePaginationModelChange}
-          pageSizeOptions={[5, 10, 25]}
-          onRowClick={handleRowClick}
-          disableRowSelectionOnClick
-          showToolbar
-          autoHeight={!isHeightLimited}
-          // getRowHeight={() => "auto"}
-          slots={{
-            toolbar: UsersTableToolbar,
-          }}
-          slotProps={{
-            toolbar: {
-              search: searchInput,
-              onSearchChange: setSearchInput,
-              isHeightLimited,
-              onHeightLimitToggle: handleHeightLimitToggle,
-              onAddUserClick: handleAddUserOpen,
-            },
-          }}
-          sx={{
-            cursor: "pointer",
-          }}
-        />
-      </Card>
+        onRowClick={handleRowClick}
+        isHeightLimited={isHeightLimited}
+        toolbarProps={{
+          search: searchInput,
+          onSearchChange: setSearchInput,
+          leftSlot: roleFilter,
+          actions: toolbarActions,
+          menuActions: toolbarMenuActions,
+        }}
+        sx={{
+          cursor: "pointer",
+        }}
+      />
 
       <AddUserDialog
         open={isAddUserOpen}

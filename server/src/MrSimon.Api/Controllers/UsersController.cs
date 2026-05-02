@@ -110,6 +110,14 @@ public class UsersController : ControllerBase
 
         return Ok(user);
     }
+
+    [HttpGet("summary")]
+    public async Task<ActionResult<SummaryDto>> GetSummary()
+    {
+        var userCount = await _db.Users.CountAsync();
+
+        return Ok(userCount);
+    }
 }
 
 public record CreateUserRequest(string Name);

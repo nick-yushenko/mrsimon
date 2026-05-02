@@ -239,26 +239,25 @@ export const DataGridToolbarActionsMenu = ({
 };
 
 export type DataGridToolbarProps = {
-  search: string;
-  setSearch: (val: string) => void;
-
   actions?: DataGridToolbarAction[];
   leftSlot?: ReactNode;
   menuActions?: MenuOptionAction[];
+  onSearchChange?: (val: string) => void;
   rightSlot?: ReactNode;
+  search?: string;
 };
 
 export const DataGridToolbar = ({
   actions,
   leftSlot,
   menuActions,
+  onSearchChange,
   rightSlot,
-  search,
-  setSearch,
+  search = "",
 }: DataGridToolbarProps) => {
   return (
     <DataGridToolbarLayout leftSlot={leftSlot}>
-      <DataGridToolbarSearch value={search} onChange={setSearch} />
+      {onSearchChange && <DataGridToolbarSearch value={search} onChange={onSearchChange} />}
       <DataGridToolbarActions actions={actions} />
       {rightSlot}
       <DataGridToolbarActionsMenu actions={menuActions} />

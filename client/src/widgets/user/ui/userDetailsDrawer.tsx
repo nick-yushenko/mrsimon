@@ -1,12 +1,13 @@
 "use client";
 
-import { UserView } from "@/entities/user/ui/userView";
 import { useUsersStore } from "@/features/users/model/usersStore";
 import { ResizableDrawer } from "@/shared/ui/resizableDrawer";
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+
+import { UserDetailsView } from "./userDetailsView";
 
 export const UserDetailsDrawer = () => {
   const theme = useTheme();
@@ -18,7 +19,6 @@ export const UserDetailsDrawer = () => {
   const isDetailsOpen = Boolean(userId);
 
   const clearSelectedUser = useUsersStore((state) => state.clearSelectedUser);
-  const fetchUserById = useUsersStore((state) => state.fetchUserById);
 
   const closeUserDetails = () => {
     const params = new URLSearchParams(searchParams.toString());
@@ -34,14 +34,9 @@ export const UserDetailsDrawer = () => {
   useEffect(() => {
     if (!userId) {
       clearSelectedUser();
-      return;
     }
+  }, [userId, clearSelectedUser]);
 
-    fetchUserById(userId);
-  }, [userId, fetchUserById, clearSelectedUser]);
-
-  // TODO - доделать
-  // сделать общий компонент просмотра пользователя. можно будет посмотреть в drawer ?либо на отдельной сранице (более полная версия)?
   return (
     <Box>
       <ResizableDrawer
@@ -61,9 +56,8 @@ export const UserDetailsDrawer = () => {
         }}
       >
         <Box sx={{ overflowY: "auto", p: 2 }}>
-          <UserView id={userId!} variant="embedded" />
+          {userId && <UserDetailsView id={userId} variant="embedded" />}
         </Box>
-        {/* TODO добавить UserViewCompact */}
       </ResizableDrawer>
     </Box>
   );

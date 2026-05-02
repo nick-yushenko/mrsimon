@@ -1,4 +1,4 @@
-import { UserView } from "@/entities/user/ui/userView";
+import { UserDetailsView } from "@/widgets/user/ui/userDetailsView";
 
 type TProps = {
   params: {
@@ -9,5 +9,5 @@ type TProps = {
 export default async function UserPage({ params }: TProps) {
   const { id } = await params;
 
-  return <UserView id={id} />;
+  return <UserDetailsView id={id} />;
 }

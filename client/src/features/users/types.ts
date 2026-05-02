@@ -3,3 +3,7 @@ export type GetUsersParams = {
   pageSize?: number;
   search?: string;
 };
+
+export type UsersSummary = {
+  total: number;
+};
