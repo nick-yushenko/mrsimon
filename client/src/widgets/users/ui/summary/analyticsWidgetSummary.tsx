@@ -61,6 +61,15 @@ export function AnalyticsWidgetSummary({
       },
     },
     tooltip: {
+      fixed: {
+        enabled: true,
+        position: "topLeft",
+        offsetX: 0,
+        offsetY: -75,
+      },
+      x: {
+        show: true,
+      },
       y: { formatter: (value: number) => formatNumber(value), title: { formatter: () => "" } },
     },
     markers: {
@@ -75,7 +84,7 @@ export function AnalyticsWidgetSummary({
         sx={{
           top: 16,
           gap: 0.5,
-          right: 16,
+          right: 24,
           display: "flex",
           position: "absolute",
           alignItems: "center",
@@ -129,7 +138,7 @@ export function AnalyticsWidgetSummary({
         sx={{
           width: 48,
           height: 48,
-          mb: 3,
+          mb: 1,
           zIndex: 1,
           pointerEvents: "none",
           userSelect: "none",
@@ -142,7 +151,7 @@ export function AnalyticsWidgetSummary({
         sx={{
           display: "flex",
           flexWrap: "wrap",
-          alignItems: "flex-start",
+          alignItems: "flex-end",
           justifyContent: "flex-end",
         }}
       >
@@ -160,6 +169,7 @@ export function AnalyticsWidgetSummary({
           type="line"
           series={[{ data: chart.series }]}
           options={chartOptions}
+          loading={isLoading}
           sx={{ width: 84, height: 56 }}
         />
       </Box>

@@ -41,7 +41,7 @@ export function formatMonth(inputValue: InputDateValue, options?: Options) {
   if (date === null) return "";
 
   return new Intl.DateTimeFormat(locale.code, {
-    month: "short",
+    month: "long",
     ...options,
   }).format(date);
 }
@@ -50,5 +50,7 @@ export function formatMonth(inputValue: InputDateValue, options?: Options) {
 
 // formatMonthFromParts(2026, 5) -> "май"
 export function formatMonthFromParts(year: number, month: number, options?: Options) {
-  return formatMonth(new Date(year, month - 1, 1), options);
+  const res = formatMonth(new Date(year, month - 1, 1), options);
+  console.log(res);
+  return res;
 }

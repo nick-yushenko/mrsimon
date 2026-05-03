@@ -9,37 +9,41 @@ import { ChartLoading } from "./components";
 import type { ChartProps } from "./types";
 
 import cn from "classnames";
-// ----------------------------------------------------------------------
 
 const LazyChart = lazy(() =>
   import("react-apexcharts").then((module) => ({ default: module.default })),
 );
 
-export function Chart({ type, series, options, slotProps, className, sx, ...other }: ChartProps) {
+export function Chart({
+  type,
+  series,
+  options,
+  loading = false,
+  slotProps,
+  className,
+  sx,
+  ...other
+}: ChartProps) {
   const isClient = useIsClient();
 
   const renderFallback = () => <ChartLoading type={type} sx={slotProps?.loading} />;
 
   return (
-    <ChartRoot
-      dir="ltr"
-      // TOTO Check
-      className={cn([chartClasses.root, className])}
-      sx={sx}
-      {...other}
-    >
+    <ChartRoot dir="ltr" className={cn([chartClasses.root, className])} sx={sx} {...other}>
       {isClient ? (
-        <Suspense fallback={renderFallback()}>
-          <LazyChart type={type} series={series} options={options} width="100%" height="100%" />
-        </Suspense>
+        <>
+          {loading && renderFallback()}
+
+          <Suspense>
+            <LazyChart type={type} series={series} options={options} width="100%" height="100%" />
+          </Suspense>
+        </>
       ) : (
         renderFallback()
       )}
     </ChartRoot>
   );
 }
-
-// ----------------------------------------------------------------------
 
 const ChartRoot = styled("div")(({ theme }) => ({
   width: "100%",

@@ -19,13 +19,89 @@ export const UsersSummary = () => {
   const monthlyCounts = summary?.monthlyCounts ?? [];
 
   return (
-    <Stack direction="row" spacing={2} sx={{ width: "100%" }}>
+    <Stack direction="row" spacing={2} sx={{ width: "100%", flexWrap: "wrap" }}>
+      <AnalyticsWidgetSummary
+        title="Пользователей"
+        percent={summary?.monthlyGrowthPercent ?? null}
+        total={summary?.total ?? null}
+        color="primary"
+        iconSrc={"/assets/icons/glass/ic-glass-users-primary.svg"}
+        isLoading={isSummaryLoading}
+        chart={{
+          categories: monthlyCounts.map((item) => formatMonthFromParts(item.year, item.month)),
+          series: monthlyCounts.map((item) => item.count),
+        }}
+        sx={{
+          maxWidth: 300,
+        }}
+      />
+      <AnalyticsWidgetSummary
+        title="Пользователей"
+        percent={summary?.monthlyGrowthPercent ?? null}
+        total={summary?.total ?? null}
+        color="info"
+        iconSrc={"/assets/icons/glass/ic-glass-users-info.svg"}
+        isLoading={isSummaryLoading}
+        chart={{
+          categories: monthlyCounts.map((item) => formatMonthFromParts(item.year, item.month)),
+          series: monthlyCounts.map((item) => item.count),
+        }}
+        sx={{
+          maxWidth: 300,
+        }}
+      />
       <AnalyticsWidgetSummary
         title="Пользователей"
         percent={summary?.monthlyGrowthPercent ?? null}
         total={summary?.total ?? null}
         color="secondary"
-        iconSrc={"/assets/icons/glass/ic-glass-users.svg"}
+        iconSrc={"/assets/icons/glass/ic-glass-users-secondary.svg"}
+        isLoading={isSummaryLoading}
+        chart={{
+          categories: monthlyCounts.map((item) => formatMonthFromParts(item.year, item.month)),
+          series: monthlyCounts.map((item) => item.count),
+        }}
+        sx={{
+          maxWidth: 300,
+        }}
+      />
+      <AnalyticsWidgetSummary
+        title="Пользователей"
+        percent={summary?.monthlyGrowthPercent ?? null}
+        total={summary?.total ?? null}
+        color="success"
+        iconSrc={"/assets/icons/glass/ic-glass-users-success.svg"}
+        isLoading={isSummaryLoading}
+        chart={{
+          categories: monthlyCounts.map((item) => formatMonthFromParts(item.year, item.month)),
+          series: monthlyCounts.map((item) => item.count),
+        }}
+        sx={{
+          maxWidth: 300,
+        }}
+      />
+      <AnalyticsWidgetSummary
+        title="Пользователей"
+        percent={summary?.monthlyGrowthPercent ?? null}
+        total={summary?.total ?? null}
+        color="warning"
+        iconSrc={"/assets/icons/glass/ic-glass-users-warning.svg"}
+        isLoading={isSummaryLoading}
+        chart={{
+          categories: monthlyCounts.map((item) => formatMonthFromParts(item.year, item.month)),
+          series: monthlyCounts.map((item) => item.count),
+        }}
+        sx={{
+          maxWidth: 300,
+        }}
+      />
+
+      <AnalyticsWidgetSummary
+        title="Пользователей"
+        percent={summary?.monthlyGrowthPercent ?? null}
+        total={summary?.total ?? null}
+        color="error"
+        iconSrc={"/assets/icons/glass/ic-glass-users-error.svg"}
         isLoading={isSummaryLoading}
         chart={{
           categories: monthlyCounts.map((item) => formatMonthFromParts(item.year, item.month)),
