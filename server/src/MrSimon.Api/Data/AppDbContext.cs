@@ -6,9 +6,7 @@ namespace MrSimon.Api.Data;
 public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options)
-        : base(options)
-    {
-    }
+        : base(options) { }
 
     public DbSet<User> Users { get; set; }
 
@@ -20,29 +18,21 @@ public class AppDbContext : DbContext
         {
             entity.HasKey(user => user.Id);
 
-            entity.HasIndex(user => user.Email)
-                .IsUnique();
+            entity.HasIndex(user => user.Email).IsUnique();
 
-            entity.Property(user => user.Name)
-                .IsRequired();
+            entity.Property(user => user.Name).IsRequired();
 
-            entity.Property(user => user.LastName)
-                .IsRequired();
+            entity.Property(user => user.LastName).IsRequired();
 
-            entity.Property(user => user.Email)
-                .IsRequired();
+            entity.Property(user => user.Email).IsRequired();
 
-            entity.Property(user => user.PasswordHash)
-                .IsRequired();
+            entity.Property(user => user.PasswordHash).IsRequired();
 
-            entity.Property(user => user.Role)
-                .IsRequired();
+            entity.Property(user => user.Role).IsRequired();
 
-            entity.Property(user => user.CreatedAt)
-                .IsRequired();
+            entity.Property(user => user.CreatedAt).IsRequired();
 
-            entity.Property(user => user.UpdatedAt)
-                .IsRequired();
+            entity.Property(user => user.UpdatedAt).IsRequired();
         });
     }
 }
