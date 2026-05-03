@@ -10,6 +10,11 @@ import { inputsCustomizations } from "./customizations/inputs";
 import { createContainerQueries } from "./containerQueries";
 
 export const theme = createTheme({
+  cssVariables: {
+    cssVarPrefix: "",
+    colorSchemeSelector: "data-color-scheme",
+  },
+
   palette,
   typography,
   shadows,

@@ -114,8 +114,67 @@ public class UsersController : ControllerBase
     [HttpGet("summary")]
     public async Task<ActionResult<SummaryDto>> GetSummary()
     {
-        var summary = new SummaryDto { Total = await _db.Users.CountAsync() };
+        var now = DateTime.UtcNow;
+        var currentMonthStart = new DateTime(now.Year, now.Month, 1, 0, 0, 0, DateTimeKind.Utc);
+        var nextMonthStart = currentMonthStart.AddMonths(1);
+        var previousMonthStart = currentMonthStart.AddMonths(-1);
+        var firstMonthStart = currentMonthStart.AddMonths(-11);
+
+        var monthlyCounts = await _db
+            .Users.AsNoTracking()
+            .Where(user => user.CreatedAt >= firstMonthStart && user.CreatedAt < nextMonthStart)
+            .GroupBy(user => new { user.CreatedAt.Year, user.CreatedAt.Month })
+            .Select(group => new
+            {
+                group.Key.Year,
+                group.Key.Month,
+                Count = group.Count(),
+            })
+            .ToListAsync();
+
+        var countsByMonth = monthlyCounts.ToDictionary(
+            item => (item.Year, item.Month),
+            item => item.Count
+        );
+
+        var currentMonthCount = countsByMonth.GetValueOrDefault(
+            (currentMonthStart.Year, currentMonthStart.Month)
+        );
+        var previousMonthCount = countsByMonth.GetValueOrDefault(
+            (previousMonthStart.Year, previousMonthStart.Month)
+        );
+
+        var summary = new SummaryDto
+        {
+            Total = await _db.Users.CountAsync(),
+            MonthlyGrowthPercent = CalculateGrowthPercent(currentMonthCount, previousMonthCount),
+            MonthlyCounts = Enumerable
+                .Range(0, 12)
+                .Select(offset =>
+                {
+                    var month = firstMonthStart.AddMonths(offset);
+
+                    return new MonthlyUsersCountDto
+                    {
+                        Year = month.Year,
+                        Month = month.Month,
+                        Count = countsByMonth.GetValueOrDefault((month.Year, month.Month)),
+                    };
+                })
+                .ToList(),
+        };
+
         return Ok(summary);
+    }
+
+    private static decimal CalculateGrowthPercent(int currentValue, int previousValue)
+    {
+        if (previousValue == 0)
+        {
+            return currentValue == 0 ? 0 : 100;
+        }
+
+        return Math.Round(((decimal)(currentValue - previousValue) / previousValue) * 100, 2);
     }
 }
 

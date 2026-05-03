@@ -10,7 +10,7 @@ export const surfacesCustomizations: Components<Theme> = {
     styleOverrides: {
       root: ({ theme }) => {
         return {
-          border: `1px solid ${(theme.vars || theme).palette.divider}`,
+          // border: `1px solid ${(theme.vars || theme).palette.divider}`,
           padding: "1rem",
           boxShadow: theme.shadows[0],
         };

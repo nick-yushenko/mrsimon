@@ -24,6 +24,9 @@ export const usersApi = {
   },
 
   getSummary: async (): Promise<UsersSummary> => {
+    const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    await sleep(1000);
     return apiClient.get<UsersSummary>(`/api/users/summary`);
   },
 };

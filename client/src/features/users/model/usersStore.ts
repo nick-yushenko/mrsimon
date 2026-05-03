@@ -143,7 +143,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
       set({
         summary: null,
         isSummaryLoading: false,
-        summaryError: error instanceof Error ? error.message : "Ошибка при загрузке сводки",
+        summaryError: error instanceof Error ? error.message : "Ошибка загрузки данных",
       });
     }
   },

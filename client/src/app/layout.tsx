@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins, Roboto, Barlow } from "next/font/google";
 import "./globals.css";
+import "@/shared/ui/chart/styles.css";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v16-appRouter";
 import { AuthInitializer } from "@/widgets/auth/init/authInitializer";
 

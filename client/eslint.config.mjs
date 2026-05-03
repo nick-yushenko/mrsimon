@@ -3,6 +3,7 @@ import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
 import prettierRecommended from "eslint-plugin-prettier/recommended";
 
+// TODO настроить importPlugin чтобы управлять порядком импорта 
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,

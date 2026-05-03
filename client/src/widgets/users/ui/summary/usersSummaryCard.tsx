@@ -13,16 +13,17 @@ type TProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any;
   isLoading: boolean;
+  error?: string | null;
   sx?: SxProps<Theme>;
 };
-export const UsersSummaryCard = ({ data, isLoading, sx }: TProps) => {
+export const UsersSummaryCard = ({ data, isLoading, error, sx }: TProps) => {
   return (
     <Card
       variant="plain"
       sx={[
         (theme) => ({
           position: "relative",
-          backgroundColor: theme.palette.chart[100],
+          backgroundColor: theme.palette.secondary.light,
           backgroundPosition: "center center, center center",
           backgroundRepeat: "no-repeat, no-repeat",
           zIndex: 0,
@@ -45,12 +46,19 @@ export const UsersSummaryCard = ({ data, isLoading, sx }: TProps) => {
           sx={{ flex: 1, justifyContent: "space-between", alignItems: "cetnter" }}
         >
           {isLoading ? (
-            <Skeleton variant="text" sx={{ fontSize: "1.25rem" }} />
+            <Skeleton
+              variant="rounded"
+              sx={{
+                width: 44,
+                height: "1.25rem",
+              }}
+            />
           ) : (
             <Typography
               variant="h6"
               sx={{
                 fontSize: "1.25rem",
+                lineHeight: "1.25rem",
                 color: "chart.200",
               }}
             >
