@@ -12,6 +12,8 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { ruRU } from "@mui/x-date-pickers/locales";
+import "dayjs/locale/ru";
 
 import { EntityField } from "./entityField";
 import { getFieldError } from "./getFieldError";
@@ -140,7 +142,11 @@ export const EntityView = <TValues extends FieldValues>({
   );
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <LocalizationProvider
+      dateAdapter={AdapterDayjs}
+      adapterLocale="ru"
+      localeText={ruRU.components.MuiLocalizationProvider.defaultProps.localeText}
+    >
       <Box id={formId} component="form" onSubmit={submitForm} noValidate>
         <Stack spacing={2}>
           {renderFields ? (

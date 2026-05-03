@@ -1,6 +1,10 @@
 "use client";
 
+import { Subject } from "@/entities/subject/model/types";
+import { createEmptySubject } from "@/features/subjects/model/subjectForm";
 import { useSubjectsStore } from "@/features/subjects/model/subjectsStore";
+import { CreateSubjectRequest } from "@/features/subjects/types";
+import { ChipsAutocomplete } from "@/shared/ui/autocomplete/chipsAutocomplete";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import Alert from "@mui/material/Alert";
@@ -18,8 +22,8 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify/unstyled";
 
 export default function SubjectsPage() {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [form, setForm] = useState<CreateSubjectRequest>(createEmptySubject);
+  const [selectedDisciplines, setSelectedDisciplines] = useState<Subject[]>([]);
 
   const subjects = useSubjectsStore((state) => state.items);
   const isLoading = useSubjectsStore((state) => state.isLoading);
@@ -37,24 +41,21 @@ export default function SubjectsPage() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!name.trim()) {
+    if (!form.name.trim()) {
       return;
     }
 
-    await toast.promise(
-      createSubject({
-        name,
-        description,
-      }),
-      {
-        pending: "Создание дисциплины",
-        success: "Дисциплина создана",
-        error: "Не удалось создать дисциплину",
-      },
-    );
+    await create(form);
 
-    setName("");
-    setDescription("");
+    setForm(createEmptySubject());
+  };
+
+  const create = async (values: CreateSubjectRequest) => {
+    return await toast.promise(createSubject(values), {
+      pending: "Создание дисциплины",
+      success: "Дисциплина создана",
+      error: "Не удалось создать дисциплину",
+    });
   };
 
   const handleDelete = async (id: number, subjectName: string) => {
@@ -73,6 +74,18 @@ export default function SubjectsPage() {
 
   return (
     <Stack spacing={2}>
+      <ChipsAutocomplete
+        multiple
+        options={subjects}
+        value={selectedDisciplines}
+        onChange={setSelectedDisciplines}
+        onCreate={(subjectName) => create({ name: subjectName })}
+        getOptionKey={(subject) => subject.id}
+        getOptionLabel={(subject) => subject.name}
+        label="Дисциплины"
+        placeholder="Выберите или создайте дисциплину"
+      />
+
       <Card variant="plain" sx={{ p: 3 }}>
         <Stack component="form" spacing={2} onSubmit={handleSubmit}>
           <Typography component="h1" variant="h4">
@@ -83,16 +96,18 @@ export default function SubjectsPage() {
 
           <TextField
             label="Название"
-            value={name}
-            onChange={(event) => setName(event.target.value)}
+            value={form.name}
+            onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))}
             required
             fullWidth
           />
 
           <TextField
             label="Описание"
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
+            value={form.description ?? ""}
+            onChange={(event) =>
+              setForm((current) => ({ ...current, description: event.target.value }))
+            }
             fullWidth
             multiline
             minRows={3}
@@ -104,7 +119,7 @@ export default function SubjectsPage() {
               variant="contained"
               startIcon={<AddRoundedIcon />}
               loading={isSaving}
-              disabled={!name.trim()}
+              disabled={!form.name.trim()}
             >
               Создать
             </Button>

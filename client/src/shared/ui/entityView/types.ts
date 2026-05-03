@@ -11,9 +11,10 @@ export type EntityFieldKind =
   | "switch"
   | "checkbox";
 
-export type EntityFieldOption<T = string> = {
+export type EntityFieldOption<T = string | number> = {
   label: string;
   value: T;
+  disabled?: boolean;
 };
 
 export type EntityFieldRenderParams<TValues extends FieldValues> = {
@@ -33,7 +34,11 @@ export type EntityFieldConfig<TValues extends FieldValues> = {
   hidden?: boolean;
   placeholder?: string;
   autoComplete?: boolean;
+  creatable?: boolean;
+  multiple?: boolean;
   options?: EntityFieldOption[];
+  onCreateOption?: (inputValue: string) => Promise<EntityFieldOption> | EntityFieldOption;
+  createOptionLabel?: (inputValue: string) => string;
   render?: (params: EntityFieldRenderParams<TValues>) => ReactNode;
 };
 

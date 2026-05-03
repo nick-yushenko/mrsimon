@@ -50,4 +50,40 @@ export const inputsCustomizations: Components<Theme> = {
       }),
     },
   },
+  MuiAutocomplete: {
+    defaultProps: {
+      selectOnFocus: true,
+      clearOnBlur: true,
+      handleHomeEndKeys: true,
+    },
+
+    styleOverrides: {
+      paper: ({ theme }) => ({
+        boxShadow: theme.shadows[8],
+        marginTop: 2,
+
+        "& .MuiAutocomplete-listbox": {
+          padding: 0,
+        },
+      }),
+    },
+  },
+
+  MuiSelect: {
+    styleOverrides: {
+      // menu: ({ theme }) => ({
+      //   boxShadow: theme.shadows[8],
+      //   // border: "1px solid",
+      //   // borderColor: theme.palette.divider,
+      // }),
+    },
+  },
+  MuiMenu: {
+    styleOverrides: {
+      paper: ({ theme }) => ({
+        boxShadow: theme.shadows[8],
+        transform: "scale(1, 1)",
+      }),
+    },
+  },
 };

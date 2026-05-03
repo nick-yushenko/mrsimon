@@ -70,7 +70,6 @@ const staticColumns: GridColDef<StudyGroupListItem>[] = [
   {
     field: "createdAt",
     headerName: "Создана",
-    flex: 1,
     minWidth: 150,
     valueFormatter: (value: string) => formatDate(value),
   },
@@ -200,7 +199,7 @@ export const StudyGroupsTable = () => {
             onChange={(_, checked) => setIncludeArchived(checked)}
           />
         }
-        label="С архивом"
+        label="Включая архивные"
         sx={{ flexShrink: 0, ml: 0 }}
       />
     ),

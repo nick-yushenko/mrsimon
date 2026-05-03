@@ -1,10 +1,11 @@
 "use client";
 
 import type { StudyGroupDetails } from "@/entities/studyGroup/model/types";
+import { useSubjectsStore } from "@/features/subjects/model/subjectsStore";
 import {
+  createStudyGroupFormFields,
   createEmptyStudyGroupFormValues,
   normalizeStudyGroupFormValues,
-  studyGroupFormFields,
   studyGroupFormSchema,
 } from "@/features/studyGroups/model/studyGroupForm";
 import { useStudyGroupsStore } from "@/features/studyGroups/model/studyGroupsStore";
@@ -17,6 +18,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Typography from "@mui/material/Typography";
+import { useCallback, useEffect, useMemo } from "react";
 import { toast } from "react-toastify/unstyled";
 
 const FORM_ID = "add-study-group-form";
@@ -28,9 +30,39 @@ type AddStudyGroupDialogProps = {
 };
 
 export const AddStudyGroupDialog = ({ open, onClose, onSuccess }: AddStudyGroupDialogProps) => {
+  const subjects = useSubjectsStore((state) => state.items);
+  const fetchSubjects = useSubjectsStore((state) => state.fetchSubjects);
+  const createSubject = useSubjectsStore((state) => state.createSubject);
+
   const createStudyGroup = useStudyGroupsStore((state) => state.createStudyGroup);
   const saveError = useStudyGroupsStore((state) => state.saveError);
   const isSaving = useStudyGroupsStore((state) => state.isSaving);
+
+  useEffect(() => {
+    if (open) {
+      fetchSubjects();
+    }
+  }, [fetchSubjects, open]);
+
+  const createSubjectFromAutocomplete = useCallback(
+    async (name: string) => {
+      return await toast.promise(createSubject({ name }), {
+        pending: "Создание дисциплины",
+        success: "Дисциплина создана",
+        error: "Не удалось создать дисциплину",
+      });
+    },
+    [createSubject],
+  );
+
+  const fields = useMemo(
+    () =>
+      createStudyGroupFormFields({
+        subjects,
+        onCreateSubject: createSubjectFromAutocomplete,
+      }),
+    [createSubjectFromAutocomplete, subjects],
+  );
 
   const handleSubmit = async (values: StudyGroupFormValues) => {
     const group = await toast.promise(createStudyGroup(normalizeStudyGroupFormValues(values)), {
@@ -64,7 +96,7 @@ export const AddStudyGroupDialog = ({ open, onClose, onSuccess }: AddStudyGroupD
         <EntityView
           formId={FORM_ID}
           entity={createEmptyStudyGroupFormValues()}
-          fields={studyGroupFormFields}
+          fields={fields}
           schema={studyGroupFormSchema}
           editable
           defaultEditMode

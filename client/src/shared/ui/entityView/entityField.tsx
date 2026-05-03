@@ -14,8 +14,9 @@ import Select from "@mui/material/Select";
 import Switch from "@mui/material/Switch";
 import TextField from "@mui/material/TextField";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { ChipsAutocomplete } from "@/shared/ui/autocomplete/chipsAutocomplete";
 
-import type { EntityFieldConfig } from "./types";
+import type { EntityFieldConfig, EntityFieldOption } from "./types";
 
 type EntityFieldProps<TValues extends FieldValues> = {
   field: EntityFieldConfig<TValues>;
@@ -37,6 +38,78 @@ export const EntityField = <TValues extends FieldValues>({
   const textFieldType = field.kind === "email" || field.kind === "number" ? field.kind : "text";
 
   if (field.kind === "select") {
+    if (field.creatable) {
+      const options = field.options?.filter((option) => !option.disabled) ?? [];
+      const createOption =
+        field.onCreateOption ??
+        ((inputValue: string): EntityFieldOption => ({
+          label: inputValue,
+          value: inputValue,
+        }));
+
+      // TODO Переписать, так как сейчас дубли кода
+      return (
+        <Controller
+          name={field.key}
+          control={control}
+          render={({ field: controllerField }) => {
+            if (field.multiple) {
+              const selectedValues = Array.isArray(controllerField.value)
+                ? controllerField.value
+                : [];
+              const selectedOptions = selectedValues
+                .map((value) => options.find((option) => option.value === value))
+                .filter((option): option is EntityFieldOption => Boolean(option));
+
+              return (
+                <ChipsAutocomplete
+                  multiple
+                  options={options}
+                  value={selectedOptions}
+                  disabled={disabled}
+                  label={field.label}
+                  placeholder={field.placeholder}
+                  error={Boolean(error)}
+                  helperText={error}
+                  createLabel={field.createOptionLabel}
+                  onCreate={createOption}
+                  onChange={(nextOptions) =>
+                    controllerField.onChange(nextOptions.map((option) => option.value))
+                  }
+                  getOptionKey={(option) => option.value}
+                  getOptionLabel={(option) => option.label}
+                />
+              );
+            }
+
+            const selectedOption =
+              options.find((option) => option.value === controllerField.value) ?? null;
+
+            return (
+              <ChipsAutocomplete
+                options={options}
+                value={selectedOption}
+                disabled={disabled}
+                label={field.label}
+                placeholder={field.placeholder}
+                error={Boolean(error)}
+                helperText={error}
+                createLabel={field.createOptionLabel}
+                onCreate={createOption}
+                onChange={(option) =>
+                  controllerField.onChange(
+                    option?.value ?? (typeof controllerField.value === "number" ? 0 : ""),
+                  )
+                }
+                getOptionKey={(option) => option.value}
+                getOptionLabel={(option) => option.label}
+              />
+            );
+          }}
+        />
+      );
+    }
+
     return (
       <Controller
         name={field.key}
@@ -46,7 +119,7 @@ export const EntityField = <TValues extends FieldValues>({
             <InputLabel>{field.label}</InputLabel>
             <Select {...controllerField} label={field.label} value={controllerField.value ?? ""}>
               {field.options?.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
+                <MenuItem key={option.value} value={option.value} disabled={option.disabled}>
                   {option.label}
                 </MenuItem>
               ))}
@@ -72,6 +145,7 @@ export const EntityField = <TValues extends FieldValues>({
           return (
             <DatePicker
               label={field.label}
+              format="DD.MM.YYYY"
               value={value}
               disabled={disabled}
               onChange={(dateValue) => {

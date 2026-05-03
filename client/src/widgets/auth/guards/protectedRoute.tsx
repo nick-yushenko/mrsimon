@@ -23,9 +23,6 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const activeSession = getActiveSession();
 
   useEffect(() => {
-    console.log("isInitialized", isInitialized);
-    console.log("isLoading", isLoading);
-    console.log("activeSession", activeSession);
     if (!isInitialized || isLoading || activeSession) {
       return;
     }

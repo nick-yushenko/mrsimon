@@ -1,4 +1,4 @@
-import { alpha, Theme, Components } from "@mui/material/styles";
+import { Theme, Components } from "@mui/material/styles";
 
 export const surfacesCustomizations: Components<Theme> = {
   MuiPaper: {
@@ -36,28 +36,6 @@ export const surfacesCustomizations: Components<Theme> = {
       },
     ],
   },
-  // MuiCardContent: {
-  //   styleOverrides: {
-  //     root: {
-  //       padding: 0,
-  //       "&:last-child": { paddingBottom: 0 },
-  //     },
-  //   },
-  // },
-  // MuiCardHeader: {
-  //   styleOverrides: {
-  //     root: {
-  //       padding: 0,
-  //     },
-  //   },
-  // },
-  // MuiCardActions: {
-  //   styleOverrides: {
-  //     root: {
-  //       padding: 0,
-  //     },
-  //   },
-  // },
   MuiStack: {
     defaultProps: {
       useFlexGap: true,

@@ -65,6 +65,10 @@ export const dataGridCustomizations: Components<Theme> = {
           borderTop: `1px solid ${theme.palette.grey[200]}`,
         },
 
+        "& .MuiDataGrid-cellEmpty": {
+          display: "none",
+        },
+
         "& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within": {
           outline: "none",
         },

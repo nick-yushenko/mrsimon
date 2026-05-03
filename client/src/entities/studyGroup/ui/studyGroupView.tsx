@@ -3,9 +3,10 @@
 import { useCallback, useMemo } from "react";
 
 import type { StudyGroupDetails } from "@/entities/studyGroup/model/types";
+import type { Subject } from "@/entities/subject/model/types";
 import {
+  createStudyGroupFormFields,
   normalizeStudyGroupFormValues,
-  studyGroupFormFields,
   studyGroupFormSchema,
   toStudyGroupFormValues,
 } from "@/features/studyGroups/model/studyGroupForm";
@@ -28,6 +29,7 @@ import Typography from "@mui/material/Typography";
 export type StudyGroupViewActions = {
   edit?: (values: StudyGroupFormValues) => Promise<void>;
   archive?: (group: StudyGroupDetails) => Promise<void>;
+  createSubject?: (name: string) => Promise<Subject>;
 };
 
 type StudyGroupViewProps = {
@@ -37,6 +39,7 @@ type StudyGroupViewProps = {
   isArchiving?: boolean;
   error?: string | null;
   variant?: "page" | "embedded";
+  subjects?: Subject[];
   actions?: StudyGroupViewActions;
 };
 
@@ -52,11 +55,22 @@ export const StudyGroupView = ({
   isArchiving = false,
   error,
   variant = "page",
+  subjects = [],
   actions,
 }: StudyGroupViewProps) => {
   const isEmbedded = variant === "embedded";
 
   const formValues = useMemo(() => (group ? toStudyGroupFormValues(group) : null), [group]);
+
+  const fields = useMemo(
+    () =>
+      createStudyGroupFormFields({
+        subjects,
+        currentSubject: group ? { id: group.subjectId, name: group.subjectName } : null,
+        onCreateSubject: actions?.createSubject,
+      }),
+    [actions?.createSubject, group, subjects],
+  );
 
   const teachersCount = useMemo(
     () => group?.members.filter((member) => member.role === "Teacher").length ?? 0,
@@ -127,9 +141,7 @@ export const StudyGroupView = ({
                     color={group.status === "Active" ? "success" : "default"}
                     size="small"
                   />
-                  <Typography variant="body2" color="text.secondary">
-                    {group.subjectName}
-                  </Typography>
+                  <Chip label={group.subjectName} color={"info"} size="small" />
                 </Stack>
 
                 <Typography variant={isEmbedded ? "h5" : "h4"}>{group.name}</Typography>
@@ -196,7 +208,7 @@ export const StudyGroupView = ({
           {!isLoading && !error && group && formValues && (
             <EntityView
               entity={formValues}
-              fields={studyGroupFormFields}
+              fields={fields}
               schema={studyGroupFormSchema}
               editable
               defaultEditMode

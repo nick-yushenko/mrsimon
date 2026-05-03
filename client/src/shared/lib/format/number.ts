@@ -1,13 +1,8 @@
-/*
- * Locales code
- * https://gist.github.com/raushankrjha/d1c7e35cf87e69aa8b4208a8171a8416
- */
+import { DEFAULT_LOCALE } from "@/shared/config";
 
 export type InputNumberValue = string | number | null | undefined;
 
 type Options = Intl.NumberFormatOptions;
-
-const DEFAULT_LOCALE = { code: "ru-RU", currency: "RUB" };
 
 function processInput(inputValue: InputNumberValue): number | null {
   if (inputValue == null || Number.isNaN(inputValue)) return null;

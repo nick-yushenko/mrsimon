@@ -7,6 +7,7 @@ import {
   StudyGroupView,
   type StudyGroupViewActions,
 } from "@/entities/studyGroup/ui/studyGroupView";
+import { useSubjectsStore } from "@/features/subjects/model/subjectsStore";
 import { useStudyGroupsStore } from "@/features/studyGroups/model/studyGroupsStore";
 import type { StudyGroupFormValues } from "@/features/studyGroups/types";
 
@@ -19,6 +20,9 @@ export const StudyGroupDetailsView = ({ id, variant = "page" }: StudyGroupDetail
   const fetchStudyGroupById = useStudyGroupsStore((state) => state.fetchStudyGroupById);
   const updateStudyGroup = useStudyGroupsStore((state) => state.updateStudyGroup);
   const archiveStudyGroup = useStudyGroupsStore((state) => state.archiveStudyGroup);
+  const subjects = useSubjectsStore((state) => state.items);
+  const fetchSubjects = useSubjectsStore((state) => state.fetchSubjects);
+  const createSubject = useSubjectsStore((state) => state.createSubject);
 
   const group = useStudyGroupsStore((state) => state.selectedGroup);
   const isLoading = useStudyGroupsStore((state) => state.isDetailsLoading);
@@ -28,6 +32,10 @@ export const StudyGroupDetailsView = ({ id, variant = "page" }: StudyGroupDetail
   useEffect(() => {
     fetchStudyGroupById(id);
   }, [fetchStudyGroupById, id]);
+
+  useEffect(() => {
+    fetchSubjects();
+  }, [fetchSubjects]);
 
   const editGroup = useCallback(
     async (values: StudyGroupFormValues) => {
@@ -50,12 +58,24 @@ export const StudyGroupDetailsView = ({ id, variant = "page" }: StudyGroupDetail
     await fetchStudyGroupById(id);
   }, [archiveStudyGroup, fetchStudyGroupById, id]);
 
+  const createSubjectFromAutocomplete = useCallback(
+    async (name: string) => {
+      return await toast.promise(createSubject({ name }), {
+        pending: "Создание дисциплины",
+        success: "Дисциплина создана",
+        error: "Не удалось создать дисциплину",
+      });
+    },
+    [createSubject],
+  );
+
   const actions = useMemo<StudyGroupViewActions>(
     () => ({
       edit: editGroup,
       archive: archiveGroup,
+      createSubject: createSubjectFromAutocomplete,
     }),
-    [archiveGroup, editGroup],
+    [archiveGroup, createSubjectFromAutocomplete, editGroup],
   );
 
   return (
@@ -66,6 +86,7 @@ export const StudyGroupDetailsView = ({ id, variant = "page" }: StudyGroupDetail
       isArchiving={isArchiving}
       error={error}
       variant={variant}
+      subjects={subjects}
       actions={actions}
     />
   );

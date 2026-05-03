@@ -1,7 +1,16 @@
 import type { StudyGroupDetails } from "@/entities/studyGroup/model/types";
+import type { Subject } from "@/entities/subject/model/types";
 import type { EntityFieldConfig } from "@/shared/ui/entityView";
 import z from "zod";
 import type { StudyGroupFormValues } from "../types";
+
+type StudyGroupSubjectOption = Pick<Subject, "id" | "name">;
+
+type CreateStudyGroupFormFieldsOptions = {
+  subjects: StudyGroupSubjectOption[];
+  currentSubject?: StudyGroupSubjectOption | null;
+  onCreateSubject?: (name: string) => Promise<StudyGroupSubjectOption> | StudyGroupSubjectOption;
+};
 
 export const studyGroupFormSchema = z
   .object({
@@ -17,33 +26,63 @@ export const studyGroupFormSchema = z
     path: ["endsOn"],
   });
 
-export const studyGroupFormFields: EntityFieldConfig<StudyGroupFormValues>[] = [
-  { key: "name", label: "Название", kind: "text", editable: true, autoComplete: false },
-  {
-    key: "description",
-    label: "Описание",
-    kind: "textarea",
-    editable: true,
-    placeholder: "Добавьте описание группы",
-  },
-  {
-    // переделать на select
-    key: "subjectId",
-    label: "ID предмета",
-    kind: "number",
-    editable: true,
-    autoComplete: false,
-  },
-  {
-    key: "pricePerLesson",
-    label: "Цена за занятие",
-    kind: "number",
-    editable: true,
-  },
-  // TODO добавить кнопки хелперы
-  { key: "startsOn", label: "Начало", kind: "date", editable: true },
-  { key: "endsOn", label: "Окончание", kind: "date", editable: true },
-];
+export const createStudyGroupFormFields = ({
+  subjects,
+  currentSubject,
+  onCreateSubject,
+}: CreateStudyGroupFormFieldsOptions): EntityFieldConfig<StudyGroupFormValues>[] => {
+  const subjectOptionsById = new Map<number, StudyGroupSubjectOption>();
+
+  if (currentSubject) {
+    subjectOptionsById.set(currentSubject.id, currentSubject);
+  }
+
+  subjects.forEach((subject) => {
+    subjectOptionsById.set(subject.id, subject);
+  });
+
+  return [
+    { key: "name", label: "Название", kind: "text", editable: true, autoComplete: false },
+    {
+      key: "description",
+      label: "Описание",
+      kind: "textarea",
+      editable: true,
+      placeholder: "Добавьте описание группы",
+    },
+    {
+      key: "subjectId",
+      label: "Дисциплина",
+      kind: "select",
+      editable: true,
+      creatable: Boolean(onCreateSubject),
+      placeholder: "Выберите или создайте дисциплину",
+      options: Array.from(subjectOptionsById.values()).map((subject) => ({
+        label: subject.name,
+        value: subject.id,
+      })),
+      onCreateOption: onCreateSubject
+        ? async (subjectName) => {
+            const subject = await onCreateSubject(subjectName);
+
+            return {
+              label: subject.name,
+              value: subject.id,
+            };
+          }
+        : undefined,
+    },
+    {
+      key: "pricePerLesson",
+      label: "Цена за занятие",
+      kind: "number",
+      editable: true,
+    },
+    // TODO добавить кнопки хелперы
+    { key: "startsOn", label: "Начало", kind: "date", editable: true },
+    { key: "endsOn", label: "Окончание", kind: "date", editable: true },
+  ];
+};
 
 export const createEmptyStudyGroupFormValues = (): StudyGroupFormValues => ({
   name: "",

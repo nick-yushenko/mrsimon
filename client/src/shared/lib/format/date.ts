@@ -1,8 +1,8 @@
+import { DEFAULT_LOCALE } from "@/shared/config";
+
 export type InputDateValue = Date | string | number | null | undefined;
 
 type Options = Intl.DateTimeFormatOptions;
-
-const DEFAULT_LOCALE = { code: "ru-RU" };
 
 function processInput(inputValue: InputDateValue): Date | null {
   if (inputValue == null) return null;
@@ -16,7 +16,7 @@ function processInput(inputValue: InputDateValue): Date | null {
 
 // ----------------------------------------------------------------------
 
-// formatDate(new Date(2026, 4, 3)) -> "03.05.2026"
+// formatDate(new Date(2026, 4, 3)) -> "03.04.2026"
 export function formatDate(inputValue: InputDateValue, options?: Options) {
   const locale = DEFAULT_LOCALE;
 
@@ -50,7 +50,5 @@ export function formatMonth(inputValue: InputDateValue, options?: Options) {
 
 // formatMonthFromParts(2026, 5) -> "май"
 export function formatMonthFromParts(year: number, month: number, options?: Options) {
-  const res = formatMonth(new Date(year, month - 1, 1), options);
-  console.log(res);
-  return res;
+  return formatMonth(new Date(year, month - 1, 1), options);
 }

@@ -21,6 +21,7 @@ export const UserDetailsView = ({ id, variant = "page" }: TProps) => {
     fetchUserById(id);
   }, [fetchUserById, id]);
 
+  // TODO добавить редактирование пользователя
   const editUser = useCallback(async (values: UserDetails) => {
     console.log("User details submitted", values);
   }, []);
