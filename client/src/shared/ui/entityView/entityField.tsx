@@ -34,6 +34,7 @@ export const EntityField = <TValues extends FieldValues>({
 }: EntityFieldProps<TValues>) => {
   const { control } = form;
   const isAutoCompleteEnabled = field.autoComplete !== false;
+  const textFieldType = field.kind === "email" || field.kind === "number" ? field.kind : "text";
 
   if (field.kind === "select") {
     return (
@@ -74,7 +75,7 @@ export const EntityField = <TValues extends FieldValues>({
               value={value}
               disabled={disabled}
               onChange={(dateValue) => {
-                controllerField.onChange(dateValue?.toISOString() ?? "");
+                controllerField.onChange(dateValue?.format("YYYY-MM-DD") ?? "");
               }}
               slotProps={{
                 textField: {
@@ -125,7 +126,7 @@ export const EntityField = <TValues extends FieldValues>({
           fullWidth
           label={field.label}
           placeholder={field.placeholder}
-          type={field.kind === "email" ? "email" : "text"}
+          type={textFieldType}
           multiline={field.kind === "textarea"}
           minRows={field.kind === "textarea" ? 4 : undefined}
           variant="outlined"
@@ -133,7 +134,16 @@ export const EntityField = <TValues extends FieldValues>({
           error={Boolean(error)}
           helperText={error}
           value={controllerField.value ?? ""}
-          onChange={controllerField.onChange}
+          onChange={(event) => {
+            if (field.kind === "number") {
+              controllerField.onChange(
+                event.target.value === "" ? undefined : Number(event.target.value),
+              );
+              return;
+            }
+
+            controllerField.onChange(event);
+          }}
           onBlur={controllerField.onBlur}
           inputRef={controllerField.ref}
           slotProps={{

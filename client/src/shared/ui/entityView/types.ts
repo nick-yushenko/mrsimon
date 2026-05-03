@@ -3,6 +3,7 @@ import type { FieldValues, Path, UseFormReturn } from "react-hook-form";
 
 export type EntityFieldKind =
   | "text"
+  | "number"
   | "email"
   | "textarea"
   | "select"

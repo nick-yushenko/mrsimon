@@ -9,6 +9,7 @@ import Stack from "@mui/material/Stack";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import AnalyticsRoundedIcon from "@mui/icons-material/AnalyticsRounded";
 import PeopleRoundedIcon from "@mui/icons-material/PeopleRounded";
+import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
 import AssignmentRoundedIcon from "@mui/icons-material/AssignmentRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
@@ -18,6 +19,8 @@ import Link from "next/link";
 
 const mainListItems = [
   { text: "Пользователи", href: "/users", icon: <PeopleRoundedIcon /> },
+  { text: "Группы", href: "/groups", icon: <PeopleRoundedIcon /> },
+  { text: "Дисциплины", href: "/subjects", icon: <SchoolRoundedIcon /> },
 
   { text: "Home", icon: <HomeRoundedIcon /> },
   { text: "Analytics", icon: <AnalyticsRoundedIcon /> },

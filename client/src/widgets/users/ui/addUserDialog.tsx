@@ -3,8 +3,6 @@
 import type { User } from "@/entities/user/model/types";
 import { useAuthStore } from "@/features/auth/model/authStore";
 import { RegisterForm, RegisterFormValues } from "@/features/auth/ui/registerForm";
-import { layoutConfig } from "@/shared/config/layout";
-import { Drawer } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -14,7 +12,6 @@ import Typography from "@mui/material/Typography";
 import { toast } from "react-toastify/unstyled";
 
 const FORM_ID = "add-user-form";
-const detailsDrawerWidth = `calc(100vw - ${layoutConfig.mainDrawerWidth}px - ${layoutConfig.detailsDrawerOffset}px)`;
 
 type AddUserDialogProps = {
   open: boolean;
@@ -22,6 +19,7 @@ type AddUserDialogProps = {
   onSuccess?: (user: User) => void | Promise<void>;
 };
 
+// TODO BUG если админ добавляет пользователя - он добавляется в сессию
 export const AddUserDialog = ({ onClose, onSuccess, open }: AddUserDialogProps) => {
   const registerUser = useAuthStore((state) => state.register);
   const isLoading = useAuthStore((state) => state.isLoading);
@@ -42,7 +40,6 @@ export const AddUserDialog = ({ onClose, onSuccess, open }: AddUserDialogProps) 
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
-    
       <DialogTitle component={"div"}>
         <Typography component="h1" variant="h4">
           Добавить пользователя

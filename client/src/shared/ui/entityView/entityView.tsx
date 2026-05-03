@@ -26,6 +26,7 @@ export type EntityViewProps<TValues extends FieldValues> = {
   formId?: string;
   editable?: boolean;
   defaultEditMode?: boolean;
+  actions?: "internal" | "none";
   onSubmit?: (values: TValues) => Promise<void> | void;
   renderFields?: (items: EntityViewLayoutItem<TValues>[]) => ReactNode;
 };
@@ -37,6 +38,7 @@ export const EntityView = <TValues extends FieldValues>({
   formId,
   editable = false,
   defaultEditMode = false,
+  actions = "internal",
   onSubmit,
   renderFields,
 }: EntityViewProps<TValues>) => {
@@ -151,7 +153,7 @@ export const EntityView = <TValues extends FieldValues>({
             </Stack>
           )}
 
-          {editable && (
+          {editable && actions === "internal" && (
             <Stack direction="row" spacing={1} sx={{ justifyContent: "flex-end" }}>
               {isEditMode ? (
                 <>

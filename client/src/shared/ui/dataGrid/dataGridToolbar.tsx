@@ -50,6 +50,7 @@ export type DataGridToolbarSearchProps = Omit<TextFieldProps, "onChange" | "valu
   onChange: (value: string) => void;
 };
 
+// TODO сделать поиск по конкретным колонкам: На колонке нажали иконку поиска, в поле поиска появилось что-то вроде :column(ColumnName) ... (ввод тела запроса для поиска)
 export const DataGridToolbarSearch = ({
   onChange,
   placeholder = "Поиск...",

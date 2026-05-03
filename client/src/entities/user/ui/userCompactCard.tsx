@@ -10,6 +10,7 @@ type TProps = Omit<UserListItem, "id" | "role"> & {
   onClick?: () => void;
 };
 
+// TODO переделать на Chip
 export const UserCompactCard = ({ name, lastName, email, onClick }: TProps) => {
   return (
     <Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>

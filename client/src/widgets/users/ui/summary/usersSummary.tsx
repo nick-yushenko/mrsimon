@@ -20,6 +20,8 @@ export const UsersSummary = () => {
 
   return (
     <Stack direction="row" spacing={2} sx={{ width: "100%", flexWrap: "wrap" }}>
+      {/* TODO добавить активных и архивных пользователей */}
+      {/* TODO переделать статистику на активных пользователей */}
       <AnalyticsWidgetSummary
         title="Пользователей"
         percent={summary?.monthlyGrowthPercent ?? null}

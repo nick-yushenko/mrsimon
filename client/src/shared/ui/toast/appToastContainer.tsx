@@ -62,7 +62,7 @@ export function AppToastContainer() {
       />
       <ToastContainer
         position="bottom-left"
-        autoClose={40000}
+        autoClose={4000}
         closeButton={false}
         closeOnClick
         draggable
