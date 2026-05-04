@@ -36,7 +36,7 @@ type AuthState = {
   fetchAccounts: () => Promise<void>;
 
   login: (data: LoginRequest) => Promise<User>;
-  register: (data: RegisterRequest) => Promise<User>;
+  register: (data: RegisterRequest, signInAfterRegister?: boolean) => Promise<User>;
 
   switchSession: (sessionId: SessionId) => Promise<User | null>;
 
@@ -258,7 +258,7 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
-      register: async (data) => {
+      register: async (data, signInAfterRegister = true) => {
         set({
           isLoading: true,
           error: null,
@@ -266,15 +266,20 @@ export const useAuthStore = create<AuthState>()(
 
         try {
           const response = await authApi.register(data);
-          const newSession = createSession(response);
+          if (signInAfterRegister) {
+            const newSession = createSession(response);
 
-          set((state) => ({
-            sessions: [...state.sessions, newSession],
-            activeSessionId: newSession.sessionId,
-            accounts: {
-              ...state.accounts,
-              [newSession.sessionId]: response.user,
-            },
+            set((state) => ({
+              sessions: [...state.sessions, newSession],
+              activeSessionId: newSession.sessionId,
+              accounts: {
+                ...state.accounts,
+                [newSession.sessionId]: response.user,
+              },
+            }));
+          }
+
+          set(() => ({
             isLoading: false,
             isInitialized: true,
             error: null,

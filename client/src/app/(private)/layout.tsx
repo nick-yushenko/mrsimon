@@ -1,5 +1,6 @@
 import { AppShell } from "@/widgets/appShell";
 import { ProtectedRoute } from "@/widgets/auth/guards/protectedRoute";
+import Box from "@mui/material/Box";
 import { Suspense } from "react";
 
 export default function PublicLayout({
@@ -8,10 +9,8 @@ export default function PublicLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Suspense fallback={null}>
-      <ProtectedRoute>
-        <AppShell>{children}</AppShell>
-      </ProtectedRoute>
-    </Suspense>
+    <ProtectedRoute>
+      <AppShell>{children}</AppShell>
+    </ProtectedRoute>
   );
 }

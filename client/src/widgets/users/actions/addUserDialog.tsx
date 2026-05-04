@@ -19,13 +19,12 @@ type AddUserDialogProps = {
   onSuccess?: (user: User) => void | Promise<void>;
 };
 
-// TODO BUG если админ добавляет пользователя - он добавляется в сессию
 export const AddUserDialog = ({ onClose, onSuccess, open }: AddUserDialogProps) => {
   const registerUser = useAuthStore((state) => state.register);
   const isLoading = useAuthStore((state) => state.isLoading);
 
   const onSubmit = async (values: RegisterFormValues) => {
-    const user = await toast.promise(registerUser(values), {
+    const user = await toast.promise(registerUser(values, false), {
       pending: "Добавление пользователя",
       success: {
         render({ data }) {

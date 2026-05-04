@@ -1,3 +1,5 @@
+"use client";
+
 import type { CardProps } from "@mui/material/Card";
 
 import Box from "@mui/material/Box";
@@ -11,18 +13,15 @@ import { SvgColor } from "@/shared/ui/svg-color";
 import TrendingUpRoundedIcon from "@mui/icons-material/TrendingUpRounded";
 import TrendingDownRoundedIcon from "@mui/icons-material/TrendingDownRounded";
 import { formatNumber, formatPercent, formatShortenNumber } from "@/shared/lib/format/number";
-import { SkeletonIcon } from "@/shared/ui/skeleton/icon";
-import { SkeletonTypography } from "@/shared/ui/skeleton/typography";
 import Typography from "@mui/material/Typography";
 import { useCallback } from "react";
 
 type Props = CardProps & {
   title: string;
-  total: number | null;
-  percent: number | null;
+  total: number;
+  percent: number;
   color?: PaletteColorKey;
   iconSrc: string;
-  isLoading?: boolean;
   chart: {
     series: number[];
     categories: string[];
@@ -30,22 +29,20 @@ type Props = CardProps & {
   };
 };
 
-export function AnalyticsWidgetSummary({
+// TODO добавить локальный ErrorBoundary
+export const StatsWidget = ({
   sx,
   iconSrc,
   title,
   total,
   chart,
   percent,
-  isLoading = false,
   color = "primary",
   ...other
-}: Props) {
+}: Props) => {
   const theme = useTheme();
 
   const chartColors = [theme.palette[color].dark];
-  const isPercentLoading = isLoading || percent === null;
-  const isTotalLoading = isLoading || total === null;
 
   const chartOptions = useChart({
     chart: { sparkline: { enabled: true } },
@@ -90,29 +87,23 @@ export function AnalyticsWidgetSummary({
           alignItems: "center",
         }}
       >
-        <SkeletonIcon loading={isPercentLoading} size={20}>
-          {(percent ?? 0) < 0 ? (
-            <TrendingDownRoundedIcon sx={{ fontSize: 20 }} />
-          ) : (
-            <TrendingUpRoundedIcon sx={{ fontSize: 20 }} />
-          )}
-        </SkeletonIcon>
-        <SkeletonTypography
-          variant="subtitle2"
-          loading={isPercentLoading}
-          skeletonWidth={48}
-          sx={{ userSelect: "none" }}
-        >
+        {percent < 0 ? (
+          <TrendingDownRoundedIcon sx={{ fontSize: 20 }} />
+        ) : (
+          <TrendingUpRoundedIcon sx={{ fontSize: 20 }} />
+        )}
+
+        <Typography variant="subtitle2" sx={{ userSelect: "none" }}>
           {percent !== null && (
             <>
               {percent > 0 && "+"}
               {formatPercent(percent)}
             </>
           )}
-        </SkeletonTypography>
+        </Typography>
       </Box>
     ),
-    [isPercentLoading, percent],
+    [percent],
   );
 
   return (
@@ -155,21 +146,18 @@ export function AnalyticsWidgetSummary({
           justifyContent: "flex-end",
         }}
       >
-        <Box sx={{ flexGrow: 1, minWidth: 112, maxWidth: 130 }}>
+        <Box sx={{ flexGrow: 1, minWidth: 112, maxWidth: 130, userSelect: "none" }}>
           <Typography variant="subtitle2" sx={{ lineHeight: "1rem", mb: 1 }}>
             {title}
           </Typography>
 
-          <SkeletonTypography variant="h4" loading={isTotalLoading} skeletonWidth={96}>
-            {total !== null ? formatShortenNumber(total) : null}
-          </SkeletonTypography>
+          <Typography variant="h4">{total !== null ? formatShortenNumber(total) : null}</Typography>
         </Box>
 
         <Chart
           type="line"
           series={[{ data: chart.series }]}
           options={chartOptions}
-          loading={isLoading}
           sx={{ width: 84, height: 56 }}
         />
       </Box>
@@ -189,4 +177,4 @@ export function AnalyticsWidgetSummary({
       />
     </Card>
   );
-}
+};

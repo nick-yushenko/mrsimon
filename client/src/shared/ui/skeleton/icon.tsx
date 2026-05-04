@@ -6,7 +6,7 @@ import type { SxProps, Theme } from "@mui/material/styles";
 import type { ReactNode } from "react";
 
 type SkeletonIconProps = Omit<BoxProps, "children"> & {
-  children: ReactNode;
+  children?: ReactNode;
   loading?: boolean;
   size?: SkeletonProps["width"];
   skeletonProps?: Omit<SkeletonProps, "children" | "height" | "variant" | "width">;

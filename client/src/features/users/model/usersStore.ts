@@ -1,14 +1,12 @@
 import { User, UserDetails, UserListItem } from "@/entities/user/model/types";
 import { create } from "zustand";
 import { usersApi } from "../api/usersApi";
-import { GetUsersParams, UsersSummary } from "../types";
+import { GetUsersParams } from "../types";
 
 type UsersState = {
   items: UserListItem[];
 
   selectedUser: UserDetails | null;
-
-  summary: UsersSummary | null;
 
   page: number;
   pageSize: number;
@@ -26,7 +24,6 @@ type UsersState = {
 
   fetchUsers: (params?: GetUsersParams) => Promise<void>;
   fetchUserById: (id: string) => Promise<void>;
-  fetchSummary: () => Promise<void>;
 
   setPage: (page: number) => void;
   setPageSize: (pageSize: number) => void;
@@ -42,8 +39,6 @@ export const useUsersStore = create<UsersState>((set, get) => ({
   items: [],
 
   selectedUser: null,
-
-  summary: null,
 
   page: 1,
   pageSize: 5,
@@ -122,28 +117,6 @@ export const useUsersStore = create<UsersState>((set, get) => ({
         selectedUser: null,
         isDetailsLoading: false,
         detailsError: error instanceof Error ? error.message : "Не удалось загрузить пользователя",
-      });
-    }
-  },
-
-  fetchSummary: async () => {
-    set({
-      isSummaryLoading: true,
-      summaryError: null,
-    });
-
-    try {
-      const summary = await usersApi.getSummary();
-
-      set({
-        summary: summary,
-        isSummaryLoading: false,
-      });
-    } catch (error) {
-      set({
-        summary: null,
-        isSummaryLoading: false,
-        summaryError: error instanceof Error ? error.message : "Ошибка загрузки данных",
       });
     }
   },

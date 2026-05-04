@@ -9,7 +9,7 @@ import { ChartLoading } from "./components";
 import type { ChartProps } from "./types";
 
 import cn from "classnames";
-
+import ApexChart from "react-apexcharts";
 const LazyChart = lazy(() =>
   import("react-apexcharts").then((module) => ({ default: module.default })),
 );
@@ -32,11 +32,14 @@ export function Chart({
     <ChartRoot dir="ltr" className={cn([chartClasses.root, className])} sx={sx} {...other}>
       {isClient ? (
         <>
-          {loading && renderFallback()}
-
-          <Suspense>
-            <LazyChart type={type} series={series} options={options} width="100%" height="100%" />
-          </Suspense>
+          {loading ? (
+            renderFallback()
+          ) : (
+            <Suspense fallback={renderFallback()}>
+              <LazyChart type={type} series={series} options={options} width="100%" height="100%" />
+            </Suspense>
+            // <ApexChart type={type} series={series} options={options} width="100%" height="100%" />
+          )}
         </>
       ) : (
         renderFallback()

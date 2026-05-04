@@ -7,7 +7,6 @@ export const palette: ThemeOptions["palette"] = {
     // dark: '#1B84FF',
     main: "#106E83",
     light: "#E7F7FB",
-    // TODO подобрать цвет
     dark: "#108299",
     contrastText: "#ffffff",
   },

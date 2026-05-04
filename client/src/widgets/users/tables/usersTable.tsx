@@ -7,7 +7,6 @@ import { AppDataGrid } from "@/shared/ui/dataGrid/appDataGrid";
 import { useDataGridSearch } from "@/shared/ui/dataGrid/useDataGridSearch";
 import type { DataGridToolbarAction } from "@/shared/ui/dataGrid/dataGridToolbar";
 import type { MenuOptionAction } from "@/shared/ui/menu/menuOptions";
-import { AddUserDialog } from "@/widgets/users/ui/addUserDialog";
 import AddIcon from "@mui/icons-material/Add";
 import UnfoldLessIcon from "@mui/icons-material/UnfoldLess";
 import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
@@ -17,6 +16,7 @@ import Select from "@mui/material/Select";
 import type { GridColDef, GridRenderCellParams, GridRowParams } from "@mui/x-data-grid/models";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { AddUserDialog } from "../actions/addUserDialog";
 
 const staticColumns: GridColDef<UserListItem>[] = [
   {
@@ -34,7 +34,7 @@ const staticColumns: GridColDef<UserListItem>[] = [
   },
 ];
 
-export const UsersTable = () => {
+const UsersTable = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -222,3 +222,5 @@ export const UsersTable = () => {
     </>
   );
 };
+
+export default UsersTable;

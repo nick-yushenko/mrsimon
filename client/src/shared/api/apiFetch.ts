@@ -10,6 +10,10 @@ export type ApiFetchOptions = Omit<RequestInit, "body"> & {
   mock?: boolean;
 };
 
+// important TODO уйти от multy-account auth и от использования getStoredAccessToken, так как это ломает логику для SSR
+// временно endpoint пропустит без accessToken
+
+// TODO переделать авторизацию архитектурно, чтобы ключ был не почта, а ник, так как у многих студентов детей нет своей личной почты и родители регистриуют их на свою, а если обучается несколько детей из семьи, происходит конфликт почт, так как нужно зарегистрировать на 1 почту несколько студентов (обсудить, обдумать)
 export async function apiFetch<TResponse>(
   path: string,
   options: ApiFetchOptions = {},

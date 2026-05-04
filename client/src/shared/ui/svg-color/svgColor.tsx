@@ -9,7 +9,6 @@ import type { SvgColorProps } from "./types";
 export function SvgColor({ src, className, sx, ...other }: SvgColorProps) {
   return (
     <SvgRoot
-      // TODO Check
       className={cn([svgColorClasses.root, className])}
       sx={[
         {

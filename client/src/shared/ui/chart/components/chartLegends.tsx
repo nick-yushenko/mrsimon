@@ -34,7 +34,6 @@ export function ChartLegends({
   ...other
 }: ChartLegendsProps) {
   return (
-    // TODO check
     <ListRoot className={cn([chartClasses.legends.root, className])} sx={sx} {...other}>
       {labels.map((series, index) => (
         <ItemWrap

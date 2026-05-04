@@ -29,6 +29,8 @@ type AddStudyGroupDialogProps = {
   onSuccess?: (group: StudyGroupDetails) => void | Promise<void>;
 };
 
+// TODO refactor, запросы не должны идти в момент открытия диалогового окна. Запрос fetchSubjects, должен идти в момент открытия выпадающего списка
+
 export const AddStudyGroupDialog = ({ open, onClose, onSuccess }: AddStudyGroupDialogProps) => {
   const subjects = useSubjectsStore((state) => state.items);
   const fetchSubjects = useSubjectsStore((state) => state.fetchSubjects);

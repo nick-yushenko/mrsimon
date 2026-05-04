@@ -27,6 +27,9 @@ export const usersApi = {
     const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
     await sleep(1000);
-    return apiClient.get<UsersSummary>(`/api/users/summary`);
+    // TODO изменить endpoint (на беке и затем на фронте)
+    return apiClient.get<UsersSummary>(`/api/users/summary`, {
+      cache: "no-store",
+    });
   },
 };
