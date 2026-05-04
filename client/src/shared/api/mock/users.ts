@@ -1,8 +1,10 @@
-import { UserDetails } from "@/entities/user/model/types";
+import type { UserDetails, UserListItem } from "@/entities/user/model/types";
 
-const roles: UserDetails["role"][] = ["Student", "Teacher", "Admin"];
+type MockUser = UserListItem & Pick<UserDetails, "avatar" | "note">;
 
-export const mockUsers: UserDetails[] = Array.from({ length: 200 }, (_, index) => {
+const roles: MockUser["role"][] = ["Student", "Teacher", "Admin"];
+
+export const mockUsers: MockUser[] = Array.from({ length: 200 }, (_, index) => {
   const userNumber = index + 1;
   const day = String((index % 28) + 1).padStart(2, "0");
 
