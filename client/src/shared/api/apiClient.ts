@@ -1,4 +1,6 @@
-import { apiFetch, ApiFetchOptions } from "./apiFetch";
+import type { ApiFetchOptions } from "./apiFetch";
+
+import { apiFetch } from "./apiFetch";
 
 export const apiClient = {
   get<TResponse>(path: string, options?: ApiFetchOptions) {

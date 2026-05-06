@@ -1,3 +1,4 @@
+// TODO переделать на профиль, и связывать его с пользователем
 export type UserRole = "Admin" | "Teacher" | "Student" | "User";
 
 export interface User {

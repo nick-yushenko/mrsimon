@@ -1,8 +1,9 @@
-import type { StudyGroupDetails } from "@/entities/studyGroup/model/types";
+import type { StudyGroupFormValues } from "../types";
 import type { Subject } from "@/entities/subject/model/types";
 import type { EntityFieldConfig } from "@/shared/ui/entityView";
+import type { StudyGroupDetails } from "@/entities/studyGroup/model/types";
+
 import z from "zod";
-import type { StudyGroupFormValues } from "../types";
 
 type StudyGroupSubjectOption = Pick<Subject, "id" | "name">;
 

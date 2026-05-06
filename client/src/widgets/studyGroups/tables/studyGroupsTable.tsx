@@ -1,25 +1,28 @@
 "use client";
 
+import type { DataGridToolbarAction } from "@/shared/ui/dataGrid/dataGridToolbar";
 import type { StudyGroupDetails, StudyGroupListItem } from "@/entities/studyGroup/model/types";
-import { StudyGroupCompactCard } from "@/entities/studyGroup/ui/studyGroupCompactCard";
+import type { GridColDef, GridRowParams, GridRenderCellParams } from "@mui/x-data-grid/models";
+
+import { usePathname, useSearchParams } from "next/navigation";
+import { useMemo, useState, useEffect, useCallback } from "react";
+
+import Chip from "@mui/material/Chip";
+import Alert from "@mui/material/Alert";
+import Switch from "@mui/material/Switch";
+import AddIcon from "@mui/icons-material/Add";
+import FormControlLabel from "@mui/material/FormControlLabel";
+
 import { useStudyGroupsStore } from "@/features/studyGroups/model/studyGroupsStore";
+
+import { StudyGroupCompactCard } from "@/entities/studyGroup/ui/studyGroupCompactCard";
+
 import { formatDate } from "@/shared/lib/format/date";
 import { formatCurrency } from "@/shared/lib/format/number";
 import { AppDataGrid } from "@/shared/ui/dataGrid/appDataGrid";
-import type { DataGridToolbarAction } from "@/shared/ui/dataGrid/dataGridToolbar";
 import { useDataGridSearch } from "@/shared/ui/dataGrid/useDataGridSearch";
-import type { MenuOptionAction } from "@/shared/ui/menu/menuOptions";
-import { AddStudyGroupDialog } from "@/widgets/studyGroups/ui/addStudyGroupDialog";
-import AddIcon from "@mui/icons-material/Add";
-import UnfoldLessIcon from "@mui/icons-material/UnfoldLess";
-import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
-import Alert from "@mui/material/Alert";
-import Chip from "@mui/material/Chip";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
-import type { GridColDef, GridRenderCellParams, GridRowParams } from "@mui/x-data-grid/models";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+
+import { AddDialog } from "../actions/addDialog";
 
 const statusLabels = {
   Active: "Активна",
@@ -76,10 +79,8 @@ const staticColumns: GridColDef<StudyGroupListItem>[] = [
 ];
 
 export const StudyGroupsTable = () => {
-  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [isHeightLimited, setIsHeightLimited] = useState(true);
   const [isAddGroupOpen, setIsAddGroupOpen] = useState(false);
 
   const fetchStudyGroups = useStudyGroupsStore((state) => state.fetchStudyGroups);
@@ -106,25 +107,19 @@ export const StudyGroupsTable = () => {
   const isLoading = useStudyGroupsStore((state) => state.isLoading);
   const error = useStudyGroupsStore((state) => state.error);
 
-  const openGroupDetails = useCallback(
+  const openGroup = useCallback(
     (id: number) => {
       const params = new URLSearchParams(searchParams.toString());
       params.set("groupId", String(id));
 
-      router.push(`${pathname}?${params.toString()}`, {
-        scroll: false,
-      });
+      window.history.pushState(null, "", `${pathname}?${params.toString()}`);
     },
-    [searchParams, pathname, router],
+    [searchParams, pathname],
   );
 
   const handleRowClick = (params: GridRowParams<StudyGroupListItem>) => {
-    openGroupDetails(params.row.id);
+    openGroup(params.row.id);
   };
-
-  const handleHeightLimitToggle = useCallback(() => {
-    setIsHeightLimited((value) => !value);
-  }, []);
 
   const handleAddGroupOpen = useCallback(() => {
     setIsAddGroupOpen(true);
@@ -147,12 +142,12 @@ export const StudyGroupsTable = () => {
       }
 
       setIsAddGroupOpen(false);
-      openGroupDetails(group.id);
+      openGroup(group.id);
     },
     [
       fetchStudyGroups,
       includeArchived,
-      openGroupDetails,
+      openGroup,
       page,
       pageSize,
       search,
@@ -174,22 +169,6 @@ export const StudyGroupsTable = () => {
     [handleAddGroupOpen],
   );
 
-  const toolbarMenuActions = useMemo<MenuOptionAction[]>(
-    () => [
-      {
-        id: "toggle-table-height",
-        label: isHeightLimited ? "Раскрыть таблицу" : "Ограничить высоту",
-        icon: isHeightLimited ? (
-          <UnfoldMoreIcon fontSize="small" />
-        ) : (
-          <UnfoldLessIcon fontSize="small" />
-        ),
-        onClick: handleHeightLimitToggle,
-      },
-    ],
-    [handleHeightLimitToggle, isHeightLimited],
-  );
-
   const archivedFilter = useMemo(
     () => (
       <FormControlLabel
@@ -208,9 +187,9 @@ export const StudyGroupsTable = () => {
 
   const renderGroupCell = useCallback(
     (params: GridRenderCellParams<StudyGroupListItem>) => (
-      <StudyGroupCompactCard {...params.row} onClick={() => openGroupDetails(params.row.id)} />
+      <StudyGroupCompactCard {...params.row} onClick={() => openGroup(params.row.id)} />
     ),
-    [openGroupDetails],
+    [openGroup],
   );
 
   const columns = useMemo<GridColDef<StudyGroupListItem>[]>(() => {
@@ -248,20 +227,18 @@ export const StudyGroupsTable = () => {
           onPageSizeChange: setPageSize,
         }}
         onRowClick={handleRowClick}
-        isHeightLimited={isHeightLimited}
         toolbarProps={{
           search: searchInput,
           onSearchChange: setSearchInput,
           leftSlot: archivedFilter,
           actions: toolbarActions,
-          menuActions: toolbarMenuActions,
         }}
         sx={{
           cursor: "pointer",
         }}
       />
 
-      <AddStudyGroupDialog
+      <AddDialog
         open={isAddGroupOpen}
         onClose={handleAddGroupClose}
         onSuccess={handleAddGroupSuccess}

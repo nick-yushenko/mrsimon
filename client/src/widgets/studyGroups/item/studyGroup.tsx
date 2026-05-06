@@ -1,22 +1,24 @@
 "use client";
 
-import { useCallback, useEffect, useMemo } from "react";
+import type { StudyGroupFormValues } from "@/features/studyGroups/types";
+
 import { toast } from "react-toastify/unstyled";
+import { useMemo, useEffect, useCallback } from "react";
+
+import { useSubjectsStore } from "@/features/subjects/model/subjectsStore";
+import { useStudyGroupsStore } from "@/features/studyGroups/model/studyGroupsStore";
 
 import {
   StudyGroupView,
   type StudyGroupViewActions,
 } from "@/entities/studyGroup/ui/studyGroupView";
-import { useSubjectsStore } from "@/features/subjects/model/subjectsStore";
-import { useStudyGroupsStore } from "@/features/studyGroups/model/studyGroupsStore";
-import type { StudyGroupFormValues } from "@/features/studyGroups/types";
 
 type StudyGroupDetailsViewProps = {
   id: string;
   variant?: "page" | "embedded";
 };
 
-export const StudyGroupDetailsView = ({ id, variant = "page" }: StudyGroupDetailsViewProps) => {
+export const StudyGroup = ({ id, variant = "page" }: StudyGroupDetailsViewProps) => {
   const fetchStudyGroupById = useStudyGroupsStore((state) => state.fetchStudyGroupById);
   const updateStudyGroup = useStudyGroupsStore((state) => state.updateStudyGroup);
   const archiveStudyGroup = useStudyGroupsStore((state) => state.archiveStudyGroup);

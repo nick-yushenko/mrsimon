@@ -1,10 +1,10 @@
+import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
-import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
+import CardContent from "@mui/material/CardContent";
+import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
 
 // TODO сделать этот компонент важными текущими уведомлениями (решить, системными или пользовательскими):
 // "9 марта учебный день", "Возможны неполадки в работе", "У вас задолженность 300р", "открыта запись на сдачу IELTS" и тд

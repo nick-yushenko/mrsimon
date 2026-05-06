@@ -1,15 +1,18 @@
 "use client";
 
-import { useUsersStore } from "@/features/users/model/usersStore";
-import { ResizableDrawer } from "@/shared/ui/resizableDrawer";
+import { useEffect } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
 
-import { UserDetailsView } from "./userDetailsView";
+import { useUsersStore } from "@/features/users/model/usersStore";
 
-export const UserDetailsDrawer = () => {
+import { ResizableDrawer } from "@/shared/ui/resizableDrawer";
+
+import { ProfileView } from "../profileView";
+
+export const ProfilePreview = () => {
   const theme = useTheme();
   const router = useRouter();
   const pathname = usePathname();
@@ -56,7 +59,7 @@ export const UserDetailsDrawer = () => {
         }}
       >
         <Box sx={{ overflowY: "auto", p: 2 }}>
-          {userId && <UserDetailsView id={userId} variant="embedded" />}
+          {userId && <ProfileView id={userId} variant="embedded" />}
         </Box>
       </ResizableDrawer>
     </Box>

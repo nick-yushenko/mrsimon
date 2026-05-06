@@ -1,25 +1,29 @@
 "use client";
 
-import type { StudyGroupDetails } from "@/entities/studyGroup/model/types";
-import { useSubjectsStore } from "@/features/subjects/model/subjectsStore";
-import {
-  createStudyGroupFormFields,
-  createEmptyStudyGroupFormValues,
-  normalizeStudyGroupFormValues,
-  studyGroupFormSchema,
-} from "@/features/studyGroups/model/studyGroupForm";
-import { useStudyGroupsStore } from "@/features/studyGroups/model/studyGroupsStore";
 import type { StudyGroupFormValues } from "@/features/studyGroups/types";
-import { EntityView } from "@/shared/ui/entityView";
+import type { StudyGroupDetails } from "@/entities/studyGroup/model/types";
+
+import { toast } from "react-toastify/unstyled";
+import { useMemo, useEffect, useCallback } from "react";
+
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
+import Typography from "@mui/material/Typography";
+import DialogTitle from "@mui/material/DialogTitle";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import Typography from "@mui/material/Typography";
-import { useCallback, useEffect, useMemo } from "react";
-import { toast } from "react-toastify/unstyled";
+
+import { useSubjectsStore } from "@/features/subjects/model/subjectsStore";
+import { useStudyGroupsStore } from "@/features/studyGroups/model/studyGroupsStore";
+import {
+  studyGroupFormSchema,
+  createStudyGroupFormFields,
+  normalizeStudyGroupFormValues,
+  createEmptyStudyGroupFormValues,
+} from "@/features/studyGroups/model/studyGroupForm";
+
+import { EntityView } from "@/shared/ui/entityView";
 
 const FORM_ID = "add-study-group-form";
 
@@ -30,8 +34,7 @@ type AddStudyGroupDialogProps = {
 };
 
 // TODO refactor, запросы не должны идти в момент открытия диалогового окна. Запрос fetchSubjects, должен идти в момент открытия выпадающего списка
-
-export const AddStudyGroupDialog = ({ open, onClose, onSuccess }: AddStudyGroupDialogProps) => {
+export const AddDialog = ({ open, onClose, onSuccess }: AddStudyGroupDialogProps) => {
   const subjects = useSubjectsStore((state) => state.items);
   const fetchSubjects = useSubjectsStore((state) => state.fetchSubjects);
   const createSubject = useSubjectsStore((state) => state.createSubject);

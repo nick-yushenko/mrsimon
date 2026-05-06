@@ -1,18 +1,18 @@
 "use client";
 
 import type { CardProps } from "@mui/material/Card";
+import type { PaletteColorKey } from "@/shared/theme/themeConfig";
 
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import { useTheme } from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
 
-import { varAlpha } from "@/shared/theme/utils";
-import { PaletteColorKey } from "@/shared/theme/themeConfig";
 import { Chart } from "@/shared/ui/chart";
+import { varAlpha } from "@/shared/theme/utils";
 import { SvgColor } from "@/shared/ui/svg-color";
 import { SkeletonIcon } from "@/shared/ui/skeleton/icon";
 import { SkeletonTypography } from "@/shared/ui/skeleton/typography";
-import Typography from "@mui/material/Typography";
 
 type Props = CardProps & {
   title: string;

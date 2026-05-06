@@ -1,9 +1,13 @@
 "use client";
 
-import Card, { type CardProps } from "@mui/material/Card";
-import type { SxProps, Theme } from "@mui/material/styles";
-import { DataGrid } from "@mui/x-data-grid/DataGrid";
+import type { Theme, SxProps } from "@mui/material/styles";
 import type { DataGridProps, GridValidRowModel } from "@mui/x-data-grid";
+
+import { useState, useCallback } from "react";
+
+import { DataGrid } from "@mui/x-data-grid/DataGrid";
+import Card, { type CardProps } from "@mui/material/Card";
+
 import { DataGridToolbar, type DataGridToolbarProps } from "./dataGridToolbar";
 import {
   useServerPaginationModel,
@@ -15,8 +19,8 @@ export type AppDataGridServerPagination = UseServerPaginationModelOptions;
 export type AppDataGridProps<R extends GridValidRowModel = GridValidRowModel> = DataGridProps<R> & {
   cardProps?: Omit<CardProps, "children">;
   height?: number | string;
-  isHeightLimited?: boolean;
   minHeight?: number | string;
+  defaultHeightLimited?: boolean;
   serverPagination?: AppDataGridServerPagination;
   toolbarProps?: DataGridToolbarProps;
 };
@@ -28,8 +32,8 @@ const noop = () => undefined;
 export const AppDataGrid = <R extends GridValidRowModel = GridValidRowModel>({
   cardProps,
   height = 432,
-  isHeightLimited = true,
   minHeight = 432,
+  defaultHeightLimited = false,
   serverPagination,
   showToolbar,
   slotProps,
@@ -38,6 +42,12 @@ export const AppDataGrid = <R extends GridValidRowModel = GridValidRowModel>({
   toolbarProps,
   ...dataGridProps
 }: AppDataGridProps<R>) => {
+  const [isHeightLimited, setIsHeightLimited] = useState<boolean>(defaultHeightLimited);
+
+  const handleHeightLimitToggle = useCallback(() => {
+    setIsHeightLimited((value) => !value);
+  }, []);
+
   const serverPaginationModel = useServerPaginationModel({
     page: serverPagination?.page ?? 1,
     pageSize: serverPagination?.pageSize ?? 5,
@@ -86,6 +96,8 @@ export const AppDataGrid = <R extends GridValidRowModel = GridValidRowModel>({
           toolbar: {
             ...toolbarProps,
             ...(slotProps?.toolbar as object | undefined),
+            isHeightLimited,
+            handleHeightLimitToggle: handleHeightLimitToggle,
           },
         }}
         sx={toSxArray(sx)}

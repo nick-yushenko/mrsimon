@@ -1,4 +1,4 @@
-import { Theme, Components } from "@mui/material/styles";
+import type { Theme, Components } from "@mui/material/styles";
 
 export const surfacesCustomizations: Components<Theme> = {
   MuiPaper: {

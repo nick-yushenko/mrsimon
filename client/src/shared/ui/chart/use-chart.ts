@@ -1,10 +1,10 @@
+import type { ChartOptions } from "./types";
 import type { Theme } from "@mui/material/styles";
 
 import { merge } from "es-toolkit";
 
 import { useTheme } from "@mui/material/styles";
 
-import type { ChartOptions } from "./types";
 import { varAlpha } from "@/shared/theme/utils";
 
 // ----------------------------------------------------------------------

@@ -1,19 +1,21 @@
 "use client";
 
-import { ReactNode } from "react";
+import "react-toastify/ReactToastify.css";
 
-import AppNavbar from "./ui/AppNavbar";
-import SideMenu from "./ui/SideMenu";
+import type { ReactNode } from "react";
+
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import CssBaseline from "@mui/material/CssBaseline";
+import { alpha, ThemeProvider } from "@mui/material/styles";
+
 import { Header } from "@/widgets/header";
+
 import { theme } from "@/shared/theme/theme";
 import { AppToastContainer } from "@/shared/ui/toast/appToastContainer";
 
-import "react-toastify/ReactToastify.css";
-
-import { alpha, ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
+import SideMenu from "./ui/SideMenu";
+import AppNavbar from "./ui/AppNavbar";
 
 type TProps = {
   children: ReactNode | ReactNode[];

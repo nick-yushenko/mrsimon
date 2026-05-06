@@ -1,7 +1,9 @@
-import { User, UserDetails, UserListItem } from "@/entities/user/model/types";
+import type { GetUsersParams } from "../types";
+import type { UserDetails, UserListItem } from "@/entities/user/model/types";
+
 import { create } from "zustand";
+
 import { usersApi } from "../api/usersApi";
-import { GetUsersParams } from "../types";
 
 type UsersState = {
   items: UserListItem[];

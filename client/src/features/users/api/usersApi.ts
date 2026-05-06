@@ -1,7 +1,8 @@
-import type { UserDetails, UserListItem } from "@/entities/user/model/types";
 import type { PagedResult } from "@/shared/api/types";
+import type { UsersSummary, GetUsersParams } from "../types";
+import type { UserDetails, UserListItem } from "@/entities/user/model/types";
+
 import { apiClient } from "@/shared/api/apiClient";
-import { GetUsersParams, UsersSummary } from "../types";
 
 export const usersApi = {
   getUsers: async ({ page = 1, pageSize = 20, search = "" }: GetUsersParams = {}): Promise<

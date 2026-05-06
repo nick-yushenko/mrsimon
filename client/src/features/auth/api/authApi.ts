@@ -1,5 +1,6 @@
 import type { User } from "@/entities/user/model/types";
-import { AuthResponse, LoginRequest, RegisterRequest } from "../types";
+import type { AuthResponse, LoginRequest, RegisterRequest } from "../types";
+
 import { apiClient } from "@/shared/api/apiClient";
 
 export const authApi = {

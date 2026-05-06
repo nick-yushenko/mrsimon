@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useMemo } from "react";
 import type { GridPaginationModel } from "@mui/x-data-grid";
+
+import { useMemo, useCallback } from "react";
 
 export type UseServerPaginationModelOptions = {
   page: number;

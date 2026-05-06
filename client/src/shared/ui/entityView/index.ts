@@ -1,9 +1,9 @@
 export { EntityView } from "./entityView";
 export type { EntityViewProps } from "./entityView";
 export type {
-  EntityFieldConfig,
   EntityFieldKind,
+  EntityFieldConfig,
   EntityFieldOption,
-  EntityFieldRenderParams,
   EntityViewLayoutItem,
+  EntityFieldRenderParams,
 } from "./types";

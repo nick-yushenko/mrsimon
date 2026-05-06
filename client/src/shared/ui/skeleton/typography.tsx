@@ -1,8 +1,9 @@
 "use client";
 
+import type { Theme, SxProps } from "@mui/material/styles";
+
 import Skeleton, { type SkeletonProps } from "@mui/material/Skeleton";
 import Typography, { type TypographyProps } from "@mui/material/Typography";
-import type { SxProps, Theme } from "@mui/material/styles";
 
 type SkeletonTypographyProps = TypographyProps & {
   loading?: boolean;

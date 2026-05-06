@@ -1,4 +1,4 @@
-import { StudyGroupDetailsView } from "@/widgets/studyGroup/ui/studyGroupDetailsView";
+import { StudyGroup } from "@/widgets/studyGroups/item/studyGroup";
 
 type TProps = {
   params: {
@@ -9,5 +9,5 @@ type TProps = {
 export default async function GroupPage({ params }: TProps) {
   const { id } = await params;
 
-  return <StudyGroupDetailsView id={id} />;
+  return <StudyGroup id={id} />;
 }

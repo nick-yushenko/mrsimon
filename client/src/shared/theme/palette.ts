@@ -1,6 +1,7 @@
 import type { ThemeOptions } from "@mui/material/styles";
-import { createPaletteChannel, varAlpha } from "./utils";
+
 import { themeConfig } from "./themeConfig";
+import { varAlpha, createPaletteChannel } from "./utils";
 
 export const primary = createPaletteChannel(themeConfig.palette.primary);
 export const secondary = createPaletteChannel(themeConfig.palette.secondary);

@@ -1,24 +1,28 @@
 "use client";
 
+import type { SessionId } from "@/features/auth/types";
+import type { User } from "@/entities/user/model/types";
+import type { SelectChangeEvent } from "@mui/material/Select";
+
 import { useState } from "react";
 
+import Divider from "@mui/material/Divider";
 import MuiAvatar from "@mui/material/Avatar";
-import MuiListItemAvatar from "@mui/material/ListItemAvatar";
 import MenuItem from "@mui/material/MenuItem";
+import { styled } from "@mui/material/styles";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListSubheader from "@mui/material/ListSubheader";
-import Select, { SelectChangeEvent, selectClasses } from "@mui/material/Select";
-import Divider from "@mui/material/Divider";
-import { styled } from "@mui/material/styles";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import MuiListItemAvatar from "@mui/material/ListItemAvatar";
+import Select, { selectClasses } from "@mui/material/Select";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import DevicesRoundedIcon from "@mui/icons-material/DevicesRounded";
 import ConstructionRoundedIcon from "@mui/icons-material/ConstructionRounded";
-import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
-import { useAuthStore } from "@/features/auth/model/authStore";
-import { User } from "@/entities/user/model/types";
-import { SessionId } from "@/features/auth/types";
+
 import { AddAccount } from "@/widgets/auth/ui/addAccount";
+
+import { useAuthStore } from "@/features/auth/model/authStore";
 
 const Avatar = styled(MuiAvatar)(({ theme }) => ({
   width: 28,

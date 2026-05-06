@@ -1,8 +1,11 @@
-import type { Subject } from "@/entities/subject/model/types";
-import { getApiErrorMessage } from "@/shared/api/apiError";
-import { create } from "zustand";
-import { subjectsApi } from "../api/subjectsApi";
 import type { CreateSubjectRequest } from "../types";
+import type { Subject } from "@/entities/subject/model/types";
+
+import { create } from "zustand";
+
+import { getApiErrorMessage } from "@/shared/api/apiError";
+
+import { subjectsApi } from "../api/subjectsApi";
 
 type SubjectsState = {
   items: Subject[];

@@ -16,6 +16,7 @@ public class AppDbContext : DbContext
 
     public DbSet<GroupMember> GroupMembers { get; set; }
 
+		// TODO вынести отдельно
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

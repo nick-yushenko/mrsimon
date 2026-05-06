@@ -1,16 +1,17 @@
 "use client";
 
+import Stack from "@mui/material/Stack";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
-import Drawer, { drawerClasses } from "@mui/material/Drawer";
-import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import Drawer, { drawerClasses } from "@mui/material/Drawer";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
-import MenuButton from "../../../shared/ui/menu/menuButton";
+
 import CardAlert from "./CardAlert";
 import MenuContent from "./MenuContent";
+import MenuButton from "../../../shared/ui/menu/menuButton";
 
 interface SideMenuMobileProps {
   open: boolean | undefined;

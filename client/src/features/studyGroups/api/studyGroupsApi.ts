@@ -1,11 +1,12 @@
-import type { StudyGroupDetails, StudyGroupListItem } from "@/entities/studyGroup/model/types";
-import { apiClient } from "@/shared/api/apiClient";
 import type { PagedResult } from "@/shared/api/types";
+import type { StudyGroupDetails, StudyGroupListItem } from "@/entities/studyGroup/model/types";
 import type {
-  CreateStudyGroupRequest,
   GetStudyGroupsParams,
+  CreateStudyGroupRequest,
   UpdateStudyGroupRequest,
 } from "../types";
+
+import { apiClient } from "@/shared/api/apiClient";
 
 export const studyGroupsApi = {
   getStudyGroups: async ({

@@ -1,5 +1,5 @@
 import { varAlpha } from "./utils";
-import { grey, primary, secondary, info, success, warning, error } from "./palette";
+import { grey, info, error, primary, success, warning, secondary } from "./palette";
 
 export const customShadows = {
   z1: `0 1px 2px 0 ${varAlpha(grey["500Channel"], 0.16)}`,

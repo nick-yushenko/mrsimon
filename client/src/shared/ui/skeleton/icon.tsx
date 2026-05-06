@@ -1,9 +1,10 @@
 "use client";
 
+import type { ReactNode } from "react";
+import type { Theme, SxProps } from "@mui/material/styles";
+
 import Box, { type BoxProps } from "@mui/material/Box";
 import Skeleton, { type SkeletonProps } from "@mui/material/Skeleton";
-import type { SxProps, Theme } from "@mui/material/styles";
-import type { ReactNode } from "react";
 
 type SkeletonIconProps = Omit<BoxProps, "children"> & {
   children?: ReactNode;

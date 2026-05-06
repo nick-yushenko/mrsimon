@@ -1,6 +1,6 @@
 export {
   ContainerGridItem,
+  type ContainerGridSize,
   getContainerGridSpanStyles,
   type ContainerGridItemProps,
-  type ContainerGridSize,
 } from "./containerGridItem";

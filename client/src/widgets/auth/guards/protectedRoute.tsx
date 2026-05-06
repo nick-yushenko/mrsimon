@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, type ReactNode } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
-import { useAuthStore } from "@/features/auth/model/authStore";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+
+import { useAuthStore } from "@/features/auth/model/authStore";
 
 type ProtectedRouteProps = {
   children: ReactNode;

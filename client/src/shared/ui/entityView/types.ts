@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { FieldValues, Path, UseFormReturn } from "react-hook-form";
+import type { Path, FieldValues, UseFormReturn } from "react-hook-form";
 
 export type EntityFieldKind =
   | "text"

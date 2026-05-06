@@ -1,15 +1,15 @@
+import type { ChartProps } from "./types";
+
+import cn from "classnames";
 import { lazy, Suspense } from "react";
 
 import { styled } from "@mui/material/styles";
+
 import { useIsClient } from "@/shared/lib/hooks/useIsClient";
 
 import { chartClasses } from "./classes";
 import { ChartLoading } from "./components";
 
-import type { ChartProps } from "./types";
-
-import cn from "classnames";
-import ApexChart from "react-apexcharts";
 const LazyChart = lazy(() =>
   import("react-apexcharts").then((module) => ({ default: module.default })),
 );

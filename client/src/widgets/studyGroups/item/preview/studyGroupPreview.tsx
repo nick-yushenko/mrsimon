@@ -1,15 +1,18 @@
 "use client";
 
-import { useStudyGroupsStore } from "@/features/studyGroups/model/studyGroupsStore";
-import { ResizableDrawer } from "@/shared/ui/resizableDrawer";
+import { useEffect } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
 
-import { StudyGroupDetailsView } from "./studyGroupDetailsView";
+import { useStudyGroupsStore } from "@/features/studyGroups/model/studyGroupsStore";
 
-export const StudyGroupDetailsDrawer = () => {
+import { ResizableDrawer } from "@/shared/ui/resizableDrawer";
+
+import { StudyGroup } from "../studyGroup";
+
+export const StudyGroupPreview = () => {
   const theme = useTheme();
   const router = useRouter();
   const pathname = usePathname();
@@ -56,7 +59,7 @@ export const StudyGroupDetailsDrawer = () => {
         }}
       >
         <Box sx={{ overflowY: "auto", p: 2 }}>
-          {groupId && <StudyGroupDetailsView id={groupId} variant="embedded" />}
+          {groupId && <StudyGroup id={groupId} variant="embedded" />}
         </Box>
       </ResizableDrawer>
     </Box>

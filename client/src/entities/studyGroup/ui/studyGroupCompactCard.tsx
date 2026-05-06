@@ -1,11 +1,12 @@
 "use client";
 
 import type { StudyGroupListItem } from "@/entities/studyGroup/model/types";
-import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
-import Avatar from "@mui/material/Avatar";
+
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
+import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
+import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
 
 type StudyGroupCompactCardProps = StudyGroupListItem & {
   onClick?: () => void;

@@ -1,18 +1,19 @@
 "use client";
 
 import * as React from "react";
-import { styled } from "@mui/material/styles";
-import Divider, { dividerClasses } from "@mui/material/Divider";
+
 import Menu from "@mui/material/Menu";
+import { styled } from "@mui/material/styles";
 import MuiMenuItem from "@mui/material/MenuItem";
-import { paperClasses } from "@mui/material/Paper";
 import { listClasses } from "@mui/material/List";
+import { paperClasses } from "@mui/material/Paper";
 import ListItemText from "@mui/material/ListItemText";
-import ListItemIcon, { listItemIconClasses } from "@mui/material/ListItemIcon";
+import Divider, { dividerClasses } from "@mui/material/Divider";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
+import ListItemIcon, { listItemIconClasses } from "@mui/material/ListItemIcon";
+
 import MenuButton from "../../../shared/ui/menu/menuButton";
-import { useAuthStore } from "@/features/auth/model/authStore";
 
 const MenuItem = styled(MuiMenuItem)({
   margin: "2px 0",

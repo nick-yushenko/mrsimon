@@ -1,8 +1,8 @@
-import { UserDetailsDrawer } from "@/widgets/user/ui/userDetailsDrawer";
+import Stack from "@mui/material/Stack";
+
 import UsersStats from "@/widgets/users/stats";
 import UsersTable from "@/widgets/users/tables/usersTable";
-import Stack from "@mui/material/Stack";
-import { Suspense } from "react";
+import { ProfilePreview } from "@/widgets/profile/preview/profilePreview";
 
 export default function UsersPage() {
   return (
@@ -10,7 +10,7 @@ export default function UsersPage() {
       <UsersStats />
 
       <UsersTable />
-      <UserDetailsDrawer />
+      <ProfilePreview />
     </Stack>
   );
 }

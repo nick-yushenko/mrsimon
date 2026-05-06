@@ -1,7 +1,8 @@
 import type { LoginRequest } from "@/features/auth/types";
+
 import { NextResponse } from "next/server";
 
-import { getAuthResponseByEmail, isServerError } from "../mockAuth";
+import { isServerError, getAuthResponseByEmail } from "../mockAuth";
 
 export async function POST(request: Request) {
   if (isServerError) {

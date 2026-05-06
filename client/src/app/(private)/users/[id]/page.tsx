@@ -1,4 +1,4 @@
-import { UserDetailsView } from "@/widgets/user/ui/userDetailsView";
+import { ProfileView } from "@/widgets/profile/profileView";
 
 type TProps = {
   params: {
@@ -9,5 +9,5 @@ type TProps = {
 export default async function UserPage({ params }: TProps) {
   const { id } = await params;
 
-  return <UserDetailsView id={id} />;
+  return <ProfileView id={id} />;
 }

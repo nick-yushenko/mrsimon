@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { getUserByAccessToken, isAuth, isServerError } from "../mockAuth";
+import { isAuth, isServerError, getUserByAccessToken } from "../mockAuth";
 
 export async function GET(request: Request) {
   if (isServerError) {

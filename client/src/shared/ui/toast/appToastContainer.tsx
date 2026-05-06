@@ -1,8 +1,10 @@
 "use client";
 
-import { GlobalStyles } from "@mui/material";
-import { ToastContainer } from "react-toastify/unstyled";
 import "react-toastify/ReactToastify.css";
+
+import { ToastContainer } from "react-toastify/unstyled";
+
+import { GlobalStyles } from "@mui/material";
 
 export function AppToastContainer() {
   return (

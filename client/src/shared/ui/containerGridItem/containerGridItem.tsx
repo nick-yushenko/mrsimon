@@ -1,10 +1,11 @@
 "use client";
 
+import type { SxProps } from "@mui/material/styles";
+import type { GridSize, GridProps } from "@mui/material/Grid";
+import type { Theme, CSSObject, Breakpoint } from "@mui/material/styles";
+
 import { forwardRef } from "react";
 
-import type { Breakpoint, CSSObject, Theme } from "@mui/material/styles";
-import type { GridProps, GridSize } from "@mui/material/Grid";
-import type { SxProps } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 
 export type ContainerGridSize = Partial<Record<Breakpoint, GridSize>>;

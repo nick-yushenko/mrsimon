@@ -1,7 +1,10 @@
-import { formatMonthFromParts } from "@/shared/lib/format/date";
+import type { PaletteColorKey } from "@/shared/theme/themeConfig";
+
 import { usersApi } from "@/features/users/api/usersApi";
+
+import { formatMonthFromParts } from "@/shared/lib/format/date";
+
 import { StatsWidget } from "./ui/widget";
-import { PaletteColorKey } from "@/shared/theme/themeConfig";
 
 type TProps = {
   color?: PaletteColorKey;
@@ -16,7 +19,7 @@ export const TotalUsersStat = async ({ color }: TProps) => {
       percent={data.monthlyGrowthPercent}
       total={data.total}
       color={color}
-      iconSrc={"/assets/icons/glass/ic-glass-users-primary.svg"}
+      iconSrc={`/assets/icons/glass/ic-glass-users-${color}.svg`}
       chart={{
         categories: monthlyData.map((item) => formatMonthFromParts(item.year, item.month)),
         series: monthlyData.map((item) => item.count),

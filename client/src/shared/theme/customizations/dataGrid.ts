@@ -1,12 +1,15 @@
-import type { Components, Theme } from "@mui/material/styles";
 import type {} from "@mui/x-data-grid/themeAugmentation";
+import type { Theme, Components } from "@mui/material/styles";
 
 export const dataGridCustomizations: Components<Theme> = {
   MuiDataGrid: {
     defaultProps: {
       disableRowSelectionOnClick: true,
       disableColumnMenu: true,
-      pageSizeOptions: [5, 10, 25],
+      pageSizeOptions: [5, 10, 25, 50],
+      localeText: {
+        // paginationRowsPerPage: "Число строк",
+      },
 
       columnHeaderHeight: 48,
       rowHeight: 48,

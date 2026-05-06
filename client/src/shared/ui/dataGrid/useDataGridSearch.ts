@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+
 import { useDebouncedValue } from "@/shared/lib/hooks/useDebounce";
 
 export type UseDataGridSearchOptions = {

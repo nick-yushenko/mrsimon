@@ -1,13 +1,14 @@
 "use client";
 
+import { createTheme } from "@mui/material/styles";
+
 import { palette } from "./palette";
-import { typography } from "./typography";
 import { shadows } from "./shadows";
+import { typography } from "./typography";
+import { createContainerQueries } from "./containerQueries";
+import { inputsCustomizations } from "./customizations/inputs";
 import { dataGridCustomizations } from "./customizations/dataGrid";
 import { surfacesCustomizations } from "./customizations/surfaces";
-import { createTheme } from "@mui/material/styles";
-import { inputsCustomizations } from "./customizations/inputs";
-import { createContainerQueries } from "./containerQueries";
 
 export const theme = createTheme({
   cssVariables: {

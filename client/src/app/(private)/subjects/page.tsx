@@ -1,25 +1,29 @@
 "use client";
 
-import { Subject } from "@/entities/subject/model/types";
+import type { Subject } from "@/entities/subject/model/types";
+import type { CreateSubjectRequest } from "@/features/subjects/types";
+
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify/unstyled";
+
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import Tooltip from "@mui/material/Tooltip";
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import CircularProgress from "@mui/material/CircularProgress";
+import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
+
 import { createEmptySubject } from "@/features/subjects/model/subjectForm";
 import { useSubjectsStore } from "@/features/subjects/model/subjectsStore";
-import { CreateSubjectRequest } from "@/features/subjects/types";
+
 import { ChipsAutocomplete } from "@/shared/ui/autocomplete/chipsAutocomplete";
-import AddRoundedIcon from "@mui/icons-material/AddRounded";
-import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
-import Alert from "@mui/material/Alert";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
-import CircularProgress from "@mui/material/CircularProgress";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
-import Tooltip from "@mui/material/Tooltip";
-import Typography from "@mui/material/Typography";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify/unstyled";
 
 export default function SubjectsPage() {
   const [form, setForm] = useState<CreateSubjectRequest>(createEmptySubject);

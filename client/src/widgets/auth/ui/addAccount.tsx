@@ -1,15 +1,18 @@
 "use client";
 
-import { LoginForm, LoginFormValues } from "@/features/auth/ui/loginForm";
+import type { LoginFormValues } from "@/features/auth/ui/loginForm";
+
+import { toast } from "react-toastify/unstyled";
 
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
 import Typography from "@mui/material/Typography";
 import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+
+import { LoginForm } from "@/features/auth/ui/loginForm";
 import { useAuthStore } from "@/features/auth/model/authStore";
-import { toast } from "react-toastify/unstyled";
 
 const FORM_ID = "login-form";
 

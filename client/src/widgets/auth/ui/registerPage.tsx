@@ -1,16 +1,17 @@
 "use client";
 
+import type { RegisterFormValues } from "@/features/auth/ui/registerForm";
+
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-import { useAuthStore } from "@/features/auth/model/authStore";
-import { RegisterForm, RegisterFormValues } from "@/features/auth/ui/registerForm";
-
-import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
+import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+
+import { useAuthStore } from "@/features/auth/model/authStore";
+import { RegisterForm } from "@/features/auth/ui/registerForm";
 
 const FORM_ID = "register-page-form";
 

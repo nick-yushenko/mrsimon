@@ -1,15 +1,19 @@
 "use client";
 
-import { Fragment, MouseEvent, ReactNode, useId, useState } from "react";
+import type { ReactNode, MouseEvent } from "react";
+import type { Theme, SxProps } from "@mui/material/styles";
+import type { MenuItemProps } from "@mui/material/MenuItem";
+import type { IconButtonProps } from "@mui/material/IconButton";
 
-import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
+import { useId, Fragment, useState } from "react";
+
+import Menu from "@mui/material/Menu";
 import Divider from "@mui/material/Divider";
-import IconButton, { IconButtonProps } from "@mui/material/IconButton";
+import MenuItem from "@mui/material/MenuItem";
+import IconButton from "@mui/material/IconButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import Menu from "@mui/material/Menu";
-import MenuItem, { MenuItemProps } from "@mui/material/MenuItem";
-import { SxProps, Theme } from "@mui/material/styles";
+import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 
 export type MenuOptionAction = {
   id: string;

@@ -1,8 +1,11 @@
 "use client";
 
-import { SyntheticEvent, useMemo, useState } from "react";
-import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
+import type { SyntheticEvent } from "react";
+
+import { useMemo, useState } from "react";
+
 import TextField from "@mui/material/TextField";
+import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 
 type CreateOption = {
   __creatableAutocompleteCreateOption: true;

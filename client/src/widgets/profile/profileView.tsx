@@ -1,17 +1,19 @@
 "use client";
 
-import { useCallback, useEffect, useMemo } from "react";
+import type { UserDetails } from "@/entities/user/model/types";
+
+import { useMemo, useEffect, useCallback } from "react";
+
+import { useUsersStore } from "@/features/users/model/usersStore";
 
 import { UserView, type UserViewActions } from "@/entities/user/ui/userView";
-import type { UserDetails } from "@/entities/user/model/types";
-import { useUsersStore } from "@/features/users/model/usersStore";
 
 type TProps = {
   id: string;
   variant?: "page" | "embedded";
 };
 
-export const UserDetailsView = ({ id, variant = "page" }: TProps) => {
+export const ProfileView = ({ id, variant = "page" }: TProps) => {
   const fetchUserById = useUsersStore((state) => state.fetchUserById);
   const user = useUsersStore((state) => state.selectedUser);
   const isLoading = useUsersStore((state) => state.isDetailsLoading);

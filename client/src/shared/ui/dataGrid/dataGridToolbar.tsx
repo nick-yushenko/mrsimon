@@ -1,17 +1,24 @@
 "use client";
 
-import { ReactNode, useState } from "react";
-import { ExportCsv, Toolbar } from "@mui/x-data-grid";
+import type { ReactNode } from "react";
+import type { Theme, SxProps } from "@mui/material/styles";
 import type { GridCsvExportOptions } from "@mui/x-data-grid/models";
+
+import { useMemo, useState } from "react";
+
+import Stack from "@mui/material/Stack";
+import MenuItem from "@mui/material/MenuItem";
+import { useTheme } from "@mui/material/styles";
+import SearchIcon from "@mui/icons-material/Search";
+import { Toolbar, ExportCsv } from "@mui/x-data-grid";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import InputAdornment from "@mui/material/InputAdornment";
+import UnfoldLessIcon from "@mui/icons-material/UnfoldLess";
+import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import Button, { type ButtonProps } from "@mui/material/Button";
-import InputAdornment from "@mui/material/InputAdornment";
-import MenuItem from "@mui/material/MenuItem";
-import SearchIcon from "@mui/icons-material/Search";
-import Stack from "@mui/material/Stack";
-import { SxProps, Theme, useTheme } from "@mui/material/styles";
 import TextField, { type TextFieldProps } from "@mui/material/TextField";
-import useMediaQuery from "@mui/material/useMediaQuery";
+
 import { MenuOptions, type MenuOptionAction, type MenuOptionsProps } from "../menu/menuOptions";
 
 export type DataGridToolbarLayoutProps = {
@@ -179,31 +186,30 @@ export const DataGridToolbarActions = ({ actions = [], sx }: DataGridToolbarActi
   );
 };
 
-export type DataGridExportCsvActionOptions = {
+export type DataGridActionOptions = {
   id?: string;
   label?: ReactNode;
   icon?: ReactNode;
   options?: GridCsvExportOptions;
-  dividerBefore?: boolean;
-  dividerAfter?: boolean;
   disabled?: boolean;
+};
+
+type DataGridHeightActionOptions = DataGridActionOptions & {
+  isHeightLimited?: boolean;
+  onClick?: () => void;
 };
 
 export const createDataGridExportCsvAction = ({
   disabled,
-  dividerAfter,
-  dividerBefore,
   icon = <FileDownloadIcon fontSize="small" />,
   id = "export-csv",
   label = "Экспорт CSV",
   options,
-}: DataGridExportCsvActionOptions = {}): MenuOptionAction => ({
+}: DataGridActionOptions = {}): MenuOptionAction => ({
   id,
   label,
   icon,
   disabled,
-  dividerAfter,
-  dividerBefore,
   render: ({ closeMenu, content, menuItemProps }) => (
     <ExportCsv
       disabled={disabled}
@@ -214,29 +220,58 @@ export const createDataGridExportCsvAction = ({
   ),
 });
 
+export const createDataGridToggleHeightAction = ({
+  disabled,
+  id = "toggle-table-height",
+  isHeightLimited,
+  onClick,
+}: DataGridHeightActionOptions = {}): MenuOptionAction => ({
+  id,
+  label: isHeightLimited ? "Раскрыть таблицу" : "Ограничить высоту",
+  icon: isHeightLimited ? <UnfoldMoreIcon fontSize="small" /> : <UnfoldLessIcon fontSize="small" />,
+  disabled,
+  onClick,
+});
+
 export type DataGridToolbarActionsMenuProps = Omit<MenuOptionsProps, "actions"> & {
   actions?: MenuOptionAction[];
-  csvExport?: boolean | DataGridExportCsvActionOptions;
+  csvExport?: boolean | DataGridActionOptions;
+  isHeightLimited?: boolean;
+  handleHeightLimitToggle?: () => void;
 };
 
+// TODO настроить функцию экспорта данных для сложных колонок
 export const DataGridToolbarActionsMenu = ({
   actions = [],
   ariaLabel = "Действия с таблицей",
   csvExport = true,
+  isHeightLimited = false,
+  handleHeightLimitToggle,
   ...props
 }: DataGridToolbarActionsMenuProps) => {
-  const csvAction =
-    csvExport === false
-      ? null
-      : createDataGridExportCsvAction(typeof csvExport === "object" ? csvExport : undefined);
-
-  return (
-    <MenuOptions
-      {...props}
-      ariaLabel={ariaLabel}
-      actions={csvAction ? [...actions, csvAction] : actions}
-    />
+  const csvAction = useMemo(
+    () =>
+      csvExport === false
+        ? null
+        : createDataGridExportCsvAction(typeof csvExport === "object" ? csvExport : undefined),
+    [csvExport],
   );
+  const toggleHeightAction = useMemo(
+    () =>
+      createDataGridToggleHeightAction({
+        isHeightLimited,
+        onClick: handleHeightLimitToggle,
+      }),
+    [isHeightLimited, handleHeightLimitToggle],
+  );
+
+  const menuActions = useMemo(() => {
+    const baseActions = [...actions, toggleHeightAction];
+
+    return csvAction ? [...baseActions, csvAction] : baseActions;
+  }, [actions, toggleHeightAction, csvAction]);
+
+  return <MenuOptions {...props} ariaLabel={ariaLabel} actions={menuActions} />;
 };
 
 export type DataGridToolbarProps = {
@@ -244,7 +279,9 @@ export type DataGridToolbarProps = {
   leftSlot?: ReactNode;
   menuActions?: MenuOptionAction[];
   onSearchChange?: (val: string) => void;
+  handleHeightLimitToggle?: () => void;
   rightSlot?: ReactNode;
+  isHeightLimited?: boolean;
   search?: string;
 };
 
@@ -253,7 +290,9 @@ export const DataGridToolbar = ({
   leftSlot,
   menuActions,
   onSearchChange,
+  handleHeightLimitToggle,
   rightSlot,
+  isHeightLimited,
   search = "",
 }: DataGridToolbarProps) => {
   return (
@@ -261,7 +300,11 @@ export const DataGridToolbar = ({
       {onSearchChange && <DataGridToolbarSearch value={search} onChange={onSearchChange} />}
       <DataGridToolbarActions actions={actions} />
       {rightSlot}
-      <DataGridToolbarActionsMenu actions={menuActions} />
+      <DataGridToolbarActionsMenu
+        actions={menuActions}
+        isHeightLimited={isHeightLimited}
+        handleHeightLimitToggle={handleHeightLimitToggle}
+      />
     </DataGridToolbarLayout>
   );
 };

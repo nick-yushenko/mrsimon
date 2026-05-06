@@ -1,30 +1,33 @@
 "use client";
 
-import { useCallback, useMemo } from "react";
-
-import type { StudyGroupDetails } from "@/entities/studyGroup/model/types";
 import type { Subject } from "@/entities/subject/model/types";
-import {
-  createStudyGroupFormFields,
-  normalizeStudyGroupFormValues,
-  studyGroupFormSchema,
-  toStudyGroupFormValues,
-} from "@/features/studyGroups/model/studyGroupForm";
 import type { StudyGroupFormValues } from "@/features/studyGroups/types";
-import { formatCurrency } from "@/shared/lib/format/number";
-import { EntityView, type EntityViewLayoutItem } from "@/shared/ui/entityView";
-import { ContainerGridItem } from "@/shared/ui/containerGridItem";
-import { OpenInNewLink } from "@/shared/ui/openInNew/openInNew";
-import ArchiveRoundedIcon from "@mui/icons-material/ArchiveRounded";
-import Alert from "@mui/material/Alert";
+import type { StudyGroupDetails } from "@/entities/studyGroup/model/types";
+
+import { useMemo, useCallback } from "react";
+
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import Chip from "@mui/material/Chip";
-import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
+import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import CircularProgress from "@mui/material/CircularProgress";
+import ArchiveRoundedIcon from "@mui/icons-material/ArchiveRounded";
+
+import {
+  studyGroupFormSchema,
+  toStudyGroupFormValues,
+  createStudyGroupFormFields,
+  normalizeStudyGroupFormValues,
+} from "@/features/studyGroups/model/studyGroupForm";
+
+import { formatCurrency } from "@/shared/lib/format/number";
+import { OpenInNewLink } from "@/shared/ui/openInNew/openInNew";
+import { ContainerGridItem } from "@/shared/ui/containerGridItem";
+import { EntityView, type EntityViewLayoutItem } from "@/shared/ui/entityView";
 
 export type StudyGroupViewActions = {
   edit?: (values: StudyGroupFormValues) => Promise<void>;

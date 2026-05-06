@@ -1,10 +1,8 @@
 "use client";
 
-import { theme } from "@/shared/theme/theme";
 import { styled, ThemeProvider } from "@mui/material/styles";
 
-import Box from "@mui/material/Box";
-import Backdrop from "@mui/material/Backdrop";
+import { theme } from "@/shared/theme/theme";
 
 const Layout = styled("div")({
   position: "relative",

@@ -1,3 +1,4 @@
+import type { ChartProps } from "../types";
 import type { BoxProps } from "@mui/material/Box";
 
 import cn from "classnames";
@@ -6,8 +7,6 @@ import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
 
 import { chartClasses } from "../classes";
-
-import type { ChartProps } from "../types";
 
 // ----------------------------------------------------------------------
 

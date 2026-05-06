@@ -1,6 +1,6 @@
 "use client";
 
-import { UserListItem } from "../model/types";
+import type { UserListItem } from "../model/types";
 
 import Stack from "@mui/material/Stack";
 import Avatar from "@mui/material/Avatar";

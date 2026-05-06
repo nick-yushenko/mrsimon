@@ -1,11 +1,11 @@
-import Stack from "@mui/material/Stack";
-import { formatMonthFromParts } from "@/shared/lib/format/date";
-import { usersApi } from "@/features/users/api/usersApi";
-import { StatsWidget } from "./ui/widget";
-import { StatsWidgetLoading } from "./ui/widgetLoading";
-import { PaletteColorKey } from "@/shared/theme/themeConfig";
+import type { PaletteColorKey } from "@/shared/theme/themeConfig";
+
 import { Suspense } from "react";
+
+import Stack from "@mui/material/Stack";
+
 import { TotalUsersStat } from "./totalStat";
+import { StatsWidgetLoading } from "./ui/widgetLoading";
 
 // TODO добавить текущих и архивных пользователей + число посетителей (активные пользователи по неделям)
 export const UsersStats = () => {

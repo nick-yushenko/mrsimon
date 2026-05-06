@@ -1,3 +1,3 @@
-export * from './chartLegends';
+export * from "./chartLegends";
 
-export * from './chartLoading';
+export * from "./chartLoading";

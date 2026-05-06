@@ -1,6 +1,7 @@
-import { ApiError, ApiErrorData } from "./apiError";
-import { apiConfig } from "./config";
+import type { ApiErrorData } from "./apiError";
 
+import { apiConfig } from "./config";
+import { ApiError } from "./apiError";
 import { getStoredAccessToken } from "./getStoredAccessToken";
 
 export type ApiFetchOptions = Omit<RequestInit, "body"> & {

@@ -1,6 +1,7 @@
 import type { User } from "@/entities/user/model/types";
 import type { AuthResponse } from "@/features/auth/types";
 import type { RegisterRequest } from "@/features/auth/types";
+
 import { mockUsers } from "@/shared/api/mock/users";
 
 export const isAuth = true;

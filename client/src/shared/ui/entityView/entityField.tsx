@@ -1,22 +1,23 @@
 "use client";
 
 import type { FieldValues, UseFormReturn } from "react-hook-form";
-import { Controller } from "react-hook-form";
-import dayjs from "dayjs";
+import type { EntityFieldConfig, EntityFieldOption } from "./types";
 
-import Checkbox from "@mui/material/Checkbox";
-import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormHelperText from "@mui/material/FormHelperText";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
+import dayjs from "dayjs";
+import { Controller } from "react-hook-form";
+
 import Select from "@mui/material/Select";
 import Switch from "@mui/material/Switch";
+import Checkbox from "@mui/material/Checkbox";
+import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import FormHelperText from "@mui/material/FormHelperText";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { ChipsAutocomplete } from "@/shared/ui/autocomplete/chipsAutocomplete";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
-import type { EntityFieldConfig, EntityFieldOption } from "./types";
+import { ChipsAutocomplete } from "@/shared/ui/autocomplete/chipsAutocomplete";
 
 type EntityFieldProps<TValues extends FieldValues> = {
   field: EntityFieldConfig<TValues>;

@@ -1,22 +1,25 @@
 "use client";
 
 import type { User, UserListItem } from "@/entities/user/model/types";
-import { UserCompactCard } from "@/entities/user/ui/userCompactCard";
+import type { DataGridToolbarAction } from "@/shared/ui/dataGrid/dataGridToolbar";
+import type { GridColDef, GridRowParams, GridRenderCellParams } from "@mui/x-data-grid/models";
+
+import { usePathname, useSearchParams } from "next/navigation";
+import { useMemo, useState, useEffect, useCallback } from "react";
+
+import Alert from "@mui/material/Alert";
+import Select from "@mui/material/Select";
+import AddIcon from "@mui/icons-material/Add";
+import MenuItem from "@mui/material/MenuItem";
+
 import { useUsersStore } from "@/features/users/model/usersStore";
+
+import { UserCompactCard } from "@/entities/user/ui/userCompactCard";
+
 import { AppDataGrid } from "@/shared/ui/dataGrid/appDataGrid";
 import { useDataGridSearch } from "@/shared/ui/dataGrid/useDataGridSearch";
-import type { DataGridToolbarAction } from "@/shared/ui/dataGrid/dataGridToolbar";
-import type { MenuOptionAction } from "@/shared/ui/menu/menuOptions";
-import AddIcon from "@mui/icons-material/Add";
-import UnfoldLessIcon from "@mui/icons-material/UnfoldLess";
-import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
-import Alert from "@mui/material/Alert";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import type { GridColDef, GridRenderCellParams, GridRowParams } from "@mui/x-data-grid/models";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { AddUserDialog } from "../actions/addUserDialog";
+
+import { AddDialog } from "../actions/addDialog";
 
 const staticColumns: GridColDef<UserListItem>[] = [
   {
@@ -35,10 +38,8 @@ const staticColumns: GridColDef<UserListItem>[] = [
 ];
 
 const UsersTable = () => {
-  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [isHeightLimited, setIsHeightLimited] = useState(true);
   const [isAddUserOpen, setIsAddUserOpen] = useState(false);
 
   const fetchUsers = useUsersStore((state) => state.fetchUsers);
@@ -62,25 +63,19 @@ const UsersTable = () => {
   const isLoading = useUsersStore((state) => state.isLoading);
   const error = useUsersStore((state) => state.error);
 
-  const openUserDetails = useCallback(
+  const openProfile = useCallback(
     (id: string) => {
       const params = new URLSearchParams(searchParams.toString());
       params.set("userId", id);
 
-      router.push(`${pathname}?${params.toString()}`, {
-        scroll: false,
-      });
+      window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
     },
-    [searchParams, pathname, router],
+    [searchParams, pathname],
   );
 
   const handleRowClick = (params: GridRowParams<UserListItem>) => {
-    openUserDetails(params.row.id);
+    openProfile(params.row.id);
   };
-
-  const handleHeightLimitToggle = useCallback(() => {
-    setIsHeightLimited((value) => !value);
-  }, []);
 
   const handleAddUserOpen = useCallback(() => {
     setIsAddUserOpen(true);
@@ -102,9 +97,9 @@ const UsersTable = () => {
       }
 
       setIsAddUserOpen(false);
-      openUserDetails(user.id);
+      openProfile(user.id);
     },
-    [fetchUsers, openUserDetails, page, pageSize, search, setSearch, setSearchInput],
+    [fetchUsers, openProfile, page, pageSize, search, setSearch, setSearchInput],
   );
 
   const toolbarActions = useMemo<DataGridToolbarAction[]>(
@@ -117,22 +112,6 @@ const UsersTable = () => {
       },
     ],
     [handleAddUserOpen],
-  );
-
-  const toolbarMenuActions = useMemo<MenuOptionAction[]>(
-    () => [
-      {
-        id: "toggle-table-height",
-        label: isHeightLimited ? "Раскрыть таблицу" : "Ограничить высоту",
-        icon: isHeightLimited ? (
-          <UnfoldMoreIcon fontSize="small" />
-        ) : (
-          <UnfoldLessIcon fontSize="small" />
-        ),
-        onClick: handleHeightLimitToggle,
-      },
-    ],
-    [handleHeightLimitToggle, isHeightLimited],
   );
 
   const roleFilter = useMemo(
@@ -157,9 +136,9 @@ const UsersTable = () => {
 
   const renderUserCell = useCallback(
     (params: GridRenderCellParams<UserListItem>) => (
-      <UserCompactCard {...params.row} onClick={() => openUserDetails(params.row.id)} />
+      <UserCompactCard {...params.row} onClick={() => openProfile(params.row.id)} />
     ),
-    [openUserDetails],
+    [openProfile],
   );
 
   const columns = useMemo<GridColDef<UserListItem>[]>(() => {
@@ -194,6 +173,7 @@ const UsersTable = () => {
         columns={columns}
         loading={isLoading}
         rowCount={totalCount}
+        defaultHeightLimited={true}
         serverPagination={{
           page,
           pageSize,
@@ -201,20 +181,18 @@ const UsersTable = () => {
           onPageSizeChange: setPageSize,
         }}
         onRowClick={handleRowClick}
-        isHeightLimited={isHeightLimited}
         toolbarProps={{
           search: searchInput,
           onSearchChange: setSearchInput,
           leftSlot: roleFilter,
           actions: toolbarActions,
-          menuActions: toolbarMenuActions,
         }}
         sx={{
           cursor: "pointer",
         }}
       />
 
-      <AddUserDialog
+      <AddDialog
         open={isAddUserOpen}
         onClose={handleAddUserClose}
         onSuccess={handleAddUserSuccess}

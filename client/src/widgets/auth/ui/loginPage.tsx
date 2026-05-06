@@ -1,16 +1,17 @@
 "use client";
 
+import type { LoginFormValues } from "@/features/auth/ui/loginForm";
+
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-import { useAuthStore } from "@/features/auth/model/authStore";
-import { LoginForm, LoginFormValues } from "@/features/auth/ui/loginForm";
-
 import Card from "@mui/material/Card";
+import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
+
+import { LoginForm } from "@/features/auth/ui/loginForm";
+import { useAuthStore } from "@/features/auth/model/authStore";
 
 const FORM_ID = "login-page-form";
 

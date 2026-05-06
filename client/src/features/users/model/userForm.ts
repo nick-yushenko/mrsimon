@@ -1,5 +1,6 @@
 import type { UserDetails } from "@/entities/user/model/types";
 import type { EntityFieldConfig } from "@/shared/ui/entityView";
+
 import z from "zod";
 
 export const userDetailsSchema = z.object({

@@ -1,7 +1,7 @@
-import "@mui/material/styles";
-
 import type { ContainerQueries } from "../containerQueries";
 import type {} from "@mui/material/themeCssVarsAugmentation";
+
+import "@mui/material/styles";
 
 declare module "@mui/material/styles" {
   interface Theme {

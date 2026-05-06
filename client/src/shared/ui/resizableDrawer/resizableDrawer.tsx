@@ -1,10 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 
 import Box from "@mui/material/Box";
-import Drawer, { type DrawerProps } from "@mui/material/Drawer";
 import { mergeSlotProps } from "@mui/material/utils";
+import Drawer, { type DrawerProps } from "@mui/material/Drawer";
 
 type ResizableDrawerProps = DrawerProps & {
   defaultSize?: number;
@@ -159,7 +159,7 @@ export const ResizableDrawer = ({
               }
             : null),
 
-          backgroundColor: theme.palette.grey[300],
+          backgroundColor: theme.palette.grey[isResizing ? 500 : 300],
         })}
       />
     </Drawer>

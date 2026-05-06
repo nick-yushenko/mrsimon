@@ -1,6 +1,7 @@
-import type { Subject } from "@/entities/subject/model/types";
-import { apiClient } from "@/shared/api/apiClient";
 import type { CreateSubjectRequest } from "../types";
+import type { Subject } from "@/entities/subject/model/types";
+
+import { apiClient } from "@/shared/api/apiClient";
 
 export const subjectsApi = {
   getSubjects: async (): Promise<Subject[]> => {

@@ -1,10 +1,10 @@
+import type { SvgColorProps } from "./types";
+
 import cn from "classnames";
 
 import { styled } from "@mui/material/styles";
 
 import { svgColorClasses } from "./classes";
-
-import type { SvgColorProps } from "./types";
 
 export function SvgColor({ src, className, sx, ...other }: SvgColorProps) {
   return (

@@ -1,17 +1,16 @@
-"use client";
-
-import { StudyGroupDetailsDrawer } from "@/widgets/studyGroup/ui/studyGroupDetailsDrawer";
-import { StudyGroupsTable } from "@/widgets/studyGroups/ui/studyGroupsTable";
 import Stack from "@mui/material/Stack";
-import { Suspense } from "react";
+
+import UsersStats from "@/widgets/users/stats";
+import { StudyGroupsTable } from "@/widgets/studyGroups/tables/studyGroupsTable";
+import { StudyGroupPreview } from "@/widgets/studyGroups/item/preview/studyGroupPreview";
 
 export default function GroupsPage() {
   return (
-    <Suspense fallback={null}>
-      <Stack spacing={2}>
-        <StudyGroupsTable />
-        <StudyGroupDetailsDrawer />
-      </Stack>
-    </Suspense>
+    <Stack spacing={2}>
+      <UsersStats />
+
+      <StudyGroupsTable />
+      <StudyGroupPreview />
+    </Stack>
   );
 }

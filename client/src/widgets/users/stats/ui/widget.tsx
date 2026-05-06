@@ -1,20 +1,21 @@
 "use client";
 
 import type { CardProps } from "@mui/material/Card";
+import type { PaletteColorKey } from "@/shared/theme/themeConfig";
+
+import { useCallback } from "react";
 
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import { useTheme } from "@mui/material/styles";
-
-import { varAlpha } from "@/shared/theme/utils";
-import { PaletteColorKey } from "@/shared/theme/themeConfig";
-import { Chart, useChart, type ChartOptions } from "@/shared/ui/chart";
-import { SvgColor } from "@/shared/ui/svg-color";
+import Typography from "@mui/material/Typography";
 import TrendingUpRoundedIcon from "@mui/icons-material/TrendingUpRounded";
 import TrendingDownRoundedIcon from "@mui/icons-material/TrendingDownRounded";
+
+import { varAlpha } from "@/shared/theme/utils";
+import { SvgColor } from "@/shared/ui/svg-color";
+import { Chart, useChart, type ChartOptions } from "@/shared/ui/chart";
 import { formatNumber, formatPercent, formatShortenNumber } from "@/shared/lib/format/number";
-import Typography from "@mui/material/Typography";
-import { useCallback } from "react";
 
 type Props = CardProps & {
   title: string;

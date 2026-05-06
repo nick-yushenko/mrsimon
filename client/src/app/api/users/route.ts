@@ -1,6 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 import type { PagedResult } from "@/shared/api/types";
 import type { UserListItem } from "@/entities/user/model/types";
+
+import { NextResponse } from "next/server";
+
 import { mockUsers } from "@/shared/api/mock/users";
 
 export async function GET(request: NextRequest) {

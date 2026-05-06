@@ -1,14 +1,16 @@
+import type { User } from "@/entities/user/model/types";
+import type { SessionId, AuthSession, AuthResponse, LoginRequest, RegisterRequest } from "../types";
+
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-import { User } from "@/entities/user/model/types";
-import { authApi } from "../api/authApi";
 import {
   getApiErrorMessage,
   isInvalidSessionError,
   isTemporaryAuthCheckError,
 } from "@/shared/api/apiError";
-import { AuthResponse, AuthSession, LoginRequest, RegisterRequest, SessionId } from "../types";
+
+import { authApi } from "../api/authApi";
 
 type AuthState = {
   sessions: AuthSession[];

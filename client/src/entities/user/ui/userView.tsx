@@ -1,26 +1,28 @@
 "use client";
 
-import { useCallback, useMemo } from "react";
+import type { UserDetails } from "../model/types";
 
-import {
-  normalizeUserDetailsFormValues,
-  toUserDetailsFormValues,
-  userDetailsFields,
-  userDetailsSchema,
-} from "@/features/users/model/userForm";
-import { EntityView, type EntityViewLayoutItem } from "@/shared/ui/entityView";
-import Avatar from "@mui/material/Avatar";
-import Alert from "@mui/material/Alert";
+import { useMemo, useCallback } from "react";
+
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
+import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
+import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
+import CircularProgress from "@mui/material/CircularProgress";
 
-import type { UserDetails } from "../model/types";
-import { ContainerGridItem } from "@/shared/ui/containerGridItem";
+import {
+  userDetailsFields,
+  userDetailsSchema,
+  toUserDetailsFormValues,
+  normalizeUserDetailsFormValues,
+} from "@/features/users/model/userForm";
+
 import { OpenInNewLink } from "@/shared/ui/openInNew/openInNew";
+import { ContainerGridItem } from "@/shared/ui/containerGridItem";
+import { EntityView, type EntityViewLayoutItem } from "@/shared/ui/entityView";
 
 export type UserViewActions = Record<string, (values: UserDetails) => Promise<void>>;
 

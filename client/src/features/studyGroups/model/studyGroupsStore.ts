@@ -1,8 +1,11 @@
-import type { StudyGroupDetails, StudyGroupListItem } from "@/entities/studyGroup/model/types";
-import { getApiErrorMessage } from "@/shared/api/apiError";
-import { create } from "zustand";
-import { studyGroupsApi } from "../api/studyGroupsApi";
 import type { GetStudyGroupsParams, StudyGroupFormValues } from "../types";
+import type { StudyGroupDetails, StudyGroupListItem } from "@/entities/studyGroup/model/types";
+
+import { create } from "zustand";
+
+import { getApiErrorMessage } from "@/shared/api/apiError";
+
+import { studyGroupsApi } from "../api/studyGroupsApi";
 
 type StudyGroupsState = {
   items: StudyGroupListItem[];

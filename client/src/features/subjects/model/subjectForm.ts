@@ -1,4 +1,4 @@
-import { CreateSubjectRequest } from "../types";
+import type { CreateSubjectRequest } from "../types";
 
 export const createEmptySubject = (): CreateSubjectRequest => ({
   name: "",

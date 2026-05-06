@@ -1,15 +1,19 @@
 "use client";
 
 import type { User } from "@/entities/user/model/types";
-import { useAuthStore } from "@/features/auth/model/authStore";
-import { RegisterForm, RegisterFormValues } from "@/features/auth/ui/registerForm";
+import type { RegisterFormValues } from "@/features/auth/ui/registerForm";
+
+import { toast } from "react-toastify/unstyled";
+
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
+import Typography from "@mui/material/Typography";
+import DialogTitle from "@mui/material/DialogTitle";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import Typography from "@mui/material/Typography";
-import { toast } from "react-toastify/unstyled";
+
+import { useAuthStore } from "@/features/auth/model/authStore";
+import { RegisterForm } from "@/features/auth/ui/registerForm";
 
 const FORM_ID = "add-user-form";
 
@@ -19,7 +23,7 @@ type AddUserDialogProps = {
   onSuccess?: (user: User) => void | Promise<void>;
 };
 
-export const AddUserDialog = ({ onClose, onSuccess, open }: AddUserDialogProps) => {
+export const AddDialog = ({ onClose, onSuccess, open }: AddUserDialogProps) => {
   const registerUser = useAuthStore((state) => state.register);
   const isLoading = useAuthStore((state) => state.isLoading);
 
