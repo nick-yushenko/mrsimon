@@ -15,6 +15,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 
+// TODO refactor this
 export type MenuOptionAction = {
   id: string;
   label: ReactNode;

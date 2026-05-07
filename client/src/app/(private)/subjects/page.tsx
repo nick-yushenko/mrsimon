@@ -3,8 +3,8 @@
 import type { Subject } from "@/entities/subject/model/types";
 import type { CreateSubjectRequest } from "@/features/subjects/types";
 
-import { useState, useEffect } from "react";
 import { toast } from "react-toastify/unstyled";
+import { useState, Suspense, useEffect } from "react";
 
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -77,121 +77,123 @@ export default function SubjectsPage() {
   };
 
   return (
-    <Stack spacing={2}>
-      <ChipsAutocomplete
-        multiple
-        options={subjects}
-        value={selectedDisciplines}
-        onChange={setSelectedDisciplines}
-        onCreate={(subjectName) => create({ name: subjectName })}
-        getOptionKey={(subject) => subject.id}
-        getOptionLabel={(subject) => subject.name}
-        label="Дисциплины"
-        placeholder="Выберите или создайте дисциплину"
-      />
+    <Suspense>
+      <Stack spacing={2}>
+        <ChipsAutocomplete
+          multiple
+          options={subjects}
+          value={selectedDisciplines}
+          onChange={setSelectedDisciplines}
+          onCreate={(subjectName) => create({ name: subjectName })}
+          getOptionKey={(subject) => subject.id}
+          getOptionLabel={(subject) => subject.name}
+          label="Дисциплины"
+          placeholder="Выберите или создайте дисциплину"
+        />
 
-      <Card variant="plain" sx={{ p: 3 }}>
-        <Stack component="form" spacing={2} onSubmit={handleSubmit}>
-          <Typography component="h1" variant="h4">
-            Дисциплины
-          </Typography>
+        <Card variant="plain" sx={{ p: 3 }}>
+          <Stack component="form" spacing={2} onSubmit={handleSubmit}>
+            <Typography component="h1" variant="h4">
+              Дисциплины
+            </Typography>
 
-          {error && <Alert severity="error">{error}</Alert>}
+            {error && <Alert severity="error">{error}</Alert>}
 
-          <TextField
-            label="Название"
-            value={form.name}
-            onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))}
-            required
-            fullWidth
-          />
+            <TextField
+              label="Название"
+              value={form.name}
+              onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))}
+              required
+              fullWidth
+            />
 
-          <TextField
-            label="Описание"
-            value={form.description ?? ""}
-            onChange={(event) =>
-              setForm((current) => ({ ...current, description: event.target.value }))
-            }
-            fullWidth
-            multiline
-            minRows={3}
-          />
+            <TextField
+              label="Описание"
+              value={form.description ?? ""}
+              onChange={(event) =>
+                setForm((current) => ({ ...current, description: event.target.value }))
+              }
+              fullWidth
+              multiline
+              minRows={3}
+            />
 
-          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-            <Button
-              type="submit"
-              variant="contained"
-              startIcon={<AddRoundedIcon />}
-              loading={isSaving}
-              disabled={!form.name.trim()}
-            >
-              Создать
-            </Button>
-          </Box>
-        </Stack>
-      </Card>
-
-      <Card variant="plain" sx={{ p: 0 }}>
-        {isLoading && (
-          <Box sx={{ display: "flex", justifyContent: "center", py: 8 }}>
-            <CircularProgress />
-          </Box>
-        )}
-
-        {!isLoading && subjects.length === 0 && (
-          <Box sx={{ p: 3 }}>
-            <Typography color="text.secondary">Дисциплины пока не добавлены.</Typography>
-          </Box>
-        )}
-
-        {!isLoading &&
-          subjects.map((subject, index) => (
-            <Box key={subject.id}>
-              {index > 0 && <Divider />}
-
-              <Stack
-                direction={{ xs: "column", sm: "row" }}
-                spacing={2}
-                sx={{
-                  p: 2.5,
-                  alignItems: { xs: "stretch", sm: "center" },
-                  justifyContent: "space-between",
-                }}
+            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+              <Button
+                type="submit"
+                variant="contained"
+                startIcon={<AddRoundedIcon />}
+                loading={isSaving}
+                disabled={!form.name.trim()}
               >
-                <Box sx={{ minWidth: 0 }}>
-                  <Typography variant="subtitle1">{subject.name}</Typography>
-                  {subject.description && (
-                    <Typography variant="body2" color="text.secondary">
-                      {subject.description}
-                    </Typography>
-                  )}
-                  <Typography variant="caption" color="text.secondary">
-                    Групп: {subject.groupsCount} · ID: {subject.id}
-                  </Typography>
-                </Box>
-
-                <Tooltip
-                  title={
-                    subject.groupsCount > 0
-                      ? "Нельзя удалить дисциплину с привязанными группами"
-                      : "Удалить"
-                  }
-                >
-                  <span>
-                    <IconButton
-                      aria-label="Удалить дисциплину"
-                      color="error"
-                      disabled={subject.groupsCount > 0 || isDeleting}
-                      onClick={() => handleDelete(subject.id, subject.name)}
-                    >
-                      <DeleteOutlineRoundedIcon />
-                    </IconButton>
-                  </span>
-                </Tooltip>
-              </Stack>
+                Создать
+              </Button>
             </Box>
-          ))}
-      </Card>
-    </Stack>
+          </Stack>
+        </Card>
+
+        <Card variant="plain" sx={{ p: 0 }}>
+          {isLoading && (
+            <Box sx={{ display: "flex", justifyContent: "center", py: 8 }}>
+              <CircularProgress />
+            </Box>
+          )}
+
+          {!isLoading && subjects.length === 0 && (
+            <Box sx={{ p: 3 }}>
+              <Typography color="text.secondary">Дисциплины пока не добавлены.</Typography>
+            </Box>
+          )}
+
+          {!isLoading &&
+            subjects.map((subject, index) => (
+              <Box key={subject.id}>
+                {index > 0 && <Divider />}
+
+                <Stack
+                  direction={{ xs: "column", sm: "row" }}
+                  spacing={2}
+                  sx={{
+                    p: 2.5,
+                    alignItems: { xs: "stretch", sm: "center" },
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Box sx={{ minWidth: 0 }}>
+                    <Typography variant="subtitle1">{subject.name}</Typography>
+                    {subject.description && (
+                      <Typography variant="body2" color="text.secondary">
+                        {subject.description}
+                      </Typography>
+                    )}
+                    <Typography variant="caption" color="text.secondary">
+                      Групп: {subject.groupsCount} · ID: {subject.id}
+                    </Typography>
+                  </Box>
+
+                  <Tooltip
+                    title={
+                      subject.groupsCount > 0
+                        ? "Нельзя удалить дисциплину с привязанными группами"
+                        : "Удалить"
+                    }
+                  >
+                    <span>
+                      <IconButton
+                        aria-label="Удалить дисциплину"
+                        color="error"
+                        disabled={subject.groupsCount > 0 || isDeleting}
+                        onClick={() => handleDelete(subject.id, subject.name)}
+                      >
+                        <DeleteOutlineRoundedIcon />
+                      </IconButton>
+                    </span>
+                  </Tooltip>
+                </Stack>
+              </Box>
+            ))}
+        </Card>
+      </Stack>
+    </Suspense>
   );
 }

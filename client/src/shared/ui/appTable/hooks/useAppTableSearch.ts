@@ -4,13 +4,19 @@ import { useRef, useState, useEffect } from "react";
 
 import { useDebouncedValue } from "@/shared/lib/hooks/useDebounce";
 
-export type UseDataGridSearchOptions = {
+/**
+ * @deprecated Этот тип устарел, как и useAppTableSearch. Для таблиц используйте серверный поиск через useAppTableUrlState.
+ */
+export type UseAppTableSearchOptions = {
   value: string;
   onChange: (value: string) => void;
   delay?: number;
 };
 
-export const useDataGridSearch = ({ delay = 400, onChange, value }: UseDataGridSearchOptions) => {
+/**
+ * @deprecated Эта функция устарела. Для таблиц используйте серверный поиск через useAppTableUrlState.
+ */
+export const useAppTableSearch = ({ delay = 400, onChange, value }: UseAppTableSearchOptions) => {
   const [search, setSearch] = useState(value);
   const debouncedSearch = useDebouncedValue(search, delay);
   const lastCommittedSearch = useRef(value);

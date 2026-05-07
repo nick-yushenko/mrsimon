@@ -6,6 +6,7 @@ import { palette } from "./palette";
 import { shadows } from "./shadows";
 import { typography } from "./typography";
 import { createContainerQueries } from "./containerQueries";
+import { tableCustomizations } from "./customizations/table";
 import { inputsCustomizations } from "./customizations/inputs";
 import { dataGridCustomizations } from "./customizations/dataGrid";
 import { surfacesCustomizations } from "./customizations/surfaces";
@@ -36,6 +37,7 @@ export const theme = createTheme({
     ...inputsCustomizations,
     ...dataGridCustomizations,
     ...surfacesCustomizations,
+    ...tableCustomizations,
   },
 });
 

@@ -1,12 +1,14 @@
 import type {} from "@mui/x-data-grid/themeAugmentation";
 import type { Theme, Components } from "@mui/material/styles";
 
+import { DEFAULT_ROWS_PER_PAGE_OPTIONS } from "@/shared/ui/appTable";
+
 export const dataGridCustomizations: Components<Theme> = {
   MuiDataGrid: {
     defaultProps: {
       disableRowSelectionOnClick: true,
       disableColumnMenu: true,
-      pageSizeOptions: [5, 10, 25, 50],
+      pageSizeOptions: DEFAULT_ROWS_PER_PAGE_OPTIONS,
       localeText: {
         // paginationRowsPerPage: "Число строк",
       },

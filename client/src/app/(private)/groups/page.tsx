@@ -1,15 +1,18 @@
+import type { StudyGroupsSearchParams } from "@/widgets/studyGroups/table";
+
 import Stack from "@mui/material/Stack";
 
-import UsersStats from "@/widgets/users/stats";
-import { StudyGroupsTable } from "@/widgets/studyGroups/tables/studyGroupsTable";
+import { StudyGroups } from "@/widgets/studyGroups/table";
 import { StudyGroupPreview } from "@/widgets/studyGroups/item/preview/studyGroupPreview";
 
-export default function GroupsPage() {
+type GroupsPageProps = {
+  searchParams?: Promise<StudyGroupsSearchParams>;
+};
+
+export default function GroupsPage({ searchParams }: GroupsPageProps) {
   return (
     <Stack spacing={2}>
-      <UsersStats />
-
-      <StudyGroupsTable />
+      <StudyGroups searchParams={searchParams} />
       <StudyGroupPreview />
     </Stack>
   );

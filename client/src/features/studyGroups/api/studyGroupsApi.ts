@@ -25,8 +25,14 @@ export const studyGroupsApi = {
       searchParams.set("search", search.trim());
     }
 
+    const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    // await sleep(3000);
     return apiClient.get<PagedResult<StudyGroupListItem>>(
       `/api/study-groups?${searchParams.toString()}`,
+      {
+        cache: "no-store",
+      },
     );
   },
 
