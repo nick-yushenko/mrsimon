@@ -1,12 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
-
-import { useStudyGroupsStore } from "@/features/studyGroups/model/studyGroupsStore";
 
 import { ResizableDrawer } from "@/shared/ui/resizableDrawer";
 
@@ -18,10 +15,8 @@ export const StudyGroupPreview = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const groupId = searchParams.get("groupId");
+  const groupId = Number(searchParams.get("groupId"));
   const isDetailsOpen = Boolean(groupId);
-
-  const clearSelectedGroup = useStudyGroupsStore((state) => state.clearSelectedGroup);
 
   const closeGroupDetails = () => {
     const params = new URLSearchParams(searchParams.toString());
@@ -33,12 +28,6 @@ export const StudyGroupPreview = () => {
       scroll: false,
     });
   };
-
-  useEffect(() => {
-    if (!groupId) {
-      clearSelectedGroup();
-    }
-  }, [groupId, clearSelectedGroup]);
 
   return (
     <Box>

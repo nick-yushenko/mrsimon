@@ -2,10 +2,9 @@
 
 import type { UserDetails } from "@/entities/user/model/types";
 
-import { useMemo, useEffect, useCallback } from "react";
+import { useMemo, useCallback } from "react";
 
-import { useUsersStore } from "@/features/users/model/usersStore";
-
+import { useUserQuery } from "@/entities/user/model/queries";
 import { UserView, type UserViewActions } from "@/entities/user/ui/userView";
 
 type TProps = {
@@ -14,14 +13,8 @@ type TProps = {
 };
 
 export const ProfileView = ({ id, variant = "page" }: TProps) => {
-  const fetchUserById = useUsersStore((state) => state.fetchUserById);
-  const user = useUsersStore((state) => state.selectedUser);
-  const isLoading = useUsersStore((state) => state.isDetailsLoading);
-  const error = useUsersStore((state) => state.detailsError);
-
-  useEffect(() => {
-    fetchUserById(id);
-  }, [fetchUserById, id]);
+  const query = useUserQuery(id);
+  const user = query.data;
 
   // TODO добавить редактирование пользователя
   const editUser = useCallback(async (values: UserDetails) => {
@@ -38,9 +31,9 @@ export const ProfileView = ({ id, variant = "page" }: TProps) => {
   return (
     <UserView
       id={id}
-      user={user}
-      isLoading={isLoading}
-      error={error}
+      user={user ?? null}
+      isLoading={query.isFetching}
+      error={query.error?.message}
       variant={variant}
       actions={actions}
     />

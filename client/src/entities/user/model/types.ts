@@ -24,3 +24,22 @@ export type UserDetails = Omit<UserListItem, "id"> & {
   avatar?: string;
   note?: string;
 };
+
+export type GetUsersParams = {
+  page?: number;
+  pageSize?: number;
+  search?: string;
+};
+
+export type UsersSummary = {
+  total: number;
+  monthlyGrowthPercent: number;
+  monthlyCounts: MonthlyUsersCount[];
+};
+
+// TODO возможно стоит вынетси в глобальный тип чтобы переиспользовать для различных чартов
+export type MonthlyUsersCount = {
+  year: number;
+  month: number;
+  count: number;
+};

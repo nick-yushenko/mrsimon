@@ -1,6 +1,10 @@
 import type { PagedResult } from "@/shared/api/types";
-import type { UsersSummary, GetUsersParams } from "../types";
-import type { UserDetails, UserListItem } from "@/entities/user/model/types";
+import type {
+  UserDetails,
+  UserListItem,
+  UsersSummary,
+  GetUsersParams,
+} from "@/entities/user/model/types";
 
 import { apiClient } from "@/shared/api/apiClient";
 

@@ -1,48 +1,63 @@
-import { Suspense } from "react";
+"use client";
 
-import { usersApi } from "@/features/users/api/usersApi";
+import type { GetUsersParams } from "@/entities/user/model/types";
 
-import { DEFAULT_ROWS_PER_PAGE_OPTIONS } from "@/shared/ui/appTable";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
+import { usersApi } from "@/entities/user/api/usersApi";
+
+import { useDebouncedValue } from "@/shared/lib/hooks/useDebounce";
+import AppTable, { AppTablePagination, DEFAULT_ROWS_PER_PAGE_OPTIONS } from "@/shared/ui/appTable";
+
+import { UsersToolbar } from "./ui/toolbar";
 import { UsersDataBody } from "./ui/dataBody";
-import { UsersTableShell } from "./tableShell";
-import { UsersPagination } from "./ui/pagination";
-import { UsersDataBodyServer } from "./server/dataBodyServer";
-import { UsersPaginationServer } from "./server/paginationServer";
-import { getUsersParams, type UsersSearchParamsPromise } from "./types";
 
-type UsersProps = {
-  searchParams?: UsersSearchParamsPromise;
+export const useUsersListQuery = (params: Required<GetUsersParams>) => {
+  return useQuery({
+    queryKey: ["studyGroups", params],
+    queryFn: () => usersApi.getUsers(params),
+  });
 };
 
-const getUsersData = async (searchParams: UsersSearchParamsPromise) => {
-  const params = getUsersParams(await searchParams);
-  return usersApi.getUsers(params);
-};
+export const Users = () => {
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  const [search, setSearch] = useState("");
 
-export const Users = ({ searchParams }: UsersProps) => {
-  const dataPromise = getUsersData(searchParams);
+  const debouncedSearch = useDebouncedValue(search, 400);
+
+  const query = useUsersListQuery({
+    page,
+    pageSize,
+    search: debouncedSearch,
+  });
+
+  const data = query.data;
+
+  const onSearchChange = (value: string) => {
+    setSearch(value);
+    setPage(1);
+  };
+
+  const onPageSizeChange = (pageSize: number) => {
+    setPageSize(pageSize);
+    setPage(1);
+  };
 
   return (
-    <UsersTableShell
-      body={
-        <Suspense fallback={<UsersDataBody loading />}>
-          <UsersDataBodyServer dataPromise={dataPromise} />
-        </Suspense>
-      }
+    <AppTable
+      toolbar={<UsersToolbar search={search} onSearchChange={onSearchChange} />}
+      body={<UsersDataBody data={data} loading={query.isFetching} />}
       pagination={
-        <Suspense
-          fallback={
-            <UsersPagination
-              page={0}
-              pageSize={DEFAULT_ROWS_PER_PAGE_OPTIONS[0]}
-              count={0}
-              rowsPerPageOptions={DEFAULT_ROWS_PER_PAGE_OPTIONS}
-            />
-          }
-        >
-          <UsersPaginationServer dataPromise={dataPromise} />
-        </Suspense>
+        <AppTablePagination
+          count={data?.totalCount ?? 0}
+          page={data?.page ?? page}
+          pageSize={data?.pageSize ?? pageSize}
+          onPageChange={setPage}
+          onPageSizeChange={onPageSizeChange}
+          rowsPerPageOptions={DEFAULT_ROWS_PER_PAGE_OPTIONS}
+        />
       }
     />
   );

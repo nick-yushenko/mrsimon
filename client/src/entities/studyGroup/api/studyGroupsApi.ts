@@ -27,7 +27,7 @@ export const studyGroupsApi = {
 
     const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-    await sleep(3000);
+    // await sleep(3000);
     return apiClient.get<PagedResult<StudyGroupListItem>>(
       `/api/study-groups?${searchParams.toString()}`,
       {
@@ -36,7 +36,7 @@ export const studyGroupsApi = {
     );
   },
 
-  getStudyGroupById: async (id: string | number): Promise<StudyGroupDetails> => {
+  getStudyGroupById: async (id: number): Promise<StudyGroupDetails> => {
     return apiClient.get<StudyGroupDetails>(`/api/study-groups/${id}`);
   },
 
@@ -44,14 +44,11 @@ export const studyGroupsApi = {
     return apiClient.post<StudyGroupDetails>("/api/study-groups", request);
   },
 
-  updateStudyGroup: async (
-    id: string | number,
-    request: UpdateStudyGroupRequest,
-  ): Promise<void> => {
+  updateStudyGroup: async (id: number, request: UpdateStudyGroupRequest): Promise<void> => {
     return apiClient.put<void>(`/api/study-groups/${id}`, request);
   },
 
-  archiveStudyGroup: async (id: string | number): Promise<void> => {
+  archiveStudyGroup: async (id: number): Promise<void> => {
     return apiClient.patch<void>(`/api/study-groups/${id}/archive`);
   },
 };

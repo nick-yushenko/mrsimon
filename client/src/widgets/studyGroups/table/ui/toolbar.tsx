@@ -4,7 +4,7 @@ import type { AppTableToolbarAction } from "@/shared/ui/appTable";
 import type { StudyGroupDetails } from "@/entities/studyGroup/model/types";
 
 import { useMemo, useState, useCallback } from "react";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 import Switch from "@mui/material/Switch";
 import AddIcon from "@mui/icons-material/Add";
@@ -27,7 +27,6 @@ export const StudyGroupsToolbar = ({
   onSearchChange,
   search,
 }: StudyGroupsToolbarProps) => {
-  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isAddGroupOpen, setIsAddGroupOpen] = useState(false);
@@ -42,14 +41,10 @@ export const StudyGroupsToolbar = ({
     [pathname, searchParams],
   );
 
-  const handleAddGroupSuccess = useCallback(
-    async (group: StudyGroupDetails) => {
-      setIsAddGroupOpen(false);
-      router.refresh();
-      openGroup(group.id);
-    },
-    [openGroup, router],
-  );
+  const handleAddGroupSuccess = (group: StudyGroupDetails) => {
+    handleAddGroupClose();
+    openGroup(group.id);
+  };
 
   const handleAddGroupOpen = useCallback(() => {
     setIsAddGroupOpen(true);

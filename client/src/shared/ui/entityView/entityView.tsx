@@ -35,6 +35,7 @@ export type EntityViewProps<TValues extends FieldValues> = {
   renderFields?: (items: EntityViewLayoutItem<TValues>[]) => ReactNode;
 };
 
+// TODO Important - Разделить логику на "отображение" "редиктирование" "Создание" - сейчас все через этот компонент
 export const EntityView = <TValues extends FieldValues>({
   entity,
   fields,

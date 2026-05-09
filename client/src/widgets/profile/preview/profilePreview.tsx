@@ -1,12 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
-
-import { useUsersStore } from "@/features/users/model/usersStore";
 
 import { ResizableDrawer } from "@/shared/ui/resizableDrawer";
 
@@ -21,8 +18,6 @@ export const ProfilePreview = () => {
   const userId = searchParams.get("userId");
   const isDetailsOpen = Boolean(userId);
 
-  const clearSelectedUser = useUsersStore((state) => state.clearSelectedUser);
-
   const closeUserDetails = () => {
     const params = new URLSearchParams(searchParams.toString());
     params.delete("userId");
@@ -33,12 +28,6 @@ export const ProfilePreview = () => {
       scroll: false,
     });
   };
-
-  useEffect(() => {
-    if (!userId) {
-      clearSelectedUser();
-    }
-  }, [userId, clearSelectedUser]);
 
   return (
     <Box>

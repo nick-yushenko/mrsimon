@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 
-// TODO заменить на использование debaunce из библиотеки es-tookit
+// TODO (обдумать) заменить на использование debaunce из библиотеки es-tookit, если это будет необходимо (ради других утилит)
 /**
- * @deprecated Эта функция устарела, в будущем будет заменена на debaunce из библиотеки es-tookit
+ * @deprecated Эта функция может устареть и быть замененина на debaunce из библиотеки es-tookit в будущем
  */
 export function useDebouncedValue<T>(value: T, delay = 400): T {
   const [debouncedValue, setDebouncedValue] = useState(value);

@@ -10,6 +10,7 @@ export { AppTableToolbar } from "./toolbar/toolbar";
 
 export { createToggleTableHeightAction } from "./config";
 export { AppTableToolbarActions } from "./toolbar/actions";
+
 export { DEFAULT_ROWS_PER_PAGE_OPTIONS } from "./constants";
 export type { AppTableToolbarProps } from "./toolbar/toolbar";
 export { useAppTableSearch } from "./hooks/useAppTableSearch";

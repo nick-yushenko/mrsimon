@@ -16,6 +16,24 @@ This is a monorepo project with:
 - Prefer simple, readable solutions over over-engineering.
 - Before adding a new dependency, explain why it is needed.
 
+## Response style
+
+- Answer in Russian.
+- Be brief and task-focused.
+- Do not add explanations unless asked.
+- Stay within the current project architecture.
+- Give concrete changes, not general theory.
+
+## Project-specific answers
+
+- For architecture and file placement questions, answer specifically for this repository.
+- Before answering where to put a file, inspect the existing project structure.
+- Do not give generic option lists like "Option 1 / Option 2" unless explicitly asked.
+- Prefer one recommended solution with a concrete path.
+- If there are alternatives, mention them briefly only after the main recommendation.
+- Use existing conventions from this project as the source of truth.
+- If the project structure is unclear, inspect files first instead of guessing.
+
 ## Forbidden actions
 
 - Do not start the project or long-running dev servers.

@@ -20,7 +20,7 @@ const FORM_ID = "add-user-form";
 type AddUserDialogProps = {
   open: boolean;
   onClose: () => void;
-  onSuccess?: (user: User) => void | Promise<void>;
+  onSuccess?: (user: User) => void;
 };
 
 export const AddDialog = ({ onClose, onSuccess, open }: AddUserDialogProps) => {

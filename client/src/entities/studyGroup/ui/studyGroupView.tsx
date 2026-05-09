@@ -22,7 +22,7 @@ import {
   toStudyGroupFormValues,
   createStudyGroupFormFields,
   normalizeStudyGroupFormValues,
-} from "@/features/studyGroups/model/studyGroupForm";
+} from "@/entities/studyGroup/model/studyGroupForm";
 
 import { formatCurrency } from "@/shared/lib/format/number";
 import { OpenInNewLink } from "@/shared/ui/openInNew/openInNew";

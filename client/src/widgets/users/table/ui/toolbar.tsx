@@ -3,8 +3,8 @@
 import type { User } from "@/entities/user/model/types";
 import type { AppTableToolbarAction } from "@/shared/ui/appTable";
 
+import { usePathname } from "next/navigation";
 import { useMemo, useState, useCallback } from "react";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 import AddIcon from "@mui/icons-material/Add";
 
@@ -18,29 +18,24 @@ export type UsersToolbarProps = {
 };
 
 export const UsersToolbar = ({ onSearchChange, search }: UsersToolbarProps) => {
-  const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const [isAddUserOpen, setIsAddUserOpen] = useState(false);
 
   const openProfile = useCallback(
     (id: string) => {
-      const nextParams = new URLSearchParams(searchParams.toString());
+      const nextParams = new URLSearchParams(window.location.search);
       nextParams.set("userId", id);
+      const query = nextParams.toString();
 
-      window.history.pushState(null, "", `${pathname}?${nextParams.toString()}`);
+      window.history.pushState(null, "", `${pathname}${query ? `?${query}` : ""}`);
     },
-    [pathname, searchParams],
+    [pathname],
   );
 
-  const handleAddUserSuccess = useCallback(
-    async (user: User) => {
-      setIsAddUserOpen(false);
-      router.refresh();
-      openProfile(user.id);
-    },
-    [openProfile, router],
-  );
+  const handleAddUserSuccess = (user: User) => {
+    handleAddUserClose();
+    openProfile(user.id);
+  };
 
   const handleAddUserOpen = useCallback(() => {
     setIsAddUserOpen(true);

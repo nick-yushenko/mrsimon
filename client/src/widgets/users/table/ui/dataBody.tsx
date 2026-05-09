@@ -5,7 +5,7 @@ import type { GridRowParams } from "@mui/x-data-grid/models";
 import type { UserListItem } from "@/entities/user/model/types";
 
 import { useCallback } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 import { AppDataGrid } from "@/shared/ui/appTable";
 
@@ -18,16 +18,16 @@ export type UsersDataBodyProps = {
 
 export const UsersDataBody = ({ data, loading = false }: UsersDataBodyProps) => {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   const openProfile = useCallback(
     (id: string) => {
-      const nextParams = new URLSearchParams(searchParams.toString());
+      const nextParams = new URLSearchParams(window.location.search);
       nextParams.set("userId", id);
+      const query = nextParams.toString();
 
-      window.history.pushState(null, "", `${pathname}?${nextParams.toString()}`);
+      window.history.pushState(null, "", `${pathname}${query ? `?${query}` : ""}`);
     },
-    [pathname, searchParams],
+    [pathname],
   );
 
   const handleRowClick = useCallback(

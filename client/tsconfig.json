@@ -35,6 +35,5 @@
     "dist",
     "build",
     "coverage",
-    "src/app/(private)/dashboard/**"
   ]
 }

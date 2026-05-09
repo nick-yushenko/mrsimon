@@ -67,13 +67,4 @@ declare module "@mui/material/styles" {
     "800Channel": string;
     "900Channel": string;
   }
-
-  // TODO - удалить из проекта использование
-  interface Palette {
-    chart: Color;
-  }
-
-  interface PaletteOptions {
-    chart?: Partial<Color>;
-  }
 }

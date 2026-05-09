@@ -1,6 +1,6 @@
 import type { PaletteColorKey } from "@/shared/theme/themeConfig";
 
-import { usersApi } from "@/features/users/api/usersApi";
+import { usersApi } from "@/entities/user/api/usersApi";
 
 import { formatMonthFromParts } from "@/shared/lib/format/date";
 
@@ -9,6 +9,7 @@ import { StatsWidget } from "./ui/widget";
 type TProps = {
   color?: PaletteColorKey;
 };
+
 export const TotalUsersStat = async ({ color }: TProps) => {
   const data = await usersApi.getSummary();
   const monthlyData = data?.monthlyCounts ?? [];

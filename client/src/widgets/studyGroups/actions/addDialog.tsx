@@ -1,7 +1,6 @@
 "use client";
 
-import type { StudyGroupFormValues } from "@/features/studyGroups/types";
-import type { StudyGroupDetails } from "@/entities/studyGroup/model/types";
+import type { StudyGroupDetails, StudyGroupFormValues } from "@/entities/studyGroup/model/types";
 
 import { toast } from "react-toastify/unstyled";
 import { useMemo, useEffect, useCallback } from "react";
@@ -15,13 +14,14 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 
 import { useSubjectsStore } from "@/features/subjects/model/subjectsStore";
-import { useStudyGroupsStore } from "@/features/studyGroups/model/studyGroupsStore";
+
+import { useStudyGroupActions } from "@/entities/studyGroup/model/actions";
 import {
   studyGroupFormSchema,
   createStudyGroupFormFields,
   normalizeStudyGroupFormValues,
   createEmptyStudyGroupFormValues,
-} from "@/features/studyGroups/model/studyGroupForm";
+} from "@/entities/studyGroup/model/studyGroupForm";
 
 import { EntityView } from "@/shared/ui/entityView";
 
@@ -30,18 +30,17 @@ const FORM_ID = "add-study-group-form";
 type AddStudyGroupDialogProps = {
   open: boolean;
   onClose: () => void;
-  onSuccess?: (group: StudyGroupDetails) => void | Promise<void>;
+  onSuccess?: (group: StudyGroupDetails) => void;
 };
 
 // TODO refactor, запросы не должны идти в момент открытия диалогового окна. Запрос fetchSubjects, должен идти в момент открытия выпадающего списка
 export const AddDialog = ({ open, onClose, onSuccess }: AddStudyGroupDialogProps) => {
+  const { createStudyGroup, createError, isCreating } = useStudyGroupActions();
+
+  // TODO убрать стор для subjects
   const subjects = useSubjectsStore((state) => state.items);
   const fetchSubjects = useSubjectsStore((state) => state.fetchSubjects);
   const createSubject = useSubjectsStore((state) => state.createSubject);
-
-  const createStudyGroup = useStudyGroupsStore((state) => state.createStudyGroup);
-  const saveError = useStudyGroupsStore((state) => state.saveError);
-  const isSaving = useStudyGroupsStore((state) => state.isSaving);
 
   useEffect(() => {
     if (open) {
@@ -80,7 +79,7 @@ export const AddDialog = ({ open, onClose, onSuccess }: AddStudyGroupDialogProps
       error: "Не удалось создать группу",
     });
 
-    await onSuccess?.(group);
+    onSuccess?.(group);
   };
 
   return (
@@ -92,9 +91,9 @@ export const AddDialog = ({ open, onClose, onSuccess }: AddStudyGroupDialogProps
       </DialogTitle>
 
       <DialogContent dividers>
-        {saveError && (
+        {createError && (
           <Alert severity="error" sx={{ mb: 2 }}>
-            {saveError}
+            {createError?.message ?? "Ошибка"}
           </Alert>
         )}
 
@@ -118,7 +117,7 @@ export const AddDialog = ({ open, onClose, onSuccess }: AddStudyGroupDialogProps
           type="submit"
           form={FORM_ID}
           variant="contained"
-          loading={isSaving}
+          loading={isCreating}
           loadingPosition="end"
           size="large"
         >

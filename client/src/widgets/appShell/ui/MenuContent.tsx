@@ -10,11 +10,11 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
-import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
+// import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
+// import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
 import PeopleRoundedIcon from "@mui/icons-material/PeopleRounded";
 import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
-import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
+// import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import AnalyticsRoundedIcon from "@mui/icons-material/AnalyticsRounded";
 import AssignmentRoundedIcon from "@mui/icons-material/AssignmentRounded";
 
@@ -29,11 +29,11 @@ const mainListItems = [
   { text: "Home", icon: <HomeRoundedIcon /> },
 ];
 
-const secondaryListItems = [
-  { text: "Settings", icon: <SettingsRoundedIcon /> },
-  { text: "About", icon: <InfoRoundedIcon /> },
-  { text: "Feedback", icon: <HelpRoundedIcon /> },
-];
+// const secondaryListItems = [
+//   { text: "Settings", icon: <SettingsRoundedIcon /> },
+//   { text: "About", icon: <InfoRoundedIcon /> },
+//   { text: "Feedback", icon: <HelpRoundedIcon /> },
+// ];
 
 export default function MenuContent() {
   const pathname = usePathname();

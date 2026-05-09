@@ -18,7 +18,7 @@ import {
   userDetailsSchema,
   toUserDetailsFormValues,
   normalizeUserDetailsFormValues,
-} from "@/features/users/model/userForm";
+} from "@/entities/user/model/userForm";
 
 import { OpenInNewLink } from "@/shared/ui/openInNew/openInNew";
 import { ContainerGridItem } from "@/shared/ui/containerGridItem";
