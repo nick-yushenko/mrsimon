@@ -26,12 +26,12 @@ export const RegisterPageWidget = () => {
 
   const onSubmit = async (values: RegisterFormValues) => {
     await registerUser(values);
-    router.replace("/profile");
+    router.replace("/users");
   };
 
   useEffect(() => {
     if (isInitialized && !isLoading && user) {
-      router.replace("/profile");
+      router.replace("/users");
     }
   }, [isInitialized, isLoading, user, router]);
 

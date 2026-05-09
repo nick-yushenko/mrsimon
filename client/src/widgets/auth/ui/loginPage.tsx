@@ -27,12 +27,12 @@ export const LoginPageWidget = () => {
   const onSubmit = async (values: LoginFormValues) => {
     await loginUser(values);
 
-    router.push("/profile");
+    router.push("/users");
   };
 
   useEffect(() => {
     if (isInitialized && !isLoading && user) {
-      router.replace("/profile");
+      router.replace("/users");
     }
   }, [isInitialized, isLoading, user, router]);
 

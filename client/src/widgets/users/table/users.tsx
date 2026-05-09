@@ -2,8 +2,11 @@ import { Suspense } from "react";
 
 import { usersApi } from "@/features/users/api/usersApi";
 
+import { DEFAULT_ROWS_PER_PAGE_OPTIONS } from "@/shared/ui/appTable";
+
 import { UsersDataBody } from "./ui/dataBody";
 import { UsersTableShell } from "./tableShell";
+import { UsersPagination } from "./ui/pagination";
 import { UsersDataBodyServer } from "./server/dataBodyServer";
 import { UsersPaginationServer } from "./server/paginationServer";
 import { getUsersParams, type UsersSearchParamsPromise } from "./types";
@@ -28,7 +31,16 @@ export const Users = ({ searchParams }: UsersProps) => {
         </Suspense>
       }
       pagination={
-        <Suspense fallback={<div>TODO Loading</div>}>
+        <Suspense
+          fallback={
+            <UsersPagination
+              page={0}
+              pageSize={DEFAULT_ROWS_PER_PAGE_OPTIONS[0]}
+              count={0}
+              rowsPerPageOptions={DEFAULT_ROWS_PER_PAGE_OPTIONS}
+            />
+          }
+        >
           <UsersPaginationServer dataPromise={dataPromise} />
         </Suspense>
       }

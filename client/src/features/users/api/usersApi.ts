@@ -17,6 +17,9 @@ export const usersApi = {
       searchParams.set("search", search.trim());
     }
 
+    const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    // await sleep(2000);
     return apiClient.get<PagedResult<UserListItem>>(`/api/users?${searchParams.toString()}`);
   },
 

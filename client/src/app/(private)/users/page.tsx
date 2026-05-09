@@ -2,8 +2,8 @@ import type { UsersSearchParams } from "@/widgets/users/table";
 
 import Stack from "@mui/material/Stack";
 
-// import UsersStats from "@/widgets/users/stats";
 import { Users } from "@/widgets/users/table";
+import UsersStats from "@/widgets/users/stats";
 import { ProfilePreview } from "@/widgets/profile/preview/profilePreview";
 
 type UsersPageProps = {
@@ -13,7 +13,7 @@ type UsersPageProps = {
 export default function UsersPage({ searchParams }: UsersPageProps) {
   return (
     <Stack spacing={2}>
-      {/* <UsersStats /> */}
+      <UsersStats />
 
       <Users searchParams={searchParams} />
       <ProfilePreview />

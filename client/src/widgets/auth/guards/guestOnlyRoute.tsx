@@ -13,7 +13,7 @@ type GuestOnlyRouteProps = {
   fallbackUrl?: string;
 };
 
-export const GuestOnlyRoute = ({ children, fallbackUrl = "/profile" }: GuestOnlyRouteProps) => {
+export const GuestOnlyRoute = ({ children, fallbackUrl = "/users" }: GuestOnlyRouteProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
