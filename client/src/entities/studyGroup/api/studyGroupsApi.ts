@@ -1,10 +1,11 @@
 import type { PagedResult } from "@/shared/api/types";
-import type { StudyGroupDetails, StudyGroupListItem } from "@/entities/studyGroup/model/types";
 import type {
+  StudyGroupDetails,
+  StudyGroupListItem,
   GetStudyGroupsParams,
   CreateStudyGroupRequest,
   UpdateStudyGroupRequest,
-} from "../types";
+} from "@/entities/studyGroup/model/types";
 
 import { apiClient } from "@/shared/api/apiClient";
 

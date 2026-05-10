@@ -236,22 +236,43 @@ public class StudyGroupController : ControllerBase
         _db.GroupMembers.Add(member);
         await _db.SaveChangesAsync();
 
-        var createdMember = await _db
-            .GroupMembers.AsNoTracking()
-            .Where(groupMember => groupMember.Id == member.Id)
-            .Select(groupMember => new GroupMemberDto
-            {
-                Id = groupMember.Id,
-                UserId = groupMember.UserId,
-                UserName = groupMember.User.Name,
-                UserLastName = groupMember.User.LastName,
-                Role = groupMember.Role,
-                CustomPrice = groupMember.CustomPrice,
-                JoinedAt = groupMember.JoinedAt,
-            })
+        var createdMember = await ProjectToGroupMemberDto(
+            _db.GroupMembers.AsNoTracking().Where(groupMember => groupMember.Id == member.Id)
+        )
             .FirstAsync();
 
         return CreatedAtAction(nameof(GetStudyGroupById), new { id }, createdMember);
+    }
+
+    [HttpGet("{id:int}/members")]
+    public async Task<ActionResult<List<GroupMemberDto>>> GetMembers(
+        int id,
+        [FromQuery] GroupMemberRole role = GroupMemberRole.Student
+    )
+    {
+        var groupExists = await _db.StudyGroups.AnyAsync(group => group.Id == id);
+
+        if (!groupExists)
+        {
+            return NotFound();
+        }
+
+        if (!Enum.IsDefined(typeof(GroupMemberRole), role))
+        {
+            ModelState.AddModelError(nameof(role), "Некорректная роль участника группы.");
+            return ValidationProblem(ModelState);
+        }
+
+        var members = await ProjectToGroupMemberDto(
+            _db
+                .GroupMembers.AsNoTracking()
+                .Where(member => member.GroupId == id && member.Role == role)
+                .OrderBy(member => member.User.LastName)
+                .ThenBy(member => member.User.Name)
+        )
+            .ToListAsync();
+
+        return Ok(members);
     }
 
     [HttpDelete("{id:int}/members/{userId:guid}")]
@@ -275,6 +296,20 @@ public class StudyGroupController : ControllerBase
     private static string? NormalizeOptionalText(string? value)
     {
         return string.IsNullOrWhiteSpace(value) ? null : value.Trim();
+    }
+
+    private static IQueryable<GroupMemberDto> ProjectToGroupMemberDto(IQueryable<GroupMember> query)
+    {
+        return query.Select(member => new GroupMemberDto
+        {
+            Id = member.Id,
+            UserId = member.UserId,
+            UserName = member.User.Name,
+            UserLastName = member.User.LastName,
+            Role = member.Role,
+            CustomPrice = member.CustomPrice,
+            JoinedAt = member.JoinedAt,
+        });
     }
 
     private async Task<StudyGroupDetailsDto?> GetStudyGroupDetailsDto(int id)

@@ -1,4 +1,4 @@
-import type { StudyGroupFormValues } from "../../../features/studyGroups/types";
+import type { StudyGroupFormValues } from "./types";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 

@@ -1,8 +1,7 @@
 "use client";
 
 import type { Subject } from "@/entities/subject/model/types";
-import type { StudyGroupFormValues } from "@/features/studyGroups/types";
-import type { StudyGroupDetails } from "@/entities/studyGroup/model/types";
+import type { StudyGroupDetails, StudyGroupFormValues } from "@/entities/studyGroup/model/types";
 
 import { useMemo, useCallback } from "react";
 
@@ -16,6 +15,8 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import ArchiveRoundedIcon from "@mui/icons-material/ArchiveRounded";
+
+import { StudyGroupMemberList } from "@/features/manage-study-group-members/ui/studyGroupMemberList";
 
 import {
   studyGroupFormSchema,
@@ -75,11 +76,6 @@ export const StudyGroupView = ({
     [actions?.createSubject, group, subjects],
   );
 
-  const teachersCount = useMemo(
-    () => group?.members.filter((member) => member.role === "Teacher").length ?? 0,
-    [group],
-  );
-
   const renderGroupFields = useCallback((items: EntityViewLayoutItem<StudyGroupFormValues>[]) => {
     return (
       <Grid container spacing={2}>
@@ -88,7 +84,7 @@ export const StudyGroupView = ({
             key={item.field.key}
             containerSize={{
               xs: 12,
-              sm: item.field.key === "description" || item.field.key === "subjectId" ? 12 : 6,
+              sm: item.field.key === "description" ? 12 : 6,
             }}
           >
             {item.node}
@@ -136,7 +132,7 @@ export const StudyGroupView = ({
           )}
 
           {!isLoading && group && (
-            <Stack spacing={2.5}>
+            <Stack spacing={2}>
               <Stack spacing={1}>
                 <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
                   <Chip
@@ -170,14 +166,14 @@ export const StudyGroupView = ({
                   <Typography variant="caption" color="text.secondary">
                     Ученики
                   </Typography>
-                  <Typography variant="subtitle1">{group.studentsCount}</Typography>
+                  <StudyGroupMemberList groupId={group.id} role="Student" />
                 </Box>
 
                 <Box>
                   <Typography variant="caption" color="text.secondary">
                     Преподаватели
                   </Typography>
-                  <Typography variant="subtitle1">{teachersCount}</Typography>
+                  <StudyGroupMemberList groupId={group.id} role="Teacher" />
                 </Box>
               </Stack>
 

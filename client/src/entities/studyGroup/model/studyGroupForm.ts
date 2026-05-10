@@ -44,13 +44,6 @@ export const createStudyGroupFormFields = ({
   return [
     { key: "name", label: "Название", kind: "text", editable: true, autoComplete: false },
     {
-      key: "description",
-      label: "Описание",
-      kind: "textarea",
-      editable: true,
-      placeholder: "Добавьте описание группы",
-    },
-    {
       key: "subjectId",
       label: "Дисциплина",
       kind: "select",
@@ -81,6 +74,13 @@ export const createStudyGroupFormFields = ({
     // TODO добавить кнопки хелперы
     { key: "startsOn", label: "Начало", kind: "date", editable: true },
     { key: "endsOn", label: "Окончание", kind: "date", editable: true },
+    {
+      key: "description",
+      label: "Описание",
+      kind: "textarea",
+      editable: true,
+      placeholder: "Добавьте описание группы",
+    },
   ];
 };
 
