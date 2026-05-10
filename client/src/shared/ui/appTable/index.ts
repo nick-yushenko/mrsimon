@@ -4,12 +4,14 @@ export type { AppTableProps } from "./appTable";
 export { ToolbarSearch } from "./toolbar/search";
 export { AppTable as default } from "./appTable";
 export { AppTablePagination } from "./pagination";
+export { AppTableEmptyState } from "./emptyState";
 export type { AppDataGridProps } from "./dataGrid";
-
 export { AppTableToolbar } from "./toolbar/toolbar";
 
 export { createToggleTableHeightAction } from "./config";
+
 export { AppTableToolbarActions } from "./toolbar/actions";
+export type { AppTableEmptyStateProps } from "./emptyState";
 
 export { DEFAULT_ROWS_PER_PAGE_OPTIONS } from "./constants";
 export type { AppTableToolbarProps } from "./toolbar/toolbar";

@@ -31,7 +31,7 @@ type Props = CardProps & {
 };
 
 // TODO добавить локальный ErrorBoundary
-export const StatsWidget = ({
+export const AnalyticWidget = ({
   sx,
   iconSrc,
   title,

@@ -12,7 +12,7 @@ import { StudyGroupsDataBody } from "./ui/dataBody";
 
 export const StudyGroups = () => {
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(DEFAULT_ROWS_PER_PAGE_OPTIONS[0]);
   const [search, setSearch] = useState("");
   const [includeArchived, setIncludeArchived] = useState(false);
 

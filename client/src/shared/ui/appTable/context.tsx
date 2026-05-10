@@ -2,7 +2,7 @@
 
 import { useContext, createContext } from "react";
 
-export const APP_TABLE_DEFAULT_BODY_HEIGHT = 300;
+export const APP_TABLE_DEFAULT_BODY_HEIGHT = 400;
 
 export type AppTableContextValue = {
   bodyHeight: number | string;

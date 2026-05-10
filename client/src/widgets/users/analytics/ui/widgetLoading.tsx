@@ -20,7 +20,13 @@ type Props = CardProps & {
   color?: PaletteColorKey;
 };
 
-export const StatsWidgetLoading = ({ title, iconSrc, color = "primary", sx, ...other }: Props) => {
+export const AnalyticWidgetLoading = ({
+  title,
+  iconSrc,
+  color = "primary",
+  sx,
+  ...other
+}: Props) => {
   const theme = useTheme();
 
   const renderTrending = () => (

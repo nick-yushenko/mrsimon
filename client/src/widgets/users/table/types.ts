@@ -1,4 +1,4 @@
-import type { GetUsersParams } from "@/features/users/types";
+import type { GetUsersParams } from "@/entities/user/model/types";
 
 import { getStringParam, getPositiveNumberParam } from "@/shared/lib/utlis/param";
 

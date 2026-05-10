@@ -1,3 +1,3 @@
-import { UsersStats } from "./usersStats";
+import { UsersAnalytics } from "./usersAnalytics";
 
-export default UsersStats;
+export default UsersAnalytics;

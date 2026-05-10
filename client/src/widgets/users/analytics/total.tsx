@@ -4,18 +4,18 @@ import { usersApi } from "@/entities/user/api/usersApi";
 
 import { formatMonthFromParts } from "@/shared/lib/format/date";
 
-import { StatsWidget } from "./ui/widget";
+import { AnalyticWidget } from "./ui/widget";
 
 type TProps = {
   color?: PaletteColorKey;
 };
 
-export const TotalUsersStat = async ({ color }: TProps) => {
+export const TotalUsers = async ({ color }: TProps) => {
   const data = await usersApi.getSummary();
   const monthlyData = data?.monthlyCounts ?? [];
 
   return (
-    <StatsWidget
+    <AnalyticWidget
       title="Пользователей"
       percent={data.monthlyGrowthPercent}
       total={data.total}

@@ -4,11 +4,11 @@ import { Suspense } from "react";
 
 import Stack from "@mui/material/Stack";
 
-import { TotalUsersStat } from "./totalStat";
-import { StatsWidgetLoading } from "./ui/widgetLoading";
+import { TotalUsers } from "./total";
+import { AnalyticWidgetLoading } from "./ui/widgetLoading";
 
 // TODO добавить текущих и архивных пользователей + число посетителей (активные пользователи по неделям)
-export const UsersStats = () => {
+export const UsersAnalytics = () => {
   const colors: PaletteColorKey[] = ["primary", "secondary", "info", "success", "warning", "error"];
   return (
     <Stack direction="row" spacing={2} sx={{ width: "100%", flexWrap: "wrap" }}>
@@ -17,14 +17,14 @@ export const UsersStats = () => {
           <Suspense
             key={index}
             fallback={
-              <StatsWidgetLoading
+              <AnalyticWidgetLoading
                 title="Пользователей"
                 color={color}
                 iconSrc={"/assets/icons/glass/ic-glass-users-primary.svg"}
               />
             }
           >
-            <TotalUsersStat color={color} />
+            <TotalUsers color={color} />
           </Suspense>
         );
       })}

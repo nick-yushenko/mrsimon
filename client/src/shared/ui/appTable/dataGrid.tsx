@@ -3,10 +3,13 @@
 import type { Theme, SxProps } from "@mui/material/styles";
 import type { GridValidRowModel, DataGridProps as MuiDataGridProps } from "@mui/x-data-grid";
 
+import { useMemo } from "react";
+
 import Box from "@mui/material/Box";
 import { DataGrid as MuiDataGrid } from "@mui/x-data-grid/DataGrid";
 
 import { useAppTableContext, APP_TABLE_DEFAULT_BODY_HEIGHT } from "./context";
+import { AppTableEmptyState, type AppTableEmptyStateProps } from "./emptyState";
 
 type BlockedDataGridProps =
   | "autoHeight"
@@ -25,6 +28,7 @@ export type AppDataGridProps<R extends GridValidRowModel = GridValidRowModel> = 
   MuiDataGridProps<R>,
   BlockedDataGridProps
 > & {
+  emptyState?: AppTableEmptyStateProps;
   height?: number | string;
   minHeight?: number | string;
 };
@@ -32,6 +36,7 @@ export type AppDataGridProps<R extends GridValidRowModel = GridValidRowModel> = 
 const toSxArray = (sx?: SxProps<Theme>) => (Array.isArray(sx) ? sx : [sx]);
 
 export const AppDataGrid = <R extends GridValidRowModel = GridValidRowModel>({
+  emptyState,
   height,
   minHeight,
   sx,
@@ -42,6 +47,13 @@ export const AppDataGrid = <R extends GridValidRowModel = GridValidRowModel>({
   const limitedHeight = height ?? tableContext?.bodyHeight ?? APP_TABLE_DEFAULT_BODY_HEIGHT;
   const resolvedHeight = isBodyHeightLimited ? limitedHeight : "auto";
   const resolvedMinHeight = minHeight ?? (isBodyHeightLimited ? limitedHeight : undefined);
+
+  const NoRowsOverlay = useMemo(() => {
+    const Overlay = () => {
+      return <AppTableEmptyState {...emptyState} />;
+    };
+    return Overlay;
+  }, [emptyState]);
 
   return (
     <Box
@@ -59,6 +71,9 @@ export const AppDataGrid = <R extends GridValidRowModel = GridValidRowModel>({
         disableRowSelectionOnClick
         hideFooter
         showToolbar={false}
+        slots={{
+          noRowsOverlay: NoRowsOverlay,
+        }}
         sx={toSxArray(sx)}
       />
     </Box>

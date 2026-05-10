@@ -36,9 +36,8 @@ export const AppTableToolbarActions = ({ actions = [] }: AppTableToolbarActionsP
             p: isSmallScreen ? 1 : 2,
             height: 50,
             minWidth: 50,
-            gap: "6px",
             "& .MuiButton-startIcon": {
-              marginRight: 0,
+              marginRight: isSmallScreen ? 0 : 1,
               marginLeft: 0,
             },
           }}
