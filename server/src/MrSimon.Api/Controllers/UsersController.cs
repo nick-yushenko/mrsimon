@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MrSimon.Api.Data;
 using MrSimon.Api.Dtos.Common;
 using MrSimon.Api.Dtos.Users;
+using MrSimon.Api.Infrastructure.Errors;
 
 namespace MrSimon.Api.Controllers;
 
@@ -105,7 +106,11 @@ public class UsersController : ControllerBase
 
         if (user == null)
         {
-            return NotFound();
+            throw new AppException(
+                ErrorCodes.UserNotFound,
+                "Пользователь не найден",
+                StatusCodes.Status404NotFound
+            );
         }
 
         return Ok(user);

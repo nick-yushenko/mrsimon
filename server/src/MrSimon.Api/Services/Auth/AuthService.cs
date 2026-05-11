@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MrSimon.Api.Data;
 using MrSimon.Api.Dtos.Auth;
+using MrSimon.Api.Infrastructure.Errors;
 using MrSimon.Api.Models;
 
 namespace MrSimon.Api.Services.Auth;
@@ -38,7 +39,11 @@ public class AuthService : IAuthService
 
         if (emailAlreadyExists)
         {
-            throw new Exception("Пользователь с таким email уже существует");
+            throw new AppException(
+                ErrorCodes.EmailAlreadyExists,
+                "Пользователь с таким email уже существует",
+                StatusCodes.Status409Conflict
+            );
         }
 
         var user = new User
@@ -69,7 +74,11 @@ public class AuthService : IAuthService
 
         if (user is null)
         {
-            throw new Exception("Неверный email или пароль");
+            throw new AppException(
+                ErrorCodes.InvalidCredentials,
+                "Неверный email или пароль",
+                StatusCodes.Status401Unauthorized
+            );
         }
 
         var result = _passwordHasher.VerifyHashedPassword(
@@ -80,7 +89,11 @@ public class AuthService : IAuthService
 
         if (result == PasswordVerificationResult.Failed)
         {
-            throw new Exception("Неверный email или пароль");
+            throw new AppException(
+                ErrorCodes.InvalidCredentials,
+                "Неверный email или пароль",
+                StatusCodes.Status401Unauthorized
+            );
         }
 
         return CreateAuthResponse(user);
@@ -92,21 +105,33 @@ public class AuthService : IAuthService
 
         if (httpContext?.User.Identity?.IsAuthenticated != true)
         {
-            throw new Exception("Пользователь не авторизован");
+            throw new AppException(
+                ErrorCodes.Unauthorized,
+                "Пользователь не авторизован",
+                StatusCodes.Status401Unauthorized
+            );
         }
 
         var userIdValue = httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
         if (!Guid.TryParse(userIdValue, out var userId))
         {
-            throw new Exception("Некорректный токен");
+            throw new AppException(
+                ErrorCodes.InvalidToken,
+                "Некорректный токен",
+                StatusCodes.Status401Unauthorized
+            );
         }
 
         var user = await _db.Users.FirstOrDefaultAsync(user => user.Id == userId);
 
         if (user is null)
         {
-            throw new Exception("Пользователь не найден");
+            throw new AppException(
+                ErrorCodes.UserNotFound,
+                "Пользователь не найден",
+                StatusCodes.Status404NotFound
+            );
         }
 
         return ToUserDto(user);

@@ -1,9 +1,14 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MrSimon.Api.Data;
+using MrSimon.Api.Dtos.Common;
+using MrSimon.Api.Infrastructure.Errors;
+using MrSimon.Api.Infrastructure.Responses;
 using MrSimon.Api.Models;
 using MrSimon.Api.Services.Auth;
 
@@ -22,7 +27,36 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Controllers
 // ================================
 
-builder.Services.AddControllers();
+builder.Services.AddScoped<ApiResponseWrapperFilter>();
+
+builder
+    .Services.AddControllers(options =>
+    {
+        options.Filters.AddService<ApiResponseWrapperFilter>();
+    })
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.InvalidModelStateResponseFactory = context =>
+        {
+            var problemDetails = new ValidationProblemDetails(context.ModelState)
+            {
+                Status = StatusCodes.Status400BadRequest,
+                Title = "Ошибка валидации",
+                Type = ProblemDetailsDefaults.ValidationType,
+            };
+
+            problemDetails.Extensions["code"] = ErrorCodes.ValidationError;
+            problemDetails.Extensions["traceId"] = context.HttpContext.TraceIdentifier;
+
+            return new BadRequestObjectResult(problemDetails)
+            {
+                ContentTypes = { "application/problem+json" },
+            };
+        };
+    });
+
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<ProblemDetailsExceptionHandler>();
 
 // ================================
 // Application services
@@ -68,6 +102,26 @@ builder
 
             ClockSkew = TimeSpan.Zero,
         };
+
+        options.Events = new JwtBearerEvents
+        {
+            OnChallenge = async context =>
+            {
+                context.HandleResponse();
+
+                await WriteProblemDetailsAsync(
+                    context.HttpContext,
+                    StatusCodes.Status401Unauthorized,
+                    ErrorCodes.Unauthorized
+                );
+            },
+            OnForbidden = context =>
+                WriteProblemDetailsAsync(
+                    context.HttpContext,
+                    StatusCodes.Status403Forbidden,
+                    ErrorCodes.Forbidden
+                ),
+        };
     });
 
 builder.Services.AddAuthorization();
@@ -104,6 +158,8 @@ var app = builder.Build();
 // Middleware pipeline
 // ================================
 
+app.UseExceptionHandler();
+
 // Swagger UI для разработки.
 app.UseSwagger();
 app.UseSwaggerUI();
@@ -132,13 +188,36 @@ app.MapGet(
     "/health",
     () =>
         Results.Ok(
-            new
+            new ApiResponse<object>
             {
-                status = "ok",
-                service = "MrSimon.Api",
-                timestamp = DateTimeOffset.UtcNow,
+                Data = new
+                {
+                    status = "ok",
+                    service = "MrSimon.Api",
+                    timestamp = DateTimeOffset.UtcNow,
+                },
             }
         )
 );
 
 app.Run();
+
+static Task WriteProblemDetailsAsync(HttpContext httpContext, int statusCode, string code)
+{
+    var problemDetailsFactory =
+        httpContext.RequestServices.GetRequiredService<ProblemDetailsFactory>();
+    var problemDetails = problemDetailsFactory.CreateProblemDetails(
+        httpContext,
+        statusCode,
+        ProblemDetailsDefaults.GetTitle(statusCode),
+        ProblemDetailsDefaults.GetType(statusCode)
+    );
+
+    problemDetails.Extensions["code"] = code;
+    problemDetails.Extensions["traceId"] = httpContext.TraceIdentifier;
+
+    httpContext.Response.StatusCode = statusCode;
+    httpContext.Response.ContentType = "application/problem+json";
+
+    return httpContext.Response.WriteAsJsonAsync(problemDetails);
+}

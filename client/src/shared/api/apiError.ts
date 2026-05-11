@@ -1,6 +1,12 @@
 export type ApiErrorData = {
+  type?: string;
+  title?: string;
+  status?: number;
+  detail?: string;
+  code?: string;
   message?: string;
   errors?: Record<string, string[]>;
+  traceId?: string;
 };
 
 export const isInvalidSessionError = (error: unknown) => {
@@ -34,7 +40,9 @@ export class ApiError<TData = unknown> extends Error {
 
 export const getApiErrorMessage = (error: unknown, fallback = "Request failed"): string => {
   if (error instanceof ApiError) {
-    return error.data?.message ?? error.message ?? fallback;
+    return (
+      error.data?.detail ?? error.data?.title ?? error.data?.message ?? error.message ?? fallback
+    );
   }
 
   if (error instanceof Error) {
