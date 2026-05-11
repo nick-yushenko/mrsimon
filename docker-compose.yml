@@ -1,5 +1,6 @@
 services:
   server:
+    image: mrsimon-server:latest
     build:
       context: ./server
       dockerfile: Dockerfile.dev
