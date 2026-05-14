@@ -16,6 +16,7 @@ export function hexToRgbChannel(hex: string) {
   return `${r} ${g} ${b}`;
 }
 
+// TODO избавиться от varAlpha и перейти на обычный alpha
 export function varAlpha(channel: string, opacity: number) {
   return `rgba(${channel} / ${opacity})`;
 }

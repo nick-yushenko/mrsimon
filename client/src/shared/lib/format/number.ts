@@ -4,8 +4,8 @@ export type InputNumberValue = string | number | null | undefined;
 
 type Options = Intl.NumberFormatOptions;
 
-function processInput(inputValue: InputNumberValue): number | null {
-  if (inputValue == null || Number.isNaN(inputValue)) return null;
+function processInput(inputValue: InputNumberValue): number {
+  if (inputValue == null || Number.isNaN(inputValue)) return 0;
   return Number(inputValue);
 }
 
@@ -34,7 +34,6 @@ export function formatCurrency(inputValue: InputNumberValue, options?: Options) 
   const locale = DEFAULT_LOCALE;
 
   const number = processInput(inputValue);
-  if (number === null) return "";
 
   const fm = new Intl.NumberFormat(locale.code, {
     style: "currency",

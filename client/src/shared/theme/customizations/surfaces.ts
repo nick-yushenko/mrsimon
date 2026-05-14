@@ -1,27 +1,57 @@
-import type { Theme, Components } from "@mui/material/styles";
+import { alpha, type Theme, type Components } from "@mui/material/styles";
 
 export const surfacesCustomizations: Components<Theme> = {
   MuiPaper: {
-    defaultProps: {
-      elevation: 0,
+    styleOverrides: {
+      root: {
+        boxShadow: "none",
+      },
+    },
+  },
+  MuiDivider: {
+    styleOverrides: {
+      root: {},
+    },
+    variants: [
+      {
+        props: { variant: "dashed" },
+        style: ({ theme }) => ({
+          borderStyle: "dashed",
+        }),
+      },
+      {
+        props: { variant: "middle-dashed" },
+        style: ({ theme }) => ({
+          borderStyle: "dashed",
+          margin: "0 1rem",
+        }),
+      },
+    ],
+  },
+
+  MuiBackdrop: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        backgroundColor: alpha(theme.palette.grey[800], 0.28), // grey[800]
+      }),
+      invisible: {
+        backgroundColor: "transparent",
+      },
     },
   },
   MuiCard: {
     styleOverrides: {
-      root: ({ theme }) => {
-        return {
-          // border: `1px solid ${(theme.vars || theme).palette.divider}`,
-          padding: "1rem",
-          boxShadow: theme.shadows[0],
-        };
-      },
+      root: ({ theme }) => ({
+        padding: "0",
+        boxShadow: "none",
+      }),
     },
     variants: [
       {
         props: { variant: "plain" },
         style: ({ theme }) => ({
           borderRadius: theme.radius.lg,
-          boxShadow: theme.shadows[4],
+          boxShadow: theme.customShadows.card,
           flex: 1,
         }),
       },
@@ -29,16 +59,89 @@ export const surfacesCustomizations: Components<Theme> = {
         props: { variant: "panel" },
         style: ({ theme }) => ({
           borderRadius: theme.radius.sm,
-          boxShadow: theme.shadows[1],
           border: `1px solid ${theme.palette.divider}`,
-          padding: 1,
         }),
       },
     ],
   },
+  MuiCardHeader: {
+    styleOverrides: {
+      root: {
+        padding: "1.5rem",
+        paddingBottom: 0,
+      },
+      subheader: ({ theme }) => ({
+        color: theme.palette.text.primary,
+      }),
+    },
+  },
+  MuiCardContent: {
+    styleOverrides: {
+      root: {
+        padding: "1.5rem",
+      },
+    },
+  },
+
   MuiStack: {
     defaultProps: {
       useFlexGap: true,
+    },
+  },
+
+  MuiDialog: {
+    defaultProps: {
+      fullWidth: true,
+      maxWidth: "xs",
+    },
+    styleOverrides: {
+      paper: ({ theme }) => ({
+        borderRadius: theme.radius.lg,
+        boxShadow: theme.customShadows.dialog,
+        outline: "none",
+      }),
+    },
+  },
+
+  MuiDialogTitle: {
+    defaultProps: {
+      component: "div",
+    },
+    styleOverrides: {
+      root: ({ theme }) => ({
+        paddingBottom: 0,
+        "& + .MuiDialogContent-root": {
+          paddingTop: "1rem",
+        },
+      }),
+    },
+  },
+  MuiDialogContent: {
+    defaultProps: {},
+    styleOverrides: {
+      root: ({ theme }) => ({
+        padding: "1rem 1.5rem",
+        paddingTop: 10,
+      }),
+    },
+  },
+  MuiDialogActions: {
+    defaultProps: {},
+    styleOverrides: {
+      root: ({ theme }) => ({
+        padding: "1rem 1.5rem",
+      }),
+    },
+  },
+
+  MuiDrawer: {
+    defaultProps: {},
+    styleOverrides: {
+      paper: ({ theme }) => ({
+        containerType: "inline-size",
+        overflow: "hidden",
+        // boxShadow: theme.customShadows.dialog,
+      }),
     },
   },
 };

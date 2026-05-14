@@ -42,7 +42,6 @@ export const AppTable = ({
           display: "flex",
           flexDirection: "column",
           width: "100%",
-          p: 0,
         }}
       >
         {toolbar}

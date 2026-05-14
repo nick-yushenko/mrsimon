@@ -23,7 +23,8 @@ public class UsersController : ControllerBase
     public async Task<ActionResult<PagedResult<UserListItemDto>>> GetUsers(
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 20,
-        [FromQuery] string? search = null
+        [FromQuery] string? search = null,
+        [FromQuery] string? role = null
     )
     {
         if (page < 1)
@@ -42,6 +43,13 @@ public class UsersController : ControllerBase
         }
 
         var query = _db.Users.AsNoTracking().AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(role))
+        {
+					  // TODO добавить проверку, что роль действительно существует - иначе не фильтровать
+            var normalizedRole = role.Trim();
+            query = query.Where(user => user.Role == normalizedRole);
+        }
 
         if (!string.IsNullOrWhiteSpace(search))
         {

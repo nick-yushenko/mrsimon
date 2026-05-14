@@ -24,6 +24,8 @@ import {
 } from "@/entities/studyGroup/model/studyGroupForm";
 
 import { EntityView } from "@/shared/ui/entityView";
+import { useUserListQuery } from "@/entities/user/model/queries";
+import { Autocomplete } from "@mui/material";
 
 const FORM_ID = "add-study-group-form";
 
@@ -33,54 +35,22 @@ type TProps = {
   onSuccess?: (group: StudyGroupDetails) => void;
 };
 
-// TODO refactor, запросы не должны идти в момент открытия диалогового окна. Запрос fetchSubjects, должен идти в момент открытия выпадающего списка
-// TODO возможно стоит вынести в отдельный компонент
-export const AddDialog = ({ open, onClose, onSuccess }: TProps) => {
-  const { createStudyGroup, createError, isCreating } = useStudyGroupActions();
+export const AddStudent = ({ open, onClose, onSuccess }: TProps) => {
+  // const query = useUserListQuery();
 
-  // TODO убрать стор для subjects
-  const subjects = useSubjectsStore((state) => state.items);
-  const fetchSubjects = useSubjectsStore((state) => state.fetchSubjects);
-  const createSubject = useSubjectsStore((state) => state.createSubject);
-
-  useEffect(() => {
-    if (open) {
-      fetchSubjects();
-    }
-  }, [fetchSubjects, open]);
-
-  const createSubjectFromAutocomplete = useCallback(
-    async (name: string) => {
-      return await toast.promise(createSubject({ name }), {
-        pending: "Создание дисциплины",
-        success: "Дисциплина создана",
-        error: "Не удалось создать дисциплину",
-      });
-    },
-    [createSubject],
-  );
-
-  const fields = useMemo(
-    () =>
-      createStudyGroupFormFields({
-        subjects,
-        onCreateSubject: createSubjectFromAutocomplete,
-      }),
-    [createSubjectFromAutocomplete, subjects],
-  );
+  // const createSubjectFromAutocomplete = useCallback(
+  //   async (name: string) => {
+  //     return await toast.promise(createSubject({ name }), {
+  //       pending: "Создание дисциплины",
+  //       success: "Дисциплина создана",
+  //       error: "Не удалось создать дисциплину",
+  //     });
+  //   },
+  //   [createSubject],
+  // );
 
   const handleSubmit = async (values: StudyGroupFormValues) => {
-    const group = await toast.promise(createStudyGroup(normalizeStudyGroupFormValues(values)), {
-      pending: "Создание группы",
-      success: {
-        render({ data }) {
-          return `Группа ${data.name} создана`;
-        },
-      },
-      error: "Не удалось создать группу",
-    });
-
-    onSuccess?.(group);
+    // onSuccess?.();
   };
 
   return (
@@ -90,13 +60,14 @@ export const AddDialog = ({ open, onClose, onSuccess }: TProps) => {
       </DialogTitle>
 
       <DialogContent>
-        {createError && (
+        <Autocomplete />
+        {/* {createError && (
           <Alert severity="error" sx={{ mb: 2 }}>
             {createError?.message ?? "Ошибка"}
           </Alert>
-        )}
+        )} */}
 
-        <EntityView
+        {/* <EntityView
           formId={FORM_ID}
           entity={createEmptyStudyGroupFormValues()}
           fields={fields}
@@ -105,7 +76,7 @@ export const AddDialog = ({ open, onClose, onSuccess }: TProps) => {
           defaultEditMode
           actions="none"
           onSubmit={handleSubmit}
-        />
+        /> */}
       </DialogContent>
 
       <DialogActions>
@@ -116,7 +87,7 @@ export const AddDialog = ({ open, onClose, onSuccess }: TProps) => {
           type="submit"
           form={FORM_ID}
           variant="contained"
-          loading={isCreating}
+          // loading={isCreating}
           loadingPosition="end"
           size="large"
         >

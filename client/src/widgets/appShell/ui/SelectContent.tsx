@@ -69,6 +69,7 @@ const SelectContent = () => {
     }
   };
 
+  // TODO переделать - сделать select через autocomplete, так как там нет bacdrop
   return (
     <>
       <Select

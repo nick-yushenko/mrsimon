@@ -1,6 +1,6 @@
 "use client";
 
-import type { StudyGroupFormValues } from "@/features/studyGroups/types";
+import type { StudyGroupFormValues } from "@/entities/studyGroup/model/types";
 
 import { toast } from "react-toastify/unstyled";
 import { useMemo, useEffect, useCallback } from "react";

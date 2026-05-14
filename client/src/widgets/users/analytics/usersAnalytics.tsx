@@ -9,7 +9,10 @@ import { AnalyticWidgetLoading } from "./ui/widgetLoading";
 
 // TODO добавить текущих и архивных пользователей + число посетителей (активные пользователи по неделям)
 export const UsersAnalytics = () => {
-  const colors: PaletteColorKey[] = ["primary", "secondary", "info", "success", "warning", "error"];
+  const colors: PaletteColorKey[] = [
+    "primary",
+    // "secondary", "info", "success", "warning", "error"
+  ];
   return (
     <Stack direction="row" spacing={2} sx={{ width: "100%", flexWrap: "wrap" }}>
       {colors.map((color, index) => {

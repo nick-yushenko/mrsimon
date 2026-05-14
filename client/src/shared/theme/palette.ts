@@ -33,6 +33,7 @@ export const palette: ThemeOptions["palette"] = {
     paper: "#FFFFFF",
   },
 
+  // TODO скорее всего ничего из этого не нужно
   action: {
     active: grey[600],
     hover: varAlpha(grey["500Channel"], 0.08),
@@ -43,5 +44,5 @@ export const palette: ThemeOptions["palette"] = {
     disabledOpacity: 0.48,
   },
 
-  divider: varAlpha(grey["500Channel"], 0.2),
+  divider: varAlpha(grey["500Channel"], 0.4),
 };

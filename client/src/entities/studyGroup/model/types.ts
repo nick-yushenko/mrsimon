@@ -7,8 +7,9 @@ export type GroupMember = {
   userId: string;
   userName: string;
   userLastName: string;
+  userNote: string;
   role: GroupMemberRole;
-  customPrice?: number | null;
+  customPrice: number | null;
   joinedAt: string;
 };
 

@@ -1,4 +1,4 @@
-import type { GetStudyGroupsParams } from "../../../features/studyGroups/types";
+import type { GetStudyGroupsParams } from "./types";
 
 export const studyGroupsQueryKeys = {
   all: ["studyGroups"],

@@ -109,7 +109,7 @@ export const ResizableDrawer = ({
 
   const paperSx = {
     flexShrink: 0,
-    ...(isHorizontal ? { width: size } : { height: size }),
+    ...(isHorizontal ? { width: size, height: "100%" } : { height: size, width: "100%" }),
     maxWidth: "100vw",
     maxHeight: "100vh",
   };
@@ -141,11 +141,11 @@ export const ResizableDrawer = ({
       variant="temporary"
       slotProps={{
         ...slotProps,
-        paper: mergeSlotProps({ sx: paperSx, elevation: 11 }, slotProps?.paper),
+        paper: mergeSlotProps({ sx: paperSx }, slotProps?.paper),
       }}
       {...drawerProps}
     >
-      {children}
+      <Box sx={{ overflowY: "auto", width: "100%", height: "100%", p: 2 }}>{children}</Box>
       <Box
         aria-hidden
         onPointerDown={handlePointerDown}

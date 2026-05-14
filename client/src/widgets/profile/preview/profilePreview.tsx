@@ -47,9 +47,7 @@ export const ProfilePreview = () => {
           },
         }}
       >
-        <Box sx={{ overflowY: "auto", p: 2 }}>
-          {userId && <ProfileView id={userId} variant="embedded" />}
-        </Box>
+        {userId && <ProfileView id={userId} variant="embedded" />}
       </ResizableDrawer>
     </Box>
   );

@@ -18,6 +18,7 @@ export type LoginRequest = {
   password: string;
 };
 
+// TODO Добавить выбор роли
 export type RegisterRequest = {
   name: string;
   lastName: string;

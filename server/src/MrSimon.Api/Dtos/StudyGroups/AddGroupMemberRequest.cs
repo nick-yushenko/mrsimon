@@ -24,10 +24,7 @@ public class AddGroupMemberRequest : IValidatableObject
     {
         if (UserId == Guid.Empty)
         {
-            yield return new ValidationResult(
-                "Пользователь обязателен.",
-                new[] { nameof(UserId) }
-            );
+            yield return new ValidationResult("Пользователь обязателен.", new[] { nameof(UserId) });
         }
 
         if (!Enum.IsDefined(typeof(GroupMemberRole), Role))

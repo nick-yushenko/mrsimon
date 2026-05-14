@@ -11,6 +11,9 @@ export const inputsCustomizations: Components<Theme> = {
         textTransform: "none",
         fontWeight: 400,
       }),
+      startIcon: {
+        marginLeft: 0,
+      },
     },
   },
 
@@ -34,12 +37,6 @@ export const inputsCustomizations: Components<Theme> = {
           borderColor: theme.palette.primary.main,
           borderWidth: 2,
         },
-        // "&.Mui-disabled": {
-        //   backgroundColor: theme.palette.background.paper,
-        // },
-
-        // "&.Mui-disabled .MuiOutlinedInput-notchedOutline": {
-        // },
       }),
       input: ({ theme }) => ({
         "&.Mui-disabled": {
@@ -59,7 +56,7 @@ export const inputsCustomizations: Components<Theme> = {
 
     styleOverrides: {
       paper: ({ theme }) => ({
-        boxShadow: theme.shadows[8],
+        boxShadow: theme.customShadows.dropdown,
         marginTop: 2,
 
         "& .MuiAutocomplete-listbox": {
@@ -70,18 +67,13 @@ export const inputsCustomizations: Components<Theme> = {
   },
 
   MuiSelect: {
-    styleOverrides: {
-      // menu: ({ theme }) => ({
-      //   boxShadow: theme.shadows[8],
-      //   // border: "1px solid",
-      //   // borderColor: theme.palette.divider,
-      // }),
-    },
+    styleOverrides: {},
   },
+
   MuiMenu: {
     styleOverrides: {
       paper: ({ theme }) => ({
-        boxShadow: theme.shadows[8],
+        boxShadow: theme.customShadows.dropdown,
         transform: "scale(1, 1)",
       }),
     },

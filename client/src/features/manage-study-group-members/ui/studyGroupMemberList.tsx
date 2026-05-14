@@ -12,6 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 
 import { useStudyGroupMemberListQuery } from "../model/queries";
+import { StudyGroupStudentList } from "./studyGroupStudentListView";
 import { useManageStudyGroupMembersActions } from "../model/actions";
 
 type TProps = {
@@ -57,13 +58,26 @@ export const StudyGroupMemberList = ({ groupId, role }: TProps) => {
     );
   }
 
-  if (query.isError) {
+  if (query.error?.message || !query.data) {
     return (
       <Typography variant="body2" color="error">
         Не удалось загрузить список.
       </Typography>
     );
   }
+
+  if (role === "Student")
+    return (
+      <StudyGroupStudentList
+        students={query.data}
+        onAdd={handleAdd}
+        onRemove={handleRemove}
+        isAdding={isAdding}
+        isRemoving={isRemoving}
+        isLoading={query.isLoading}
+        error={query.error?.message}
+      />
+    );
 
   return (
     <Stack spacing={1}>

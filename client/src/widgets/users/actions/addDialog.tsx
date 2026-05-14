@@ -42,24 +42,16 @@ export const AddDialog = ({ onClose, onSuccess, open }: AddUserDialogProps) => {
   };
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
-      <DialogTitle component={"div"}>
-        <Typography component="h1" variant="h4">
-          Добавить пользователя
-        </Typography>
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>
+        <Typography variant="h4">Добавить пользователя</Typography>
       </DialogTitle>
 
-      <DialogContent dividers>
+      <DialogContent>
         <RegisterForm formId={FORM_ID} onSubmit={onSubmit} />
       </DialogContent>
 
-      <DialogActions
-        sx={{
-          p: 3,
-          pt: 2,
-          pb: 3,
-        }}
-      >
+      <DialogActions>
         <Button type="button" variant="text" size="large" onClick={onClose}>
           Отмена
         </Button>

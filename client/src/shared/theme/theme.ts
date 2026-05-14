@@ -3,12 +3,13 @@
 import { createTheme } from "@mui/material/styles";
 
 import { palette } from "./palette";
-import { shadows } from "./shadows";
 import { typography } from "./typography";
+import { customShadows } from "./customShadows";
 import { createContainerQueries } from "./containerQueries";
 import { inputsCustomizations } from "./customizations/inputs";
 import { dataGridCustomizations } from "./customizations/dataGrid";
 import { surfacesCustomizations } from "./customizations/surfaces";
+import { accordionCustomizations } from "./customizations/accordion";
 
 export const theme = createTheme({
   cssVariables: {
@@ -18,7 +19,7 @@ export const theme = createTheme({
 
   palette,
   typography,
-  shadows,
+  customShadows,
 
   shape: {
     borderRadius: 8,
@@ -32,9 +33,10 @@ export const theme = createTheme({
   },
 
   components: {
-    ...inputsCustomizations,
-    ...dataGridCustomizations,
     ...surfacesCustomizations,
+    ...inputsCustomizations,
+    ...accordionCustomizations,
+    ...dataGridCustomizations,
   },
 });
 

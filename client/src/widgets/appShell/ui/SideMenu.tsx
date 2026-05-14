@@ -37,6 +37,13 @@ const SideMenu = () => {
           backgroundColor: "background.paper",
         },
       }}
+      slotProps={{
+        paper: {
+          sx: {
+            boxShadow: "none",
+          },
+        },
+      }}
     >
       <Box
         sx={{
@@ -63,33 +70,6 @@ const SideMenu = () => {
 
         <MenuContent />
       </Box>
-      {/* <Stack
-        direction="row"
-        sx={{
-          p: 2,
-          gap: 1,
-          alignItems: "center",
-          borderTop: "1px solid",
-          borderColor: "divider",
-        }}
-      >
-        <Avatar
-          sizes="small"
-          alt="Riley Carter"
-          src="/static/images/avatar/7.jpg"
-          sx={{ width: 36, height: 36 }}
-        />
-        <Box sx={{ mr: "auto" }}>
-          <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: "16px" }}>
-            {user?.name ?? "Неопознанный"} {user?.lastName ?? "пользователь"}
-          </Typography>
-          <Typography variant="caption" sx={{ color: "text.secondary" }}>
-            {user?.email}
-          </Typography>
-        </Box>
-        <OptionsMenu />
-      </Stack> */}
-
       <Box sx={{ p: 4 }}>
         <Typography variant="body2" sx={{ textAlign: "center", color: "grey.400" }}>
           version {process.env.NEXT_PUBLIC_APP_VERSION ?? "unknown"}

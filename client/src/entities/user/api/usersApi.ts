@@ -9,7 +9,7 @@ import type {
 import { apiClient } from "@/shared/api/apiClient";
 
 export const usersApi = {
-  getUsers: async ({ page = 1, pageSize = 20, search = "" }: GetUsersParams = {}): Promise<
+  getUsers: async ({ page = 1, pageSize = 20, search = "", role }: GetUsersParams = {}): Promise<
     PagedResult<UserListItem>
   > => {
     const searchParams = new URLSearchParams({
@@ -19,6 +19,10 @@ export const usersApi = {
 
     if (search.trim()) {
       searchParams.set("search", search.trim());
+    }
+
+    if (role) {
+      searchParams.set("role", role);
     }
 
     const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));

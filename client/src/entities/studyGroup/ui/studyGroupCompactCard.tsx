@@ -8,16 +8,11 @@ import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
 
-type StudyGroupCompactCardProps = StudyGroupListItem & {
+type TProps = StudyGroupListItem & {
   onClick?: () => void;
 };
 
-export const StudyGroupCompactCard = ({
-  name,
-  subjectName,
-  description,
-  onClick,
-}: StudyGroupCompactCardProps) => {
+export const StudyGroupCompactCard = ({ name, subjectName, description, onClick }: TProps) => {
   return (
     <Stack
       direction="row"

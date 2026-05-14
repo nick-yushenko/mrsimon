@@ -29,6 +29,7 @@ export type GetUsersParams = {
   page?: number;
   pageSize?: number;
   search?: string;
+  role?: UserRole;
 };
 
 export type UsersSummary = {

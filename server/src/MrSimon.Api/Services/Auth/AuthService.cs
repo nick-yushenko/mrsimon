@@ -22,7 +22,8 @@ public class AuthService : IAuthService
         AppDbContext db,
         PasswordHasher<User> passwordHasher,
         IConfiguration configuration,
-        IHttpContextAccessor httpContextAccessor)
+        IHttpContextAccessor httpContextAccessor
+    )
     {
         _db = db;
         _passwordHasher = passwordHasher;
@@ -34,8 +35,9 @@ public class AuthService : IAuthService
     {
         var normalizedEmail = request.Email.Trim().ToLower();
 
-        var emailAlreadyExists = await _db.Users
-            .AnyAsync(user => user.Email.ToLower() == normalizedEmail);
+        var emailAlreadyExists = await _db.Users.AnyAsync(user =>
+            user.Email.ToLower() == normalizedEmail
+        );
 
         if (emailAlreadyExists)
         {
@@ -54,7 +56,7 @@ public class AuthService : IAuthService
             Email = normalizedEmail,
             Role = "User",
             CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
+            UpdatedAt = DateTime.UtcNow,
         };
 
         user.PasswordHash = _passwordHasher.HashPassword(user, request.Password);
@@ -69,8 +71,9 @@ public class AuthService : IAuthService
     {
         var normalizedEmail = request.Email.Trim().ToLower();
 
-        var user = await _db.Users
-            .FirstOrDefaultAsync(user => user.Email.ToLower() == normalizedEmail);
+        var user = await _db.Users.FirstOrDefaultAsync(user =>
+            user.Email.ToLower() == normalizedEmail
+        );
 
         if (user is null)
         {
@@ -136,13 +139,10 @@ public class AuthService : IAuthService
 
         return ToUserDto(user);
     }
+
     private AuthResponse CreateAuthResponse(User user)
     {
-        return new AuthResponse
-        {
-            User = ToUserDto(user),
-            AccessToken = CreateAccessToken(user)
-        };
+        return new AuthResponse { User = ToUserDto(user), AccessToken = CreateAccessToken(user) };
     }
 
     private string CreateAccessToken(User user)
@@ -162,7 +162,7 @@ public class AuthService : IAuthService
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Email, user.Email),
             new(ClaimTypes.Name, $"{user.Name} {user.LastName}"),
-            new(ClaimTypes.Role, user.Role)
+            new(ClaimTypes.Role, user.Role),
         };
 
         var token = new JwtSecurityToken(
@@ -184,7 +184,7 @@ public class AuthService : IAuthService
             Name = user.Name,
             LastName = user.LastName,
             Email = user.Email,
-            Role = user.Role
+            Role = user.Role,
         };
     }
 }

@@ -47,9 +47,7 @@ export const StudyGroupPreview = () => {
           },
         }}
       >
-        <Box sx={{ overflowY: "auto", p: 2 }}>
-          {groupId && <StudyGroup id={groupId} variant="embedded" />}
-        </Box>
+        {groupId && <StudyGroup id={groupId} variant="embedded" />}
       </ResizableDrawer>
     </Box>
   );

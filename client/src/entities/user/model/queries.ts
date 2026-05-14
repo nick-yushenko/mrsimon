@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { usersApi } from "../api/usersApi";
 import { usersQueryKeys } from "./queryKeys";
 
-export const useUserListQuery = (params: Required<GetUsersParams>) => {
+export const useUserListQuery = (params: GetUsersParams = {}) => {
   return useQuery({
     queryKey: usersQueryKeys.list(params),
     queryFn: () => usersApi.getUsers(params),

@@ -12,6 +12,8 @@ public class GroupMemberDto
 
     public string UserLastName { get; set; } = string.Empty;
 
+    public string UserNote { get; set; } = string.Empty;
+
     public GroupMemberRole Role { get; set; }
 
     // NULL означает, что участник использует базовую цену группы из PricePerLesson.

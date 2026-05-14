@@ -237,8 +237,8 @@ public class StudyGroupController : ControllerBase
         await _db.SaveChangesAsync();
 
         var createdMember = await ProjectToGroupMemberDto(
-            _db.GroupMembers.AsNoTracking().Where(groupMember => groupMember.Id == member.Id)
-        )
+                _db.GroupMembers.AsNoTracking().Where(groupMember => groupMember.Id == member.Id)
+            )
             .FirstAsync();
 
         return CreatedAtAction(nameof(GetStudyGroupById), new { id }, createdMember);
@@ -264,12 +264,11 @@ public class StudyGroupController : ControllerBase
         }
 
         var members = await ProjectToGroupMemberDto(
-            _db
-                .GroupMembers.AsNoTracking()
-                .Where(member => member.GroupId == id && member.Role == role)
-                .OrderBy(member => member.User.LastName)
-                .ThenBy(member => member.User.Name)
-        )
+                _db.GroupMembers.AsNoTracking()
+                    .Where(member => member.GroupId == id && member.Role == role)
+                    .OrderBy(member => member.User.LastName)
+                    .ThenBy(member => member.User.Name)
+            )
             .ToListAsync();
 
         return Ok(members);
@@ -306,6 +305,7 @@ public class StudyGroupController : ControllerBase
             UserId = member.UserId,
             UserName = member.User.Name,
             UserLastName = member.User.LastName,
+            UserNote = member.User.Note,
             Role = member.Role,
             CustomPrice = member.CustomPrice,
             JoinedAt = member.JoinedAt,
@@ -341,6 +341,7 @@ public class StudyGroupController : ControllerBase
                         UserId = member.UserId,
                         UserName = member.User.Name,
                         UserLastName = member.User.LastName,
+                        UserNote = member.User.Note,
                         Role = member.Role,
                         CustomPrice = member.CustomPrice,
                         JoinedAt = member.JoinedAt,
